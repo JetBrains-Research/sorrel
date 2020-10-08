@@ -1,6 +1,6 @@
 <idea-plugin>
-    <id>com.github.dmitrypogrebnoy.licensecompatibilityplugin</id>
-    <name>license-compatibility-plugin</name>
+    <id>license.plugin</id>
+    <name>License-Compatibility</name>
     <vendor>dmitrypogrebnoy</vendor>
 
     <!-- Product and plugin compatibility requirements -->
@@ -8,12 +8,12 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.dmitrypogrebnoy.licensecompatibilityplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.dmitrypogrebnoy.licensecompatibilityplugin.services.MyProjectService"/>
+        <applicationService serviceImplementation="license.plugin.services.MyApplicationService"/>
+        <projectService serviceImplementation="license.plugin.services.MyProjectService"/>
     </extensions>
 
     <applicationListeners>
-        <listener class="com.github.dmitrypogrebnoy.licensecompatibilityplugin.listeners.MyProjectManagerListener"
+        <listener class="license.plugin.listeners.MyProjectManagerListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 </idea-plugin>

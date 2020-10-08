@@ -1,7 +1,7 @@
-package com.github.dmitrypogrebnoy.licensecompatibilityplugin.services
+package license.plugin.services
 
 import com.intellij.openapi.project.Project
-import com.github.dmitrypogrebnoy.licensecompatibilityplugin.MyBundle
+import license.plugin.MyBundle
 
 class MyProjectService(project: Project) {
 

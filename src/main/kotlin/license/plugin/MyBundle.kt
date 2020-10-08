@@ -1,4 +1,4 @@
-package com.github.dmitrypogrebnoy.licensecompatibilityplugin
+package license.plugin
 
 import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls

@@ -1,8 +1,8 @@
-package com.github.dmitrypogrebnoy.licensecompatibilityplugin.listeners
+package license.plugin.listeners
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
-import com.github.dmitrypogrebnoy.licensecompatibilityplugin.services.MyProjectService
+import license.plugin.services.MyProjectService
 
 internal class MyProjectManagerListener : ProjectManagerListener {
 
