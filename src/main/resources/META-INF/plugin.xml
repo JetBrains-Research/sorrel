@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>license.plugin</id>
+    <id>license-detector-plugin</id>
     <name>License-Compatibility</name>
     <vendor>dmitrypogrebnoy</vendor>
 
@@ -8,12 +8,17 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="license.plugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="license.plugin.services.MyProjectService"/>
+
     </extensions>
 
     <applicationListeners>
-        <listener class="license.plugin.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+
     </applicationListeners>
+    <actions>
+        <action id="com.jetbrains.licensedetector.intellij.plugin.ShowDependencyAction"
+                class="com.jetbrains.licensedetector.intellij.plugin.ShowDependencyAction">
+            <keyboard-shortcut first-keystroke="ctrl alt Q" keymap="$default"/>
+        </action>
+    </actions>
+
 </idea-plugin>

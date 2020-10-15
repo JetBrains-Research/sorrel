@@ -35,6 +35,7 @@ repositories {
     jcenter()
 }
 dependencies {
+    implementation("io.arrow-kt:arrow-core:0.10.4")
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -50,6 +51,7 @@ intellij {
 //  https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_dependencies.html
 //
 //  setPlugins("java")
+    setPlugins("java", "Kotlin", "maven", "gradle")
 }
 
 tasks {
