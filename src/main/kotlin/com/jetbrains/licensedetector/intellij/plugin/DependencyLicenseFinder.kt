@@ -13,7 +13,7 @@ object DependencyLicenseFinder {
     fun getLicensesForDependencies(listDependencies: List<String>): Map<String, List<String>> {
         val licensesDependencies: MutableMap<String, List<String>> = mutableMapOf()
 
-        listDependencies.chunked(searchClient.maxRequestResultsCount) { chunk ->
+        listDependencies.chunked(SearchClient.maxRequestResultsCount) { chunk ->
             val result = searchClient.packagesByRange(chunk)
             if (result is Either.Right<StandardV2PackagesWithRepos>) {
                 result.b.packages?.forEach { standardPackage ->

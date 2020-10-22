@@ -31,8 +31,10 @@ class SearchClient(
                 Pair("JB-IDE-Version", pluginEnvironment.ideVersion)
         )
 ) {
+    companion object {
+        const val maxRequestResultsCount = 25
+    }
 
-    val maxRequestResultsCount = 25
     private val maxMavenCoordinatesParts = 3
 
     private val gson = Gson().newBuilder()

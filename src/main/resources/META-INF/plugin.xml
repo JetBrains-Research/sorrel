@@ -8,7 +8,11 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-
+        <projectService
+                serviceImplementation="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowAvailabilityService"/>
+        <toolWindow id="Packages" anchor="bottom" secondary="false"
+                    canCloseContents="true"
+                    factoryClass="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory"/>
     </extensions>
 
     <applicationListeners>
