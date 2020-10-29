@@ -8,8 +8,6 @@ import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toHtml
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import org.apache.commons.lang3.StringUtils
 import java.awt.BorderLayout
 import java.awt.Component
@@ -19,7 +17,7 @@ import javax.swing.*
 private val packageIconSize by lazy { JBUI.scale(16) }
 private val packageIcon by lazy { IconUtil.toSize(PackageSearchPluginIcons.Package, packageIconSize, packageIconSize) }
 
-class PackagesSmartRenderer(private val viewModel: LicenseDetectorToolWindowModel) : ListCellRenderer<PackagesSmartItem> {
+class PackagesSmartRenderer() : ListCellRenderer<PackagesSmartItem> {
 
     override fun getListCellRendererComponent(
             list: JList<out PackagesSmartItem>,
@@ -50,22 +48,15 @@ class PackagesSmartRenderer(private val viewModel: LicenseDetectorToolWindowMode
             list: JList<out PackagesSmartItem>,
             iconLabel: JLabel
     ): JPanel {
-        //val selectedProjectModule = viewModel.selectedProjectModule.value
-
         val textColor = RiderUI.getTextColor(isSelected)
         val textColor2 = RiderUI.getTextColor2(isSelected)
-
-        val isMultiPlatform = packageSearchDependency.remoteInfo?.mpp != null
 
         return buildPanel(
                 packageSearchDependency = packageSearchDependency,
                 applyColors = applyColors(isSelected, list),
                 iconLabel = iconLabel,
                 idMessage = buildIdMessage(packageSearchDependency, textColor, textColor2),
-                repositoryMessage = buildRepositoryMessage(isSelected, list, packageSearchDependency),
-                //TODO: set version
-                versionMessage = "",
-                isMultiPlatform = isMultiPlatform
+                licenseName = packageSearchDependency.remoteInfo?.licenses?.mainLicense?.name ?: ""
         )
     }
 
@@ -81,64 +72,6 @@ class PackagesSmartRenderer(private val viewModel: LicenseDetectorToolWindowMode
         } else {
             append(colored(packageSearchDependency.identifier, textColor))
         }
-    }
-
-    @Suppress("ComplexMethod")
-    private fun buildRepositoryMessage(
-            isSelected: Boolean,
-            list: JList<out PackagesSmartItem>,
-            packageSearchDependency: LicenseDetectorDependency
-    ): String = buildString {
-
-        /*val repositoryIdsForDependency =
-            if (packageSearchDependency.isInstalled &&
-                viewModel.areMultipleRepositoriesSelected() &&
-                viewModel.areMultipleDistinctRepositoriesAvailable()) {
-
-                // Show repository info for installed packages when multiple repositories are selected.
-                // NOTE: Including blanks/variables here, as they count as "installed"
-                val installedVersions = packageSearchDependency.installationInformation
-                    .map { it.installedVersion }
-                    .distinct()
-                    .toList()
-
-                (packageSearchDependency.remoteInfo?.versions ?: emptyList())
-                    .filter { installedVersions.any { installed ->
-                        installed.isBlank() || looksLikeGradleVariable(installed) || installed == it.version } }
-                    .flatMap { it.repositoryIds ?: emptyList() }
-                    .distinct()
-            } else if (!packageSearchDependency.isInstalled &&
-                viewModel.areMultipleRepositoriesSelected()) {
-
-                // Show repository info for remote packages
-                (packageSearchDependency.remoteInfo?.versions ?: emptyList())
-                    .flatMap { it.repositoryIds ?: emptyList() }
-                    .distinct()
-            } else {
-                emptyList()
-            }
-
-        if (repositoryIdsForDependency.isNotEmpty()) {
-            val remoteRepositories = viewModel.remoteRepositories.value
-                .filter { repositoryIdsForDependency.contains(it.id) }
-                .distinctBy { it.id }
-
-            if (remoteRepositories.isNotEmpty()) {
-                append("<small>")
-                append(" •")
-                for (remoteRepository in remoteRepositories) {
-
-                    val repositoryColor = if (isSelected) {
-                        list.selectionForeground
-                    } else {
-                        viewModel.repositoryColorManager.getColor(remoteRepository).let { RepositoryColorManager.getIndicatorColor(it) }
-                    }
-
-                    append(colored(" " + remoteRepository.localizedName(), RiderColor(repositoryColor)))
-                }
-                append("</small>")
-            }
-        }*/
     }
 
     private fun applyColors(isSelected: Boolean, list: JList<out PackagesSmartItem>): (JComponent) -> Unit {
@@ -157,9 +90,7 @@ class PackagesSmartRenderer(private val viewModel: LicenseDetectorToolWindowMode
             applyColors: (JComponent) -> Unit,
             iconLabel: JLabel,
             idMessage: String,
-            repositoryMessage: String,
-            versionMessage: String,
-            isMultiPlatform: Boolean
+            licenseName: String
     ): JPanel = JPanel(BorderLayout()).apply {
         @Suppress("MagicNumber") // Gotta love Swing APIs
         if (packageSearchDependency.identifier.isNotBlank()) {
@@ -178,22 +109,14 @@ class PackagesSmartRenderer(private val viewModel: LicenseDetectorToolWindowMode
                 applyColors(this)
                 layout = BoxLayout(this, BoxLayout.Y_AXIS)
 
-                add(JLabel("<html>$idMessage$repositoryMessage</html>"))
+                add(JLabel("<html>$idMessage</html>"))
             }, BorderLayout.CENTER)
 
             add(JPanel().apply {
                 applyColors(this)
                 layout = BoxLayout(this, BoxLayout.X_AXIS)
 
-                if (versionMessage.isNotEmpty()) {
-                    add(JLabel("<html>$versionMessage</html>"))
-                } else if (isMultiPlatform) {
-                    add(
-                            RiderUI.createPlatformTag(
-                                    PackageSearchBundle.message("packagesearch.terminology.multiplatform")
-                            )
-                    )
-                }
+                add(JLabel("<html>$licenseName</html>"))
             }, BorderLayout.EAST)
         }
     }

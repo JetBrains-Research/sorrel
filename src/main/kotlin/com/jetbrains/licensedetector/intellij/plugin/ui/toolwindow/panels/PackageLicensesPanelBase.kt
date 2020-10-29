@@ -2,7 +2,7 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels
 
 import javax.swing.JComponent
 
-abstract class PackageSearchPanelBase(val title: String) {
+abstract class PackageLicensesPanelBase(val title: String) {
 
     private val _content = lazy { build() }
     val content: JComponent

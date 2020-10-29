@@ -8,7 +8,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.ui.content.ContentFactory
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
@@ -18,10 +17,13 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
 
     companion object {
 
+        //Must be equal to "id" in ToolWindow EP in plugin.xml
         private val ToolWindowId = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
 
         val ToolWindowModelKey = Key.create<LicenseDetectorToolWindowModel>("LicenseDetector.Management.Model")
 
+        //May be needed for tab cross-interaction
+        /*
         private fun getToolWindow(project: Project) = ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId)
 
         fun activateToolWindow(project: Project) {
@@ -41,6 +43,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
                 }
             }
         }
+         */
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {

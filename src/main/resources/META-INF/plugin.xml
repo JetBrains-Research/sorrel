@@ -10,7 +10,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <projectService
                 serviceImplementation="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowAvailabilityService"/>
-        <toolWindow id="Packages" anchor="bottom" secondary="false"
+        <toolWindow id="Project Licenses" anchor="right" secondary="false"
                     canCloseContents="true"
                     factoryClass="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory"/>
     </extensions>

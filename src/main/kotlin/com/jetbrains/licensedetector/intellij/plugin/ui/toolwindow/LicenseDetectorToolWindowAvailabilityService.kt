@@ -15,7 +15,7 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PackageManagementPanel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PackageLicensesPanel
 import javax.swing.JComponent
 import javax.swing.JLabel
 
@@ -65,7 +65,6 @@ class LicenseDetectorToolWindowAvailabilityService(val project: Project) {
 
         toolWindow.title = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
 
-        val contentFactory = ContentFactory.SERVICE.getInstance()
         val contentManager = toolWindow.contentManager
 
         contentManager.removeAllContents(false)
@@ -88,28 +87,15 @@ class LicenseDetectorToolWindowAvailabilityService(val project: Project) {
         val model = LicenseDetectorToolWindowModel(project, lifetime)
         project.putUserData(LicenseDetectorToolWindowFactory.ToolWindowModelKey, model)
 
-        //TODO: Build panel
-
-        val panel = PackageManagementPanel(model)
+        //TODO: Build many panel in future
+        val panel = PackageLicensesPanel(model)
 
         val panelContent = panel.content // should be executed before toolbars
         val toolbar = panel.toolbar
         val topToolbar = panel.topToolbar
         if (topToolbar == null) {
             contentManager.addTab(panel.title, panelContent, toolbar)
-        } /*else {
-            val content = contentFactory.createContent(
-                    SimpleToolWindowWithTwoToolbarsPanel(
-                            toolbar!!,
-                            topToolbar,
-                            panelContent
-                    ), panel.title, false
-            )
-
-            content.isCloseable = false
-            contentManager.addContent(content)
-        }*/
-
+        }
     }
 
     private fun ContentManager.addTab(title: String, content: JComponent, toolbar: JComponent?) {

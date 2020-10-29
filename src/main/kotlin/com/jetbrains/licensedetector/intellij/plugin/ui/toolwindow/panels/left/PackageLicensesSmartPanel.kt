@@ -2,24 +2,22 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left
 
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.DefaultActionGroup
-import com.intellij.ui.AutoScrollToSourceHandler
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PackageSearchPanelBase
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PackageLicensesPanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.*
 
-class PackagesSmartPanel(
-        val viewModel: LicenseDetectorToolWindowModel,
-        autoScrollToSourceHandler: AutoScrollToSourceHandler
-) : PackageSearchPanelBase(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.packages.title")) {
+class PackageLicensesSmartPanel(
+        val viewModel: LicenseDetectorToolWindowModel
+) : PackageLicensesPanelBase(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.packages.title")) {
 
     private val smartList = PackagesSmartList(viewModel)
 
@@ -27,7 +25,7 @@ class PackagesSmartPanel(
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
     }
 
-    //TODO: mb needed
+    //TODO: Implement module selection
     //private val moduleContextComboBox = ModuleContextComboBox(viewModel)
 
     private fun createActionGroup() = DefaultActionGroup().apply {
@@ -72,23 +70,24 @@ class PackagesSmartPanel(
     }
 
     init {
-
         viewModel.searchResultsUpdated.advise(viewModel.lifetime) {
             smartList.updateAllPackages(it.values.toList())
             packagesPanel.updateAndRepaint()
         }
 
-        viewModel.isFetchingSuggestions.advise(viewModel.lifetime) {
+        //TODO: Mb needed for module selection
+        /*viewModel.isFetchingSuggestions.advise(viewModel.lifetime) {
             smartList.installedHeader.setProgressVisibility(it)
             smartList.updateAndRepaint()
             packagesPanel.updateAndRepaint()
-        }
+        }*/
     }
 
     override fun build() = RiderUI.boxPanel {
         add(headerPanel)
         add(scrollPane)
 
+        //TODO: What is it?
         @Suppress("MagicNumber") // Swing APIs are <3
         minimumSize = Dimension(JBUI.scale(200), minimumSize.height)
     }

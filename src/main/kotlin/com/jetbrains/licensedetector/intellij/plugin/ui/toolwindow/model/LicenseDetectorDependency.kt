@@ -1,7 +1,9 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
+import com.jetbrains.licensedetector.intellij.plugin.extractScmUrl
 import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Package
 
+//TODO: Maybe add installed version (what if many versions installed?)
 data class LicenseDetectorDependency(
         val groupId: String,
         val artifactId: String,
@@ -11,12 +13,10 @@ data class LicenseDetectorDependency(
 
     val identifier = "$groupId:$artifactId".toLowerCase()
 
-    //TODO: Is it really necessary??
-/*
     fun getAllLinks(): MutableMap<InfoLink, String> {
         val links = mutableMapOf<InfoLink, String>()
         remoteInfo?.url?.let {
-            if (it.isNotEmpty()) links[PROJECT_SITE] = it
+            if (it.isNotEmpty()) links[InfoLink.PROJECT_SITE] = it
         }
         extractScmUrl(remoteInfo?.scm)?.let { scmUrl ->
             if (scmUrl.url.startsWith("http", ignoreCase = true)) {
@@ -25,18 +25,17 @@ data class LicenseDetectorDependency(
             }
         }
         remoteInfo?.gitHub?.communityProfile?.let {
-            if (!it.documentationUrl.isNullOrEmpty()) links[DOCUMENTATION] = it.documentationUrl
+            if (!it.documentationUrl.isNullOrEmpty()) links[InfoLink.DOCUMENTATION] = it.documentationUrl
             it.files?.readme?.let { gitHubFile ->
                 val url = gitHubFile.htmlUrl ?: gitHubFile.url
-                if (!url.isNullOrEmpty()) links[README] = url
+                if (!url.isNullOrEmpty()) links[InfoLink.README] = url
             }
             it.files?.codeOfConduct?.let { gitHubFile ->
                 val url = gitHubFile.htmlUrl ?: gitHubFile.url
-                if (!url.isNullOrEmpty()) links[CODE_OF_CONDUCT] = url
+                if (!url.isNullOrEmpty()) links[InfoLink.CODE_OF_CONDUCT] = url
             }
         }
         return links
     }
 
- */
 }

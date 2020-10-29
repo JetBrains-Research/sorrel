@@ -29,9 +29,9 @@ sealed class PackagesSmartItem {
     class Package(val meta: LicenseDetectorDependency) : PackagesSmartItem(), DataProvider, CopyProvider {
 
         fun getData(dataId: String, projectModule: ProjectModule?): Any? {
-            //TODO: Need fix
-            /*
-            val module = projectModule ?: meta.installationInformation.firstOrNull()?.projectModule
+            //TODO: Need to implement
+
+            /*val module = projectModule ?: meta.installationInformation.firstOrNull()?.projectModule
             val information = meta.installationInformation.find { it.projectModule == module }
 
             return when {
@@ -40,8 +40,7 @@ sealed class PackagesSmartItem {
                     arrayOf(it.projectModule.getNavigatableDependency(meta.groupId, meta.artifactId, it.installedVersion))
                 }
                 else -> getData(dataId)
-            }
-            */
+            }*/
             return null
         }
 
@@ -57,50 +56,7 @@ sealed class PackagesSmartItem {
         override fun isCopyVisible(dataContext: DataContext) = true
         override fun isCopyEnabled(dataContext: DataContext) = true
 
-        private fun getTextForCopy(): String {
-            val builder = StringBuffer("${meta.groupId}/${meta.artifactId}")
-
-            //TODO: Need fix
-            /*
-            if (meta.installationInformation.any()) {
-                builder.appendln()
-                builder.append("  ${PackageSearchBundle.message("packagesearch.package.copiableInfo.installedVersions")} : ")
-                builder.append(meta.installationInformation.map { it.installedVersion }
-                    .distinct()
-                    .joinToString("; ") {
-                        if (it.isNotBlank()) it else PackageSearchBundle.message("packagesearch.package.copiableInfo.empty")
-                    })
-            }
-
-            meta.remoteInfo?.versions?.let { versions ->
-                if (versions.any()) {
-                    builder.appendln()
-                    builder.append("  ${PackageSearchBundle.message("packagesearch.package.copiableInfo.availableVersions")} ")
-                    builder.append(versions.joinToString("; ") { it.version })
-                }
-            }
-
-            meta.remoteInfo?.gitHub?.let { gitHub ->
-                builder.appendln()
-                builder.append("  ")
-                builder.append(PackageSearchBundle.message("packagesearch.package.copiableInfo.githubStats"))
-                builder.append(" ")
-                builder.append(PackageSearchBundle.message("packagesearch.package.copiableInfo.githubStats.stars", gitHub.stars))
-                builder.append(" ")
-                builder.append(PackageSearchBundle.message("packagesearch.package.copiableInfo.githubStats.forks", gitHub.forks))
-            }
-
-            meta.remoteInfo?.stackOverflowTags?.tags?.let { tags ->
-                if (tags.any()) {
-                    builder.appendln()
-                    builder.append("  ${PackageSearchBundle.message("packagesearch.package.copiableInfo.stackOverflowTags")} ")
-                    builder.append(tags.joinToString("; ") { "${it.tag} (${it.count})" })
-                }
-            }
-             */
-
-            return builder.toString()
-        }
+        private fun getTextForCopy(): String = "${meta.groupId}:${meta.artifactId}"
     }
 
     class Header(defaultTitle: String) : PackagesSmartItem() {
@@ -116,10 +72,6 @@ sealed class PackagesSmartItem {
                 }
 
         private val headerLinks = mutableListOf<HyperlinkLabel>()
-
-        fun addHeaderLink(link: HyperlinkLabel) {
-            headerLinks.add(link)
-        }
 
         var visible = true
 
