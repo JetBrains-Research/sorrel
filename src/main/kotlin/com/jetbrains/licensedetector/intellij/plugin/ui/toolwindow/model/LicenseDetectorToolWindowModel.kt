@@ -15,6 +15,7 @@ import com.jetbrains.packagesearch.intellij.plugin.api.ServerURLs
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.reactive.Signal
+import java.util.concurrent.atomic.AtomicInteger
 
 class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetime) {
 
@@ -24,24 +25,49 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     private val searchClient = SearchClient(ServerURLs.base)
     private val refreshContextAlarmInterval: Long = 10000 // ms
     private val refreshContextAlarm = Alarm(parentDisposable)
+    private val operationsCounter = AtomicInteger(0)
 
     // Observables
     val isBusy = Property(false)
     val isFetchingSuggestions = Property(false)
-    val upgradeCountInContext = Property(0)
 
+    val searchTerm = Property("")
+    val searchResults = Property(mapOf<String, LicenseDetectorDependency>())
     private val installedPackages = Property(mapOf<String, LicenseDetectorDependency>())
 
     //TODO: Use ProjectModule
     //val projectModules = Property(listOf<ProjectModule>())
     val projectModules = Property(listOf<Module>())
 
+    val selectedPackage = Property("")
+
     // UI Signals
     val requestRefreshContext = Signal<Boolean>()
     val searchResultsUpdated = Signal<Map<String, LicenseDetectorDependency>>()
 
+    private fun startOperation() {
+        isBusy.set(operationsCounter.incrementAndGet() > 0)
+    }
+
+    private fun finishOperation() {
+        isBusy.set(operationsCounter.decrementAndGet() > 0)
+    }
+
+
     // Implementation
     init {
+        // Populate foundPackages when either:
+        // - list of installed packages changes
+        // - list of search results changes
+        // - selected repository changes
+        installedPackages.advise(lifetime) {
+            refreshFoundPackages()
+        }
+        //TODO: For module selection
+        /*selectedProjectModule.advise(lifetime) {
+            refreshFoundPackages()
+        }*/
+
         // Fetch installed packages and available project modules automatically, and when requested
         val delayMillis = 250
         refreshContextAlarm.addRequest(::autoRefreshContext, delayMillis)
@@ -51,14 +77,32 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     }
 
 
+    @Suppress("ComplexMethod")
+    private fun refreshFoundPackages() {
+        startOperation()
+
+        val currentSearchTerm = searchTerm.value
+        //val currentSelectedProjectModule = selectedProjectModule.value
+
+        val packagesMatchingSearchTerm = installedPackages.value
+                .filter {
+                    it.value.isInstalled &&
+                            (it.value.identifier.contains(currentSearchTerm, true) ||
+                                    it.value.remoteInfo?.name?.contains(currentSearchTerm, true) ?: false)
+                }.toMutableMap()
+
+        refreshDependencyLicensesInfo()
+
+        searchResults.set(packagesMatchingSearchTerm)
+        searchResultsUpdated.fire(packagesMatchingSearchTerm)
+        finishOperation()
+    }
+
+
     private fun autoRefreshContext() {
         try {
             if (!isBusy.value) {
                 refreshContext()
-                installedPackages.value.forEach {
-                    println(it.value.groupId + " " + it.value.artifactId)
-                    println(it.value.remoteInfo)
-                }
             }
         } finally {
             refreshContextAlarm.cancelAllRequests()
@@ -68,7 +112,6 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
     private fun refreshContext() {
         refreshPackagesContext()
-        refreshDependencyLicensesInfo()
     }
 
     private fun refreshPackagesContext() {
@@ -110,19 +153,16 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
         installedPackages.set(installedPackagesMap)
         projectModules.set(projectModulesList)
-
-        //TODO: Fix
-        searchResultsUpdated.fire(installedPackagesMap)
     }
 
     private fun refreshDependencyLicensesInfo() {
+        startOperation()
         application.executeOnPooledThread {
             val installedPackagesToCheck = installedPackages.value
 
             if (installedPackagesToCheck.any()) isFetchingSuggestions.set(true)
 
             installedPackagesToCheck.values.chunked(SearchClient.maxRequestResultsCount).forEach { chunk ->
-                println(chunk.map { "${it.groupId}:${it.artifactId}" })
                 val result = searchClient.packagesByRange(chunk.map { "${it.groupId}:${it.artifactId}" })
                 if (result.isRight()) {
                     (result as Either.Right).b.packages?.forEach {
@@ -131,70 +171,18 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
                         if (installedPackage != null && simpleIdentifier == installedPackage.identifier) {
                             installedPackage.remoteInfo = it
                         }
-                        println(installedPackages.value[simpleIdentifier]?.remoteInfo)
                     }
                 }
             }
-
-
-            //installedPackages.set(installedPackagesToCheck)
 
             application.invokeLater {
-                //TODO: What is it?
-                //refreshFoundPackages()
+                refreshFoundPackages()
+                //TODO: ???
                 isFetchingSuggestions.set(false)
+                finishOperation()
             }
-            println(installedPackages.value.values.toTypedArray()[0])
+
+            finishOperation()
         }
     }
-
-    /*
-    private fun searchByName(query: String, onlyStable: Boolean, onlyMpp: Boolean, repositoryIds: List<String>) {
-        val searchRequestId = lastSearchRequestId.incrementAndGet()
-
-        searchAlarm.cancelAllRequests()
-        searchAlarm.addRequest({
-            if (searchRequestId != lastSearchRequestId.get()) return@addRequest
-
-            startOperation()
-            isSearching.set(true)
-            PackageSearchEventsLogger.onSearchRequest(project, query)
-
-            application.executeOnPooledThread {
-                val packageSearchQuery = PackageSearchQuery(query)
-                val entries = searchClient.packagesByQuery(packageSearchQuery, onlyStable, onlyMpp, repositoryIds)
-
-                application.invokeLater {
-                    if (searchRequestId != lastSearchRequestId.get()) {
-                        isSearching.set(false)
-                        finishOperation()
-                        return@invokeLater
-                    }
-
-                    entries.fold(
-                            {
-                                PackageSearchEventsLogger.onSearchFailed(project, query)
-
-                                NotificationGroup.balloonGroup(PACKAGE_SEARCH_NOTIFICATION_GROUP_ID)
-                                        .createNotification(
-                                                PackageSearchBundle.message("packagesearch.title"),
-                                                PackageSearchBundle.message("packagesearch.search.client.searching.failed"),
-                                                it,
-                                                NotificationType.ERROR
-                                        )
-                                        .notify(project)
-                            },
-                            {
-                                PackageSearchEventsLogger.onSearchResponse(project, query, it.packages!!)
-
-                                remotePackages.set(it.packages)
-                                isSearching.set(false)
-                                finishOperation()
-                            })
-                }
-            }
-        }, searchDelay)
-    }
-
-     */
 }

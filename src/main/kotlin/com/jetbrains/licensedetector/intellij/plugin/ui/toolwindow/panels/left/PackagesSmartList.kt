@@ -17,10 +17,13 @@ import java.awt.Component
 import java.awt.Point
 import java.awt.event.FocusAdapter
 import java.awt.event.FocusEvent
+import java.util.*
 import javax.swing.DefaultListModel
 
 class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         JBList<PackagesSmartItem>(emptyList()), DataProvider, CopyProvider {
+
+    var transferFocusUp: () -> Unit = { transferFocusBackward() }
 
     private val updateContentLock = Object()
 
@@ -33,6 +36,8 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
     val hasPackageItems: Boolean get() = packageItems.any()
     val firstPackageIndex: Int get() = listModel.elements().toList().indexOfFirst { it is PackagesSmartItem.Package }
 
+    private val packageSelectionListeners = ArrayList<(LicenseDetectorDependency) -> Unit>()
+
     init {
         @Suppress("UnstableApiUsage") // yolo
         putClientProperty(AnimatedIcon.ANIMATION_IN_RENDERER_ALLOWED, true)
@@ -44,6 +49,16 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         RiderUI.addKeyboardPopupHandler(this, "alt ENTER") { items ->
             val item = items.first()
             if (item is PackagesSmartItem.Package) PackagesSmartItemPopup(item.meta) else null
+        }
+
+        addListSelectionListener {
+            val item = selectedValue
+            if (selectedIndex >= 0 && item is PackagesSmartItem.Package) {
+                ensureIndexIsVisible(selectedIndex)
+                for (listener in packageSelectionListeners) {
+                    listener(item.meta)
+                }
+            }
         }
 
         addFocusListener(object : FocusAdapter() {
@@ -107,17 +122,15 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         synchronized(updateContentLock) {
             val displayItems = calcDisplayItems(packages)
 
-            //TODO:Implement reselect item
-
             // save selected package Id; we have to restore selection after the list rebuilding
-            //val selectedPackageIndex = selectedIndex
+            val selectedPackageIndex = selectedIndex
 
-            /*val selectedPackageId = viewModel.selectedPackage.value.apply {
+            val selectedPackageId = viewModel.selectedPackage.value.apply {
                 if (isEmpty()) {
                     (selectedValue as PackagesSmartItem.Package?)?.meta?.identifier
                 }
             }
-            var reselected = false*/
+            var reselected = false
 
             for ((index, item) in displayItems.withIndex()) {
                 if (index < listModel.size()) {
@@ -126,24 +139,28 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
                     listModel.add(index, item)
                 }
 
-                /*if (item is PackagesSmartItem.Package && item.meta.identifier == selectedPackageId) {
+                if (item is PackagesSmartItem.Package && item.meta.identifier == selectedPackageId) {
                     if (index != selectedPackageIndex) {
                         selectedIndex = index
                     }
 
                     reselected = true
-                }*/
+                }
             }
 
             if (listModel.size() > displayItems.size) {
                 listModel.removeRange(displayItems.size, listModel.size() - 1)
             }
 
-            /*if (!reselected) {
+            if (!reselected) {
                 // if there is no the old selected package in the new list
                 clearSelection() // we have to clear the selection
-            }*/
+            }
         }
+    }
+
+    fun addPackageSelectionListener(listener: (LicenseDetectorDependency) -> Unit) {
+        packageSelectionListeners.add(listener)
     }
 
     private fun getSelectedPackage(): PackagesSmartItem.Package? =

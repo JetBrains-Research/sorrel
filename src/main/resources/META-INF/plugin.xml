@@ -19,10 +19,7 @@
 
     </applicationListeners>
     <actions>
-        <action id="com.jetbrains.licensedetector.intellij.plugin.ShowDependencyAction"
-                class="com.jetbrains.licensedetector.intellij.plugin.ShowDependencyAction">
-            <keyboard-shortcut first-keystroke="ctrl alt Q" keymap="$default"/>
-        </action>
+
     </actions>
 
 </idea-plugin>
