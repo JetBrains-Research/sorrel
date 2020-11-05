@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.ui.LafManager
@@ -16,9 +16,10 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.ui.ComponentActionWrapper
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PackageLicensesPanelBase
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import net.miginfocom.swing.MigLayout
 import java.awt.BorderLayout
@@ -49,8 +50,7 @@ class PackageLicensesSmartPanel(
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
     }
 
-    //TODO: Implement module selection
-    //private val moduleContextComboBox = ModuleContextComboBox(viewModel)
+    private val moduleContextComboBox = ModuleContextComboBox(viewModel)
 
     private val refreshAction =
             object : AnAction(
@@ -88,7 +88,7 @@ class PackageLicensesSmartPanel(
     }
 
     private fun createModuleSelectionActionGroup() = DefaultActionGroup().apply {
-        //add(ComponentActionWrapper { moduleContextComboBox })
+        add(ComponentActionWrapper { moduleContextComboBox })
     }
 
     private val moduleSelectionToolbar = ActionManager.getInstance().createActionToolbar(
@@ -109,7 +109,7 @@ class PackageLicensesSmartPanel(
         addToCenter(object : JPanel() {
             init {
                 //TODO: Fix right insets on last component
-                layout = MigLayout("ins 0, fill", "[left, fill, grow][right]", "center")
+                layout = MigLayout("ins 0 0 0 0, fill", "[left, fill, grow][][right]", "center")
                 add(searchTextField)
                 add(moduleSelectionToolbar.component)
                 add(refreshToolbar.component)
@@ -169,12 +169,11 @@ class PackageLicensesSmartPanel(
             viewModel.selectedPackage.set(it.identifier)
         }
 
-        //TODO: Mb needed for module selection
-        /*viewModel.isFetchingSuggestions.advise(viewModel.lifetime) {
+        viewModel.isFetchingSuggestions.advise(viewModel.lifetime) {
             smartList.installedHeader.setProgressVisibility(it)
             smartList.updateAndRepaint()
             packagesPanel.updateAndRepaint()
-        }*/
+        }
 
         // LaF
         val lafListener = LafManagerListener { updateLaf() }

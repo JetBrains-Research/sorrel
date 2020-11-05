@@ -15,7 +15,7 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PackageLicensesPanel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanel
 import javax.swing.JComponent
 import javax.swing.JLabel
 

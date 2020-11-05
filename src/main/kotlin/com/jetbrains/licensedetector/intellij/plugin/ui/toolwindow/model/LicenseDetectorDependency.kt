@@ -1,17 +1,20 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
-import com.jetbrains.licensedetector.intellij.plugin.extractScmUrl
+import com.jetbrains.licensedetector.intellij.plugin.utils.extractScmUrl
 import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Package
 
 //TODO: Maybe add installed version (what if many versions installed?)
 data class LicenseDetectorDependency(
         val groupId: String,
         val artifactId: String,
-        var isInstalled: Boolean = true,
+        val installationInformation: MutableList<InstallationInformation> = mutableListOf(),
         var remoteInfo: StandardV2Package? = null
 ) {
 
     val identifier = "$groupId:$artifactId".toLowerCase()
+
+    val isInstalled: Boolean
+        get() = installationInformation.isNotEmpty()
 
     fun getAllLinks(): MutableMap<InfoLink, String> {
         val links = mutableMapOf<InfoLink, String>()

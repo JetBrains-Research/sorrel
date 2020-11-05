@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
 
 import com.intellij.ui.SearchTextField
 import com.intellij.util.ui.JBUI

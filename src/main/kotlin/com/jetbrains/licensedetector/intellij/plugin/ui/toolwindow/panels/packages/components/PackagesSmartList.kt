@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
 
 import com.intellij.ide.CopyProvider
 import com.intellij.openapi.actionSystem.DataContext
@@ -19,6 +19,8 @@ import java.awt.event.FocusAdapter
 import java.awt.event.FocusEvent
 import java.util.*
 import javax.swing.DefaultListModel
+import javax.swing.DefaultListSelectionModel
+import javax.swing.ListSelectionModel
 
 class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         JBList<PackagesSmartItem>(emptyList()), DataProvider, CopyProvider {
@@ -43,9 +45,13 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         putClientProperty(AnimatedIcon.ANIMATION_IN_RENDERER_ALLOWED, true)
 
         cellRenderer = PackagesSmartRenderer()
+        selectionModel = BriefItemsSelectionModel()
 
         listModel.addElement(installedHeader)
 
+        RiderUI.overrideKeyStroke(this, "jlist:RIGHT", "RIGHT") { transferFocus() }
+        RiderUI.overrideKeyStroke(this, "jlist:ENTER", "ENTER") { transferFocus() }
+        RiderUI.overrideKeyStroke(this, "shift ENTER") { this.transferFocusUp() }
         RiderUI.addKeyboardPopupHandler(this, "alt ENTER") { items ->
             val item = items.first()
             if (item is PackagesSmartItem.Package) PackagesSmartItemPopup(item.meta) else null
@@ -111,7 +117,9 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
                 "packagesearch.ui.toolwindow.tab.packages.installedPackages.withCount",
                 installedPackages.size
         )
-        installedHeader.title = message
+        installedHeader.title = message + (viewModel.selectedProjectModule.value?.name
+                ?.let { " ${PackageSearchBundle.message("packagesearch.ui.toolwindow.tab.packages.installedPackages.titleSuffix", it)}" }
+                ?: "")
 
         displayItems.add(installedHeader)
         displayItems.addAll(installedPackages.map { PackagesSmartItem.Package(it) })
@@ -163,6 +171,41 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         packageSelectionListeners.add(listener)
     }
 
+    // It is possible to select only package items; fakes and headers should be ignored
+    private inner class BriefItemsSelectionModel : DefaultListSelectionModel() {
+
+        init {
+            this.selectionMode = ListSelectionModel.SINGLE_SELECTION // TODO: MULTIPLE_INTERVAL_SELECTION support
+        }
+
+        private fun isPackageItem(index: Int) = listModel.getElementAt(index) is PackagesSmartItem.Package
+
+        override fun setSelectionInterval(index0: Int, index1: Int) {
+            if (isPackageItem(index0)) {
+                super.setSelectionInterval(index0, index0)
+                return
+            }
+
+            if (anchorSelectionIndex < index0) {
+                for (i in index0 until listModel.size()) {
+                    if (isPackageItem(i)) {
+                        super.setSelectionInterval(i, i)
+                        return
+                    }
+                }
+            } else {
+                for (i in index0 downTo 0) {
+                    if (isPackageItem(i)) {
+                        super.setSelectionInterval(i, i)
+                        return
+                    }
+                }
+                super.clearSelection()
+                transferFocusUp()
+            }
+        }
+    }
+
     private fun getSelectedPackage(): PackagesSmartItem.Package? =
             if (this.selectedIndex != -1) {
                 listModel.getElementAt(this.selectedIndex) as? PackagesSmartItem.Package
@@ -170,9 +213,7 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
                 null
             }
 
-    //TODO: Maybe need for module
-    //override fun getData(dataId: String) = getSelectedPackage()?.getData(dataId, viewModel.selectedProjectModule.value)
-    override fun getData(dataId: String) = getSelectedPackage()?.getData(dataId, null)
+    override fun getData(dataId: String) = getSelectedPackage()?.getData(dataId)
 
     override fun performCopy(dataContext: DataContext) {
         getSelectedPackage()?.performCopy(dataContext)

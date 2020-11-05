@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil

@@ -2,14 +2,15 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
 import arrow.core.Either
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.rd.createNestedDisposable
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.util.Alarm
-import com.jetbrains.licensedetector.intellij.plugin.getSimpleIdentifier
+import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
+import com.jetbrains.licensedetector.intellij.plugin.utils.getSimpleIdentifier
+import com.jetbrains.licensedetector.intellij.plugin.utils.getVersion
 import com.jetbrains.packagesearch.intellij.plugin.api.SearchClient
 import com.jetbrains.packagesearch.intellij.plugin.api.ServerURLs
 import com.jetbrains.rd.util.lifetime.Lifetime
@@ -35,10 +36,9 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     val searchResults = Property(mapOf<String, LicenseDetectorDependency>())
     private val installedPackages = Property(mapOf<String, LicenseDetectorDependency>())
 
-    //TODO: Use ProjectModule
-    //val projectModules = Property(listOf<ProjectModule>())
-    val projectModules = Property(listOf<Module>())
+    val projectModules = Property(listOf<ProjectModule>())
 
+    val selectedProjectModule = Property<ProjectModule?>(null)
     val selectedPackage = Property("")
 
     // UI Signals
@@ -58,15 +58,13 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     init {
         // Populate foundPackages when either:
         // - list of installed packages changes
-        // - list of search results changes
-        // - selected repository changes
+        // - selected module changes
         installedPackages.advise(lifetime) {
             refreshFoundPackages()
         }
-        //TODO: For module selection
-        /*selectedProjectModule.advise(lifetime) {
+        selectedProjectModule.advise(lifetime) {
             refreshFoundPackages()
-        }*/
+        }
 
         // Fetch installed packages and available project modules automatically, and when requested
         val delayMillis = 250
@@ -82,11 +80,11 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
         startOperation()
 
         val currentSearchTerm = searchTerm.value
-        //val currentSelectedProjectModule = selectedProjectModule.value
+        val currentSelectedProjectModule = selectedProjectModule.value
 
         val packagesMatchingSearchTerm = installedPackages.value
                 .filter {
-                    it.value.isInstalled &&
+                    it.value.isInstalled && it.value.isInstalledInProjectModule(currentSelectedProjectModule) &&
                             (it.value.identifier.contains(currentSearchTerm, true) ||
                                     it.value.remoteInfo?.name?.contains(currentSearchTerm, true) ?: false)
                 }.toMutableMap()
@@ -116,25 +114,26 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
     private fun refreshPackagesContext() {
         val installedPackagesMap = installedPackages.value.toMutableMap()
-        //TODO: Use ProjectModule
-        //val projectModulesList = mutableListOf<ProjectModule>()
-        val projectModulesList = mutableListOf<Module>()
 
-        //TODO: Need info of installing
+        val projectModulesList = mutableListOf<ProjectModule>()
 
         // Mark all packages as "no longer installed"
-        //installedPackagesMap.clear()
+        for (entry in installedPackagesMap) {
+            entry.value.installationInformation.clear()
+        }
 
         // Fetch all project modules
         val modules = ModuleManager.getInstance(project).modules.toList()
         for (module in modules) {
             // Fetch all packages that are installed in the project and re-populate our map
+            val projectModule = ProjectModule(module.name, module)
+
             ModuleRootManager.getInstance(
                     module
             ).orderEntries().forEachLibrary { library: Library ->
                 val identifier = library.getSimpleIdentifier()
                 if (identifier != null) {
-                    installedPackagesMap.getOrPut(
+                    val item = installedPackagesMap.getOrPut(
                             identifier,
                             {
                                 LicenseDetectorDependency(
@@ -143,13 +142,25 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
                                 )
                             }
                     )
+
+                    item.installationInformation.add(
+                            InstallationInformation(
+                                    projectModule,
+                                    library.getVersion()
+                            )
+                    )
                 }
                 true
             }
 
             // Update list of project modules
-            projectModulesList.add(module)
+            projectModulesList.add(projectModule)
         }
+
+        // Any packages that are no longer installed?
+        installedPackagesMap.filterNot { it.value.isInstalled }
+                .keys
+                .forEach { keyToRemove -> installedPackagesMap.remove(keyToRemove) }
 
         installedPackages.set(installedPackagesMap)
         projectModules.set(projectModulesList)
@@ -184,5 +195,12 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
             finishOperation()
         }
+    }
+
+    private fun LicenseDetectorDependency.isInstalledInProjectModule(projectModule: ProjectModule?): Boolean {
+        return projectModule == null ||
+                this.installationInformation.any { installationInformation ->
+                    installationInformation.projectModule == projectModule
+                }
     }
 }

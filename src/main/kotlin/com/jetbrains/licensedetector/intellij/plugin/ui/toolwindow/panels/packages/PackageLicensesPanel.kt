@@ -1,8 +1,8 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages
 
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left.PackageLicensesSmartPanel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components.PackageLicensesSmartPanel
 import javax.swing.JComponent
 
 class PackageLicensesPanel(private val viewModel: LicenseDetectorToolWindowModel) :

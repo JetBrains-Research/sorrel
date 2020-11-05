@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin
+package com.jetbrains.licensedetector.intellij.plugin.utils
 
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.InfoLink
 import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Scm

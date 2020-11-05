@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages
 
 import javax.swing.JComponent
 

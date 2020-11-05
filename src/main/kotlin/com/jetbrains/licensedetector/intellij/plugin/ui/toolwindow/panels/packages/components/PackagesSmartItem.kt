@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.left
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
 
 import com.intellij.ide.CopyProvider
 import com.intellij.openapi.actionSystem.DataContext
@@ -10,7 +10,6 @@ import com.intellij.ui.HyperlinkLabel
 import com.intellij.util.ui.JBEmptyBorder
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ProjectModule
 import java.awt.BorderLayout
 import java.awt.FlowLayout
 import java.awt.datatransfer.StringSelection
@@ -27,22 +26,6 @@ sealed class PackagesSmartItem {
     }
 
     class Package(val meta: LicenseDetectorDependency) : PackagesSmartItem(), DataProvider, CopyProvider {
-
-        fun getData(dataId: String, projectModule: ProjectModule?): Any? {
-            //TODO: Need to implement
-
-            /*val module = projectModule ?: meta.installationInformation.firstOrNull()?.projectModule
-            val information = meta.installationInformation.find { it.projectModule == module }
-
-            return when {
-                CommonDataKeys.VIRTUAL_FILE.`is`(dataId) -> module?.buildFile
-                CommonDataKeys.NAVIGATABLE_ARRAY.`is`(dataId) -> information?.let {
-                    arrayOf(it.projectModule.getNavigatableDependency(meta.groupId, meta.artifactId, it.installedVersion))
-                }
-                else -> getData(dataId)
-            }*/
-            return null
-        }
 
         override fun getData(dataId: String): Any? = when {
             PlatformDataKeys.COPY_PROVIDER.`is`(dataId) -> this
@@ -88,7 +71,7 @@ sealed class PackagesSmartItem {
                         add(progressIcon)
                     }, BorderLayout.WEST)
 
-                    if (headerLinks.any()) {
+                    /*if (headerLinks.any()) {
                         val linksPanel = RiderUI.flowPanel(RiderUI.SectionHeaderBackgroundColor) {
                             border = JBEmptyBorder(-3, 0, 0, -8)
 
@@ -96,7 +79,7 @@ sealed class PackagesSmartItem {
                         }
 
                         add(linksPanel, BorderLayout.EAST)
-                    }
+                    }*/
                 }
             } else {
                 Fake.panel
