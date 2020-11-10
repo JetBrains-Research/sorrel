@@ -169,7 +169,7 @@ class PackageLicensesSmartPanel(
             viewModel.selectedPackage.set(it.identifier)
         }
 
-        viewModel.isFetchingSuggestions.advise(viewModel.lifetime) {
+        viewModel.isSearching.advise(viewModel.lifetime) {
             smartList.installedHeader.setProgressVisibility(it)
             smartList.updateAndRepaint()
             packagesPanel.updateAndRepaint()
@@ -178,6 +178,7 @@ class PackageLicensesSmartPanel(
         // LaF
         val lafListener = LafManagerListener { updateLaf() }
         updateLaf()
+        //TODO: Fix this shit
         LafManager.getInstance().addLafManagerListener(lafListener)
         Disposer.register(viewModel.project, Disposable {
             LafManager.getInstance().removeLafManagerListener(lafListener)
@@ -188,7 +189,6 @@ class PackageLicensesSmartPanel(
         add(headerPanel)
         add(scrollPane)
 
-        //TODO: What is it?
         @Suppress("MagicNumber") // Swing APIs are <3
         minimumSize = Dimension(JBUI.scale(200), minimumSize.height)
     }
