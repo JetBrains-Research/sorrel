@@ -1,6 +1,5 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
-import arrow.core.Either
 import com.intellij.ProjectTopics
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.module.Module
@@ -111,7 +110,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     @Suppress("ComplexMethod")
     private fun refreshFoundPackages() {
         startOperation()
-        Thread.sleep(2000)
+
         if (installedPackages.value.any()) isSearching.set(true)
 
         val currentSearchTerm = searchTerm.value
@@ -206,16 +205,14 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
         application.executeOnPooledThread {
             val installedPackagesToCheck = installedPackages.value
 
-            installedPackagesToCheck.values.chunked(SearchClient.maxRequestResultsCount).forEach { chunk ->
-                val result = searchClient.packagesByRange(chunk.map { "${it.groupId}:${it.artifactId}" })
-                if (result.isRight()) {
-                    (result as Either.Right).b.packages?.forEach {
-                        val simpleIdentifier = it.toSimpleIdentifier()
-                        val installedPackage = installedPackages.value[simpleIdentifier]
-                        if (installedPackage != null && simpleIdentifier == installedPackage.identifier) {
-                            installedPackage.remoteInfo = it
-                        }
-                    }
+            val result = searchClient.packagesInfoByRange(installedPackagesToCheck.values.map {
+                "${it.groupId}:${it.artifactId}"
+            })
+            result.forEach {
+                val simpleIdentifier = it.toSimpleIdentifier()
+                val installedPackage = installedPackages.value[simpleIdentifier]
+                if (installedPackage != null && simpleIdentifier == installedPackage.identifier) {
+                    installedPackage.remoteInfo = it
                 }
             }
 

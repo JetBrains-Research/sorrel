@@ -1,15 +1,12 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
 
 import com.intellij.icons.AllIcons
-import com.intellij.ide.ui.LafManager
 import com.intellij.ide.ui.LafManagerListener
-import com.intellij.openapi.Disposable
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.IdeFocusManager
 import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.components.JBScrollPane
@@ -176,13 +173,10 @@ class PackageLicensesSmartPanel(
         }
 
         // LaF
-        val lafListener = LafManagerListener { updateLaf() }
         updateLaf()
-        //TODO: Fix this shit
-        LafManager.getInstance().addLafManagerListener(lafListener)
-        Disposer.register(viewModel.project, Disposable {
-            LafManager.getInstance().removeLafManagerListener(lafListener)
-        })
+        ApplicationManager.getApplication().messageBus.connect().subscribe(
+                LafManagerListener.TOPIC, LafManagerListener { updateLaf() }
+        )
     }
 
     override fun build() = RiderUI.boxPanel {
