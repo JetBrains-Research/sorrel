@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jetbrains.licensedetector.intellij.plugin.PluginEnvironment
+import com.jetbrains.licensedetector.intellij.plugin.licenses.License
 import com.jetbrains.packagesearch.intellij.plugin.api.http.requestJsonObject
 import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Package
 import gson.EnumWithDeserializationFallbackAdapterFactory
@@ -36,6 +37,7 @@ class SearchClient(
             // Ensures enum values in our model are not null if a default value is available
             // (works around cases like https://discuss.kotlinlang.org/t/json-enum-deserialization-breakes-kotlin-null-safety/11670)
             .registerTypeAdapterFactory(EnumWithDeserializationFallbackAdapterFactory())
+            .registerTypeAdapter(License::class.java, PackageLicenseAdapter)
             .create()
 
     private val listPackagesType = object : TypeToken<List<StandardV2Package>>() {}.type
