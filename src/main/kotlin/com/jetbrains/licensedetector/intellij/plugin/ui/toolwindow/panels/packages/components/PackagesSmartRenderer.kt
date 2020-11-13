@@ -17,7 +17,7 @@ import javax.swing.*
 private val packageIconSize by lazy { JBUI.scale(16) }
 private val packageIcon by lazy { IconUtil.toSize(PackageSearchPluginIcons.Package, packageIconSize, packageIconSize) }
 
-class PackagesSmartRenderer() : ListCellRenderer<PackagesSmartItem> {
+class PackagesSmartRenderer : ListCellRenderer<PackagesSmartItem> {
 
     override fun getListCellRendererComponent(
             list: JList<out PackagesSmartItem>,
@@ -56,7 +56,8 @@ class PackagesSmartRenderer() : ListCellRenderer<PackagesSmartItem> {
                 applyColors = applyColors(isSelected, list),
                 iconLabel = iconLabel,
                 idMessage = buildIdMessage(packageSearchDependency, textColor, textColor2),
-                licenseName = packageSearchDependency.remoteInfo?.licenses?.mainLicense?.name ?: ""
+                mainLicenseName = packageSearchDependency.remoteInfo?.licenses?.mainLicense?.name,
+                otherLicensesNames = buildOtherLicensesNames(packageSearchDependency, textColor2)
         )
     }
 
@@ -72,6 +73,16 @@ class PackagesSmartRenderer() : ListCellRenderer<PackagesSmartItem> {
         } else {
             append(colored(packageSearchDependency.identifier, textColor))
         }
+    }
+
+    private fun buildOtherLicensesNames(
+            packageSearchDependency: LicenseDetectorDependency,
+            textColor: RiderColor
+    ): List<String> {
+        return packageSearchDependency
+                .remoteInfo?.licenses?.otherLicenses?.map {
+                    colored(it.name, textColor)
+                } ?: listOf()
     }
 
     private fun applyColors(isSelected: Boolean, list: JList<out PackagesSmartItem>): (JComponent) -> Unit {
@@ -90,7 +101,8 @@ class PackagesSmartRenderer() : ListCellRenderer<PackagesSmartItem> {
             applyColors: (JComponent) -> Unit,
             iconLabel: JLabel,
             idMessage: String,
-            licenseName: String
+            mainLicenseName: String?,
+            otherLicensesNames: List<String>
     ): JPanel = JPanel(BorderLayout()).apply {
         @Suppress("MagicNumber") // Gotta love Swing APIs
         if (packageSearchDependency.identifier.isNotBlank()) {
@@ -114,9 +126,16 @@ class PackagesSmartRenderer() : ListCellRenderer<PackagesSmartItem> {
 
             add(JPanel().apply {
                 applyColors(this)
-                layout = BoxLayout(this, BoxLayout.X_AXIS)
+                layout = BoxLayout(this, BoxLayout.Y_AXIS)
 
-                add(JLabel("<html>$licenseName</html>"))
+                if (mainLicenseName != null) {
+                    add(JLabel("<html>$mainLicenseName</html>"))
+                }
+
+                otherLicensesNames.forEach {
+                    add(JLabel("<html>$it</html>"))
+                }
+
             }, BorderLayout.EAST)
         }
     }
