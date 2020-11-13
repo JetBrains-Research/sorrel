@@ -1,1 +1,1 @@
-rootProject.name = "license-compatibility-plugin"
+rootProject.name = "license-detector-plugin"
