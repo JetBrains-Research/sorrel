@@ -1,40 +1,21 @@
-# license-compatibility-plugin
+# License Management Plugin
 
 ![Build](https://github.com/DmitryPogrebnoy/license-compatibility-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Verify the [pluginGroup](/gradle.properties), [plugin ID](/src/main/resources/META-INF/plugin.xml) and [sources package](/src/main/kotlin).
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html).
-- [ ] [Publish a plugin manually](https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/publishing_plugin.html) for the first time.
-- [ ] Set the Plugin ID in the above README badges.
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
-
-<!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
-
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
-
-To keep everything working, do not remove `<!-- ... -->` sections. 
-<!-- Plugin description end -->
+A plugin for IntelliJ IDEA for license management and incompatibility detection.
 
 ## Installation
 
-- Using IDE built-in plugin system:
-  
-  <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "license-compatibility-plugin"</kbd> >
-  <kbd>Install Plugin</kbd>
-  
-- Manually:
+The plugin is currently in early development, so the first build is coming. Currently, you can open the project in IDEA and run the gradle command `runIde` to test the plugin. A tool window will appear on the right called `Project licenses`, where you can find a list of all of your licenses by module. 
 
-  Download the [latest release](https://github.com/DmitryPogrebnoy/license-compatibility-plugin/releases/latest) and install it manually using
-  <kbd>Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+## Features
 
+- [x] Detect the licenses of the project's dependencies and visualize them by module.
+- [ ] Suggest possible license for the project based on its dependencies.
+- [ ] Detect possible incompatibilities between the licenses in the project and warn the developer about them.
+- [ ] Provide short and understandable descriptions for existing licenses.
+- [ ] Support the detection of the licenses in the files of the project and detect incompatibilities in them also.
 
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
+## Contacts
 
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
+If you have any questions or suggestions about the plugin, feel free to contact Yaroslav Golubev in Telegram (@areyde).
