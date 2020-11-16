@@ -3,6 +3,8 @@
 ![Build](https://github.com/DmitryPogrebnoy/license-compatibility-plugin/workflows/Build/badge.svg)
 
 A plugin for IntelliJ IDEA for license management and incompatibility detection.
+<!-- Plugin description -->
+<!-- Plugin description end -->
 
 ## Installation
 
