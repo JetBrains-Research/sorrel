@@ -1,8 +1,8 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels
 
 import javax.swing.JComponent
 
-abstract class PackageLicensesPanelBase(val title: String) {
+abstract class PanelBase(val title: String) {
 
     private val _content = lazy { build() }
     val content: JComponent

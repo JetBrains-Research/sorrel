@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages
 
 import com.intellij.ide.CopyProvider
 import com.intellij.openapi.actionSystem.DataContext

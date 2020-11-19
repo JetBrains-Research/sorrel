@@ -9,5 +9,5 @@ data class StandardV2Licenses(
         val mainLicense: License?,
 
         @SerializedName("other_licenses")
-        val otherLicenses: List<License>?
+        val otherLicenses: Set<License>?
 )

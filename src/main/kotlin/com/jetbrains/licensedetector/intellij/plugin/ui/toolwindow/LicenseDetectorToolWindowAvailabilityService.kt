@@ -1,6 +1,7 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow
 
 import com.intellij.ProjectTopics
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.project.DumbUnawareHider
@@ -15,11 +16,13 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.project.ProjectLicensePanel
 import javax.swing.JComponent
 import javax.swing.JLabel
 
-class LicenseDetectorToolWindowAvailabilityService(val project: Project) {
+class LicenseDetectorToolWindowAvailabilityService(val project: Project) : Disposable {
 
     private var toolWindow: ToolWindow? = null
     private var toolWindowContentsCreated = false
@@ -83,19 +86,15 @@ class LicenseDetectorToolWindowAvailabilityService(val project: Project) {
             return
         }
 
-        val lifetime = project.createLifetime()
-        val model = LicenseDetectorToolWindowModel(project, lifetime)
+        val model = LicenseDetectorToolWindowModel(project, createLifetime())
         project.putUserData(LicenseDetectorToolWindowFactory.ToolWindowModelKey, model)
 
-        //TODO: Build many panel in future
-        val panel = PackageLicensesPanel(model)
+        addPanel(contentManager, PackageLicensesPanel(model))
+        addPanel(contentManager, ProjectLicensePanel(project, model))
+    }
 
-        val panelContent = panel.content // should be executed before toolbars
-        val toolbar = panel.toolbar
-        val topToolbar = panel.topToolbar
-        if (topToolbar == null) {
-            contentManager.addTab(panel.title, panelContent, toolbar)
-        }
+    private fun addPanel(contentManager: ContentManager, panel: PanelBase) {
+        contentManager.addTab(panel.title, panel.content, panel.toolbar)
     }
 
     private fun ContentManager.addTab(title: String, content: JComponent, toolbar: JComponent?) {
@@ -107,5 +106,9 @@ class LicenseDetectorToolWindowAvailabilityService(val project: Project) {
                 isCloseable = false
             }
         })
+    }
+
+    override fun dispose() {
+        // Nothing to dispose
     }
 }

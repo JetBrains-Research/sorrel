@@ -39,7 +39,7 @@ class RiderUI {
         val UsualBackgroundColor = MAIN_BG_COLOR
 
         private val HeaderFont: Font = UIUtil.getListFont().let { Font(it.family, Font.BOLD, it.size) }
-        val BigFont: Font = UIUtil.getListFont().let { Font(it.family, Font.BOLD, (it.size * 1.3).toInt()) }
+        val BigFont: Font = UIUtil.getListFont().let { Font(it.family, Font.BOLD, (it.size * 1.5).toInt()) }
 
         const val BigHeaderHeight = 40
         const val MediumHeaderHeight = 30
@@ -113,7 +113,7 @@ class RiderUI {
         fun toHtml(color: Color) = String.format("#%02x%02x%02x", color.red, color.green, color.blue)
 
         fun getTextColor(isSelected: Boolean) = when {
-            isSelected -> RiderColor(UIUtil.getListSelectionForeground())
+            isSelected -> RiderColor(UIUtil.getListSelectionForeground(true))
             else -> RiderColor(UIUtil.getListForeground())
         }
 

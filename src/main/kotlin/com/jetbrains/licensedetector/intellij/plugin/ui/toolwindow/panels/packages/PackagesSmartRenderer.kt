@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.components
+package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages
 
 import com.intellij.util.IconUtil
 import com.intellij.util.ui.JBEmptyBorder
