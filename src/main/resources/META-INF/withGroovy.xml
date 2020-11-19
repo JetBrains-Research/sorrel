@@ -1,0 +1,7 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.inlayProvider
+                language="Groovy"
+                implementationClass="com.jetbrains.licensedetector.intellij.plugin.ui.inlays.gradle.groovy.LicenseGroovyInlayHintsProvider"/>
+    </extensions>
+</idea-plugin>

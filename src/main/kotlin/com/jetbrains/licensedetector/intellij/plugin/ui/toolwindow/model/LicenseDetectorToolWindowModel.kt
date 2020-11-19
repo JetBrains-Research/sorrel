@@ -37,7 +37,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     val isSearching = Property(false)
 
     val searchTerm = Property("")
-    private val installedPackages = Property(mapOf<String, LicenseDetectorDependency>())
+    val installedPackages = Property(mapOf<String, LicenseDetectorDependency>())
 
     val projectModules = Property(listOf<ProjectModule>())
 
@@ -213,7 +213,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
             val installedPackagesToCheck = installedPackages.value
 
             val result = searchClient.packagesInfoByRange(installedPackagesToCheck.values.map {
-                "${it.groupId}:${it.artifactId}"
+                "${it.identifier}"
             })
             result.forEach {
                 val simpleIdentifier = it.toSimpleIdentifier()

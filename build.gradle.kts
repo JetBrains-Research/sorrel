@@ -50,7 +50,7 @@ intellij {
 //  Plugin Dependencies:
 //  https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_dependencies.html
 //
-    setPlugins("java", "Kotlin", "maven", "gradle")
+    setPlugins("java", "Kotlin", "maven", "gradle", "Groovy")
 }
 
 tasks {
@@ -66,6 +66,15 @@ tasks {
     }
     withType<org.jetbrains.intellij.tasks.RunIdeTask> {
         setJbrVersion("8u202b1483.24")
+    }
+
+    withType(KotlinCompile::class).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+
+            // For creation of default methods in interfaces
+            freeCompilerArgs = listOf("-Xjvm-default=compatibility")
+        }
     }
 
     patchPluginXml {
@@ -90,9 +99,9 @@ tasks {
 
         // Get the latest available change notes from the changelog file
         changeNotes(
-            closure {
-                changelog.getLatest().toHTML()
-            }
+                closure {
+                    changelog.getLatest().toHTML()
+                }
         )
     }
 
