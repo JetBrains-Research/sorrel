@@ -1,5 +1,8 @@
 <idea-plugin>
     <extensions defaultExtensionNs="com.intellij">
-
+        <codeInsight.inlayProvider
+                language="kotlin"
+                implementationClass="com.jetbrains.licensedetector.intellij.plugin.ui.inlays.gradle.kotlin.LicenseNameInlayHintsProvider"
+        />
     </extensions>
 </idea-plugin>

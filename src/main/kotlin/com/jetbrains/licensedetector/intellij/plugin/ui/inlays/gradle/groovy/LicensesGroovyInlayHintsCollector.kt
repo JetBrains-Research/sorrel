@@ -27,7 +27,6 @@ class LicensesGroovyInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
             }
         }
 
-        //TODO: The build file should be named "build.gradle" or not?
         if (element.containingFile.name == "build.gradle") {
             val model = element.project.getUserData(LicenseDetectorToolWindowFactory.ToolWindowModelKey)
 
@@ -35,7 +34,8 @@ class LicensesGroovyInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                 val installedPackagesInfo = model.installedPackages.value
                 if (element is GrCallExpression) {
 
-                    //For implementation group: 'io.ktor', name: 'ktor', version: '1.4.0'
+                    // For implementation group: 'io.ktor', name: 'ktor', version: '1.4.0'
+                    // and implementation(group: 'io.ktor', name: 'ktor', version: '1.4.0')
                     if (element.namedArguments.size >= 2 &&
                             element.namedArguments[0].labelName == "group" &&
                             element.namedArguments[1].labelName == "name") {
@@ -52,7 +52,7 @@ class LicensesGroovyInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                         }
                     }
 
-                    //For implementation "io.ktor:ktor:1.4.0"
+                    //For implementation "io.ktor:ktor:1.4.0" and implementation("io.ktor:ktor:1.4.0")
                     if (element.argumentList?.allArguments?.size == 1) {
                         val argument = element.argumentList!!.allArguments[0]
 
