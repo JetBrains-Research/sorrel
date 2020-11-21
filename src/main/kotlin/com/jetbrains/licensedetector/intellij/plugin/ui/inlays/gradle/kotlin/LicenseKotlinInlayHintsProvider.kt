@@ -9,7 +9,7 @@ import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import javax.swing.JComponent
 
-class LicenseNameInlayHintsProvider : InlayHintsProvider<NoSettings> {
+class LicenseKotlinInlayHintsProvider : InlayHintsProvider<NoSettings> {
 
     companion object {
         val ourKey: SettingsKey<NoSettings> = SettingsKey("licenses.kotlin.hints")

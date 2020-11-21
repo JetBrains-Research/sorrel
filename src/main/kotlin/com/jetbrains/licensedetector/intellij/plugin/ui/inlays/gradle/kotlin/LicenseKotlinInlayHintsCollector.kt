@@ -4,9 +4,8 @@ import com.intellij.codeInsight.hints.FactoryInlayHintsCollector
 import com.intellij.codeInsight.hints.InlayHintsSink
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
-import com.jetbrains.licensedetector.intellij.plugin.ui.inlays.roundWithBackground
+import com.jetbrains.licensedetector.intellij.plugin.ui.inlays.addLicenseNameInlineIfExists
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
@@ -14,20 +13,6 @@ import org.jetbrains.plugins.groovy.lang.psi.util.GrStringUtil
 
 class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsCollector(editor) {
     override fun collect(element: PsiElement, editor: Editor, sink: InlayHintsSink): Boolean {
-        fun addLicenseNameInlineIfExists(groupId: String, artifactId: String, installedPackagesInfo: Map<String, LicenseDetectorDependency>) {
-            val matchedPackageInfo = installedPackagesInfo["$groupId:$artifactId"]
-
-            val mainLicenseName: String? = matchedPackageInfo?.remoteInfo?.licenses?.mainLicense?.name
-
-            if (mainLicenseName != null) {
-                sink.addInlineElement(
-                        element.textOffset + element.textLength,
-                        true,
-                        factory.inset(roundWithBackground(factory.text(mainLicenseName), editor), 5, 0, 0, 0)
-                )
-            }
-        }
-
         if (element.containingFile.name == "build.gradle.kts") {
             val model = element.project.getUserData(LicenseDetectorToolWindowFactory.ToolWindowModelKey)
 
@@ -70,7 +55,14 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                             argHandler(secondArg)
                             argHandler(thirdArg)
 
-                            addLicenseNameInlineIfExists(groupId, artifactId, installedPackagesInfo)
+                            sink.addLicenseNameInlineIfExists(
+                                    groupId,
+                                    artifactId,
+                                    installedPackagesInfo,
+                                    element.textOffset + element.textLength,
+                                    editor,
+                                    factory
+                            )
                         }
 
 
@@ -82,7 +74,14 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                                     secondArgSingleChildren is KtStringTemplateExpression) {
                                 val groupId = GrStringUtil.removeQuotes(firstArgSingleChildren.text)
                                 val artifactId = GrStringUtil.removeQuotes(secondArgSingleChildren.text)
-                                addLicenseNameInlineIfExists(groupId, artifactId, installedPackagesInfo)
+                                sink.addLicenseNameInlineIfExists(
+                                        groupId,
+                                        artifactId,
+                                        installedPackagesInfo,
+                                        element.textOffset + element.textLength,
+                                        editor,
+                                        factory
+                                )
                             }
                         }
                     }
@@ -95,7 +94,14 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                         val groupId = groupIdAndArtifactId.substringBefore(":")
                         val artifactId = groupIdAndArtifactId.substringAfter(":")
 
-                        addLicenseNameInlineIfExists(groupId, artifactId, installedPackagesInfo)
+                        sink.addLicenseNameInlineIfExists(
+                                groupId,
+                                artifactId,
+                                installedPackagesInfo,
+                                element.textOffset + element.textLength,
+                                editor,
+                                factory
+                        )
                     }
 
                 }
