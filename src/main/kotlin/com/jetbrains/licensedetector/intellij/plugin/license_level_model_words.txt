@@ -1,0 +1,2387 @@
+1301
+1301 usa
+16
+16 of this license
+1991
+1991 1999
+1991 1999 free software
+1999
+1999 copyright
+1999 copyright 1991
+1999 free
+1999 free software
+1999 free software foundation
+20
+20 comandroidsupportsupport annotations
+20 httpwwwapacheorglicenseslicense
+20 httpwwwapacheorglicenseslicense 20
+20 recyclerview
+20 recyclerview animators by
+20 the
+20 the license
+20 the license can
+20 the license you
+20 this software
+20 unless otherwise noted
+2010 2015 john
+20html
+20httpwwwapacheorglicenseslicense 20txt mapbox
+20httpwwwapacheorglicenseslicense 20txt mapbox gl
+20txt
+20txt mapbox
+20txt mapbox gl
+20txt mapbox gl uses
+21
+21 as published by
+21 february
+21 february 1999
+21 february 1999 copyright
+21 of
+21 of the
+29 june
+30 license you
+30 license you may
+51
+about distribution
+about distribution rights and
+above
+above copyright notice
+above copyright notice and
+accept this license in
+acceptance of any
+accompanying
+accompanying materials
+accompanying materials are
+accompanying materials are made
+achieve this non
+action
+action arising
+action arose each
+action of contract
+action of contract tort
+actions are
+additional definitions as
+advised
+advised of the possibility
+af40 ltrchfcs0 f40cf1insrsid12731773 bullet
+affect the
+affects the operation
+affiliates
+affiliates each
+affiliates each commercial
+against any losses damages
+against such
+agreed
+agreed to
+agreed to in
+agreement
+agreement or
+agreement or another commercial
+agreement the terms
+agreement whether expressly by
+all
+all content in
+all copies
+all copies or
+all copies the
+all files associated
+all implied
+all its terms
+all rights
+all rights reserved
+all rights reserved this
+all the source
+all warranties
+alone or
+along
+already acquired
+already present on the
+also
+also licensed
+also licensed under the
+alternatively
+alternatively this software
+among them as
+an
+an action of
+an announcement including an
+an announcement your
+an as
+an as is
+an as is basis
+an author
+an author of
+an author of commercial
+an end user software
+an interface provided
+an oem software license
+and
+and any
+and any express
+and any express or
+and associated documentation files
+and authors of
+and binary
+and binary forms
+and change all versions
+and charge fee
+and conditions
+and contributors
+and contributors as
+and conversions
+and corresponding
+and different terms
+and distribution license httpwwwopensourceorglicensescddl1php
+and documentation are
+and dynamically linked subprograms
+and every
+and everything else
+and fitness
+and fitness for
+and fitness for particular
+and fitness in
+and for
+and implied warranties
+and its terms
+and legal notices on
+and licensestxt for full
+and must
+and noninfringement
+and noninfringement in
+and not
+and on any
+and on any theory
+and otherwise
+and owned by
+and refractions
+and refractions bsd
+and refractions bsd license
+and services agreement
+and services agreement or
+and sublicense the
+and that license is
+and the
+and the accompanying
+and the accompanying materials
+and the following
+and the following disclaimer
+and the like
+and this license
+and this permission
+and to
+and to permit
+and to permit persons
+and under no legal
+and use in source
+and utility programs needed
+and warranties and if
+and will
+and you
+and you may
+andor
+andor modify it
+andor other
+andor other materials
+andor sell
+animators by wasabeef
+animators by wasabeef apache
+annotations
+annotations apache license
+annotations is
+announcement your
+announcement your work based
+another
+another commercial license agreement
+any
+any associated
+any claim damages or
+any claims or losses
+any copyright holder
+any damages
+any damages or other
+any direct
+any direct indirect
+any direct indirect incidental
+any executables containing
+any express or
+any for
+any in manner
+any kind
+any kind either
+any kind either express
+any medium
+any person
+any person obtaining
+any person obtaining copy
+any software library
+any special
+any such
+any such program
+any theory
+any warranty and
+any warranty without
+any warranty without even
+any way
+any way out
+any way out of
+any work
+anyone who receives the
+apache
+apache 20httpwwwapacheorglicenseslicense
+apache 20httpwwwapacheorglicenseslicense 20txt mapbox
+apache license
+apache license 20 the
+apache license version
+apache license version 20
+apache software license version
+appear
+applicable
+applicable law
+applicable law or
+applicable law or agreed
+application
+application is
+application market or
+application or combined
+applies
+applies to it you
+applies to the javascript
+appropriate legal notices
+are
+are based on the
+are disclaimed in no
+are dual
+are licensed
+are made
+are made available under
+are met redistributions of
+are not
+are not covered
+are not derived from
+are permitted
+are permitted provided
+are permitted provided that
+are those of the
+are work
+arising from
+arising from out
+arising from out of
+arising in
+arising in any way
+arising out of or
+artifact
+artifact name
+artwork license
+as
+as deliberate
+as is
+as is and
+as is and any
+as is basis without
+as is without
+as permitted
+as permitted above
+as published
+as published by
+as published by the
+as separate
+as whole
+as whole that
+asserted
+associated
+associated documentation files the
+assume
+assumptions
+at
+at httpwwweclipseorg
+at wwwgnuorglicensesgpl 30html
+at your option any
+at your option offer
+attempt otherwise to copy
+author
+author as is
+author may not
+author of
+author of commercial
+author of commercial closed
+author or contributors be
+authors
+authors and should
+available
+available under
+available under the
+available under the terms
+basis without warranties or
+be
+be distributed
+be distributed under
+be found at
+be included in
+be liable
+be liable for
+be obtained at httpwwweclipseorg
+be used
+be used to
+be useful
+be useful but without
+been
+beginning
+being bound by
+below however
+below however if
+below refers
+binaries that contain oss
+binary
+binary form must
+binary form must reproduce
+binary forms
+binary forms with
+binary forms with or
+boston
+bsd license
+bsd license v10
+bsd license v10 httpwwweclipseorgorgdocumentsedl
+business
+business interruption
+business interruption however caused
+but
+but not
+but not limited
+but the entire
+but without
+but without any warranty
+by
+by applicable
+by applicable law or
+by or on behalf
+by patents or
+by section of the
+by the
+by the copyright
+by the free
+by the free software
+by wasabeef
+by wasabeef apache license
+by wso2
+by wso2 inc
+by wso2 inc under
+by you
+by you or third
+can
+can redistribute
+can redistribute it andor
+case of the
+caused
+caused and
+caused and on
+caused and on any
+cddl1
+cddl1 common
+cddl1 common development and
+changes were used in
+charge there is
+charge to
+charge to any person
+check the
+choose to
+choosing
+choosing under
+claim
+claim damages or
+closed
+closed source
+closed source software
+closed source software would
+cloudflare
+code
+code andor source
+code for the application
+code in
+code must
+code must retain the
+code package containing
+comandroidsupportrecyclerview
+comandroidsupportrecyclerview v7
+comandroidsupportrecyclerview v7 apache
+comandroidsupportrecyclerview v7 apache license
+comandroidsupportsupport annotations
+comandroidsupportsupport annotations apache license
+combined
+combined library
+combined with the
+commercial
+commercial closed
+commercial closed source
+commercial closed source software
+commercial contributor if
+commercial contributor if that
+commercial contributor then makes
+commercial distribution channel without
+commercial license agreement
+common development
+common development and
+common development and distribution
+compatible license
+compatible license or the
+compilation and installation of
+complete
+complete legal
+complete legal terms
+complete legal terms httpopensourceorglicensesmit
+compliance
+compliance with
+compliance with the license
+complies with
+computer failure or malfunction
+conditions and the
+conditions and the following
+conditions are
+conditions are met
+conditions either
+conditions for copying distribution
+conditions for use reproduction
+conditions of
+conditions of any
+conditions of any kind
+connection
+connection with
+consequential damages
+consistent with this license
+contain
+contain oss in
+contained in the
+contains plus
+content directly from the
+contract
+contract negligence or
+contract strict
+contract tort
+contributor and only
+contributor hereby grants
+contributor to pay
+contributor would have to
+contributors
+contributors as
+contributors as is
+contributors as is and
+contributors be
+contributors be liable for
+contributors behalf contributions
+contributors may
+contributors may be
+contributors may be used
+contributors related to
+contributors see
+control and cooperate
+conveniently linked with application
+copies of
+copies or substantial
+copies or substantial systemgetpropertylineseparator
+copy
+copy modify
+copy of
+copy of the
+copy of the license
+copy so the ordinary
+copyright
+copyright 1991 1999
+copyright 1991 1999 free
+copyright 2008 stefan van
+copyright freedoms
+copyright holders
+copyright holders and contributors
+copyright holders be
+copyright notice
+copyright notice and
+copyright notice this
+copyright rights in
+copyright rights in its
+copyrighted material
+corresponding application
+corresponding source and corresponding
+covered
+covered under the
+covered work and
+covered work you
+cryptix
+css html
+css html files
+customary use in
+damage
+damages
+damages as result
+damages including
+damages including but not
+damages or any
+damages or other liability
+damages whatsoever
+damages whatsoever resulting
+data
+data being rendered
+data being rendered inaccurate
+data or
+data or profits
+deal
+deal in the
+dealings
+debugging such
+declares separate license the
+defend and indemnify
+defense and any related
+defined by the library
+definitionpar
+derivate
+derivative of
+derivative of the original
+derivative works
+derivative works in
+derivative works sublicense andor
+derivative works thereof
+derivative works these
+derived
+derived from
+derived from this
+derived from this software
+designated libraries and is
+details
+details about distribution
+details of these licenses
+details you should
+developed
+development
+development and
+development and distribution
+development and distribution license
+different
+different licenses please refer
+direct indirect
+direct indirect incidental
+direct indirect special
+disclaimed
+disclaimer
+disclaimer as noted below
+disclaimer below par
+disclaimer in the
+disclaimer redistributions in
+disclaimer redistributions in binary
+disclaimer the following
+disclaims all
+disclaims all warranties with
+distinguishing version
+distribute
+distribute or publish that
+distributed
+distributed in the hope
+distributed on
+distributed on an
+distributed on an as
+distributed under
+distributed with this work
+distributes the
+distributing the
+distribution
+distribution bsd license
+distribution bsd license copyright
+distribution complete machine
+distribution license
+distribution license httpwwwopensourceorglicensescddl1php
+distribution license httpwwwopensourceorglicensescddl1php epl2gpl2
+distribution neither the name
+distribution rights
+distribution this
+distribution this software
+distribution this software is
+docdash is
+docdash is free
+docdash is free software
+document for combined
+documentation
+documentation andor other materials
+does not bring the
+does not cause
+downloaded
+downloaded from
+downloaded from the
+dual licensed under
+dual licensed under either
+durable physical medium customarily
+eclipse
+eclipse foundation
+eclipse foundation or per
+eclipse public
+eclipse public license
+eclipse public license gnu
+eclipse public license v10
+editorial revisions
+either express or
+either express or implied
+either source or
+either the terms
+either the terms of
+either verbatim
+elastic
+elastic license and
+elastic license unless
+else
+else not
+end user software license
+endorse
+endorse or
+endorse or promote
+endorse or promote products
+engine for objects in
+engineering for
+epl2gpl2 eclipse
+even
+even if
+even if advised
+even if advised of
+even the
+even the implied
+event shall
+event shall anyone distributing
+event shall the copyright
+everything else not
+except
+except in
+except in compliance
+exception to the
+excuse you from
+executables containing this
+executed an end
+exemplary
+exemplary or
+exemplary or consequential damages
+exists contact
+expects
+express
+ext
+ext is also
+ext is also licensed
+f42cf1insrsid12731773 hichaf42dbchaf31505lochf42
+facility refers to function
+faithfully all
+falls under
+falls under the elastic
+february
+february 1999
+february 1999 copyright
+february 1999 copyright 1991
+file
+file al20
+file all rights
+file distributed
+file except
+file except in compliance
+file for
+file for further information
+file is licensed under
+file is part
+file says otherwise copyright
+files
+files and everything
+files and everything else
+files and the
+files the
+files the software to
+files to carry prominent
+find
+fitness for
+fitness for particular
+fitness in no
+following
+following conditions
+following conditions are
+following conditions are met
+following disclaimer
+following disclaimer in the
+following disclaimer redistributions
+following disclaimers redistributions
+following locations httpwwwapacheorglicenseslicense
+for
+for and under
+for any
+for any claim
+for any claim damages
+for any damages
+for any direct indirect
+for combined work
+for details
+for details about distribution
+for enforcing compliance
+for example
+for full
+for further
+for inclusion
+for linking other
+for more
+for particular
+for particular purpose
+for particular purpose and
+for particular purpose see
+for the library
+for the specific language
+form
+form must
+form must reproduce
+form must reproduce the
+form suitable for
+form this
+forming work based
+forms
+forms with
+forms with or
+found at wwwgnuorglicensesgpl
+found at wwwgnuorglicensesgpl 30html
+foundation
+foundation 14
+foundation inc
+foundation or per
+foundation the content is
+foundation version
+free
+free of
+free of charge to
+free patent
+free programs and that
+free software
+free software foundation
+free software foundation either
+free software foundation inc
+free software foundation version
+free software licensed
+free software you
+free software you can
+from
+from claims lawsuits
+from loss of
+from out
+from out of or
+from the
+from the following
+from the following locations
+from this
+from this software
+from this software without
+from time
+full license httpwebapp
+fully set forth
+function or table of
+further information and
+general
+general direct
+general public
+general public license
+general public license along
+general public license as
+general public license for
+general public license version
+gl uses
+gl uses portions
+gmbh as
+gmbh as is and
+gmbh be
+gmbh be liable
+gnu
+gnu general
+gnu general public
+gnu general public license
+gnu gpl conveying
+gnu lesser
+gnu lesser general
+gnu lesser general public
+good faith
+goods
+goods or services loss
+goodwill work
+gpl
+gpl an author of
+gpl it
+gpl version
+gpl version or
+gpl you may
+graham
+granted by this license
+granted free
+granted free of charge
+granted provided
+granted provided that the
+have
+have been terminated
+have the following
+hereby
+hereby granted
+hereby granted free
+herein no
+hereunder
+hichaf40dbchaf31505lochf40 redistributions of source
+holder be
+holder nor the
+holders
+holders and contributors as
+holders be liable
+hope
+hope that
+however
+however caused
+however caused and
+however caused and on
+however if
+however if you
+however recipients obligations under
+hrefhttpwwwgnuorglicenseslgpltxtgnu lesser general
+html
+html files
+html files and everything
+httpopensourceorglicensesmit
+httpopensourceorglicensesmit licensephp
+httpwebapp
+httpwebapp netcomlicensephp
+httpwwwapacheorglicenseslicense
+httpwwwapacheorglicenseslicense 20
+httpwwwapacheorglicenseslicense 20html
+httpwwweclipseorg
+httpwwweclipseorgorgdocumentsedl v10html
+httpwwwgnuorglicensesold licensesgpl
+httpwwwgnuorglicensesold licensesgpl 20txt
+httpwwwopensourceorglicensescddl1php
+httpwwwopensourceorglicensescddl1php epl2gpl2
+httpwwwopensourceorglicensescddl1php epl2gpl2 eclipse
+httpwwwopensourceorglicensesmit licensephp
+identify itself
+if
+if advised
+if advised of the
+if as consequence of
+if he or
+if no such
+if the distribution
+if you
+if you contribute to
+if you have
+ii ownership
+implied
+implied including
+implied warranties including
+implied warranties including but
+implied warranties of
+implied warranties of merchantability
+implied warranty
+implied warranty of
+in
+in all
+in an action
+in an action of
+in any
+in any way
+in any way out
+in binary
+in compliance
+in compliance with
+in conflict with the
+in connection
+in connection with
+in content
+in content unless otherwise
+in given copy
+in no
+in no event
+in no event shall
+in source
+in source and
+in the documentation
+in the hope that
+in the software
+in the software without
+in this
+in this plug
+in this repository
+in writing
+inability to
+inc
+incidental special exemplary
+incidental special exemplary or
+included
+included in
+included in all
+included in or
+included in the
+including
+including but
+including but not
+including but not limited
+including negligence
+including negligence or otherwise
+including without limitation the
+incorporate material from
+indemnify
+indemnity or other
+independent and separate works
+indirect
+indirect incidental
+indirect or
+individual license of
+individual works permit
+information but only
+infringe patents this
+infringed by the use
+infringes such recipients patents
+initial contributor the
+initiative
+inline functions ten lines
+insist
+interruption
+interruption however caused
+iqkeyboardmanager
+iqkeyboardmanager license
+iqkeyboardmanager license the
+iqkeyboardmanager license the mit
+is
+is addressed as you
+is also
+is also licensed
+is and
+is and any express
+is available at
+is available at httpwwwopensourceorglicensesapache20php
+is basis
+is basis without warranties
+is conspicuously
+is distributed
+is distributed in
+is distributed on
+is free
+is free software
+is free software you
+is furnished
+is hereby granted free
+is licensed
+is licensed by
+is licensed by wso2
+is licensed under
+is licensed under the
+is no
+is not limited to
+is part of
+is permitted only in
+is permitted to copy
+is provided
+is provided as is
+is useful
+is without
+is work produced
+isolation are based
+it
+it and that the
+it andor modify
+it andor modify it
+it that you can
+it under
+it under the terms
+it will be useful
+its contents constitute
+its terms and conditions
+javascript json
+javascript json php css
+jna is licensed
+judgment or allegation
+judgment or allegation of
+kind either
+kind either express
+kind either express or
+kind express or
+kind express or implied
+language
+language governing
+later
+later as
+later as published by
+law or agreed
+law or agreed to
+lawsuit
+legal
+legal terms
+legal terms httpopensourceorglicensesmit
+lesser
+lesser general
+lesser general public
+lesser general public license
+lesser general public licensea
+lgpl
+lgpl 30
+lgpl 30 license
+liability
+liability including any general
+liability or
+liability or tort
+liability whether
+liability whether in
+liability whether in contract
+liable for
+liable for any
+liable for any damages
+liable to
+liable to you
+liablity arising
+libraries of the
+libraries of the free
+library among these
+library header
+library is
+library is distributed
+library is free
+library is free software
+library mechanism
+library must be
+licence
+licence构成更改
+licence构成更改 具体的协议参考
+licence构成更改 具体的协议参考 httpwwwapacheorglicenseslicense 20
+license
+license 20
+license 20 the license
+license along with
+license along with this
+license and services
+license and support services
+license and to
+license apache
+license apache 20httpwwwapacheorglicenseslicense
+license apache 20httpwwwapacheorglicenseslicense 20txt
+license apply to
+license as published
+license as published by
+license at
+license at httpwwwapacheorglicenseslicense
+license can
+license can be downloaded
+license docdash is
+license docdash is free
+license does not
+license does not grant
+license ext is
+license file
+license for
+license for details
+license for details about
+license for more
+license gnu
+license gnu general public
+license gpl
+license gpl version
+license httpopensourceorglicensesmit
+license httpopensourceorglicensesmit licensephp
+license httpwebapp netcomlicensephp
+license httpwwwopensourceorglicensescddl1php
+license httpwwwopensourceorglicensescddl1php epl2gpl2 eclipse
+license httpwwwopensourceorglicensesmit
+license httpwwwopensourceorglicensesmit licensephp
+license is
+license is included below
+license license mit
+license license mit complete
+license mit
+license mit complete legal
+license or
+license or at
+license or the elastic
+license redistribution and use
+license residualvm 3d game
+license see
+license the
+license the eclipse
+license the mit
+license unless otherwise noted
+license unless you
+license v10 as
+license v10 as published
+license v10 httpwwweclipseorglegalepl
+license v10 httpwwweclipseorgorgdocumentsedl
+license v10 httpwwweclipseorgorgdocumentsedl v10html
+license version
+license version 20
+license version 20 comandroidsupportsupport
+license version 20 recyclerview
+license version 20 the
+license version 21
+license version 21 february
+license version and you
+license you
+license you may
+license you may not
+license you may obtain
+license you may use
+licensed
+licensed by
+licensed by wso2
+licensed by wso2 inc
+licensed to the
+licensed to you under
+licensed under
+licensed under mit license
+licensed under the
+licensed under the apache
+licensees
+licensees choosing
+licensees choosing under
+licenseid
+licenseid mit
+licenseid mit seealso
+licenseid mit seealso httpsopensourceorglicensesmit
+licensep pthis
+licensephp
+licenses
+licenses please refer
+licenses please refer to
+licensesgpl
+licensetxt if not please
+like
+likely
+likely use
+likely use hidapi
+limitation excluding those countries
+limitation the rights
+limitations under the
+limited
+limited to
+limited to procurement of
+limited to the
+limited to the implied
+limited to the warranties
+list
+list of conditions
+lobbybots
+lobbybots gpl
+lobbybots gpl version
+lobbybots gpl version or
+locations
+locations httpwwwapacheorglicenseslicense 20html
+logo
+long as such
+loss
+loss of data or
+loss of use
+loss of use data
+lukas gebauer
+ma 02110
+made
+made available
+made available under
+made available under the
+make
+make use
+makes use of
+mapbox gl
+mapbox gl uses
+mapbox gl uses portions
+market or
+material by anyone who
+material from library
+materials
+materials are
+materials are made
+materials are made available
+materials or that you
+materials provided
+materials provided with
+materials provided with the
+matt chaput or contributors
+may
+may apply to
+may be distributed
+may be used
+may be used to
+may differ
+may if
+may not be distributed
+may obtain
+may obtain copy of
+may use
+means either the
+meet all
+merchantability
+merchantability and
+merchantability and fitness
+merchantability and fitness for
+merchantability fitness for
+merchantability or
+merge publish
+merge publish distribute
+met
+met redistributions of
+met redistributions of source
+michael bostock may
+mit
+mit complete
+mit complete legal
+mit complete legal terms
+mit license
+mit license httpopensourceorglicensesmit
+mit license httpopensourceorglicensesmit licensephp
+mit license httpwwwopensourceorglicensesmit
+mit license httpwwwopensourceorglicensesmit licensephp
+mit license mit
+mit lobbybots
+mit lobbybots gpl version
+mit seealso
+mit seealso httpsopensourceorglicensesmit
+modification
+modification are permitted
+modification are permitted provided
+modified version
+modifies
+modifies andor
+modify andor distribute this
+modify it under
+modify it under the
+modify merge
+modify your copy or
+modifying the library
+module is licensed
+module is licensed under
+moestl
+more details you
+must be consistent with
+must be distributed under
+must do one of
+must reproduce
+must reproduce the
+must reproduce the above
+must retain
+must retain the
+name
+name michael bostock may
+name of
+names
+names of
+names of its contributors
+need
+need not include
+needed
+negligence
+negligence or otherwise
+neither
+neither the
+neo4j or
+neo4j or one
+netcomlicensephp disclaimer the
+new licenses
+nguyen anh quynh aquynhgmailcom
+no
+no event
+no event shall
+no event shall michael
+no event shall the
+no hardware
+no more than
+no rights
+no such license exists
+no warranty for
+non infringement merchantability
+non infringement merchantability or
+noninfringement in no
+nor any
+nor the
+nor the names
+nor the names of
+normally accompany the operating
+normally reads
+not
+not allowed this version
+not applications
+not be interpreted
+not covered
+not covered under
+not foss
+not give
+not give you permission
+not limited
+not limited to
+not limited to procurement
+not limited to the
+not on the
+not use
+not use this file
+not write to the
+noted at
+notice and
+notice and this permission
+notice appear
+notice as
+notice as neo4j
+notice file
+notice of
+notice shall
+notice this
+notice this list
+notice this list of
+noticetxt file for
+object code plus
+objects in
+obligations in this
+obligations under this
+obligations you
+obtain copy
+obtain copy of
+obtain copy of the
+obtaining copy
+of
+of all derivatives
+of america
+of an advantage over
+of any kind
+of any kind either
+of any kind express
+of any later
+of any other
+of any rights granted
+of charge
+of charge to any
+of commercial
+of commercial closed
+of commercial closed source
+of conditions and
+of contract
+of contract negligence or
+of contract tort
+of contract tort or
+of data or
+of data to be
+of its
+of its affiliates
+of its contributors may
+of jna is licensed
+of liability whether in
+of merchantability
+of merchantability and
+of merchantability fitness
+of merchantability fitness for
+of merchantability or fitness
+of products for individuals
+of protecting the integrity
+of section above provided
+of software generally
+of source code must
+of substitute
+of substitute goods
+of such
+of such damage
+of such damage general
+of the
+of the apache
+of the authors and
+of the contribution causes
+of the eclipse
+of the eclipse public
+of the gnu
+of the gnu general
+of the license
+of the licensor except
+of the okio
+of the open
+of the open source
+of the pdnsd package
+of the portions of
+of the possibility of
+of the program in
+of the software
+of the software the
+of the use
+of the use or
+of this
+of this license or
+of this software
+of this software and
+of this software even
+of use
+of use data or
+of your accepting any
+offer valid for
+offered by
+okio
+okio license
+okio license apache
+okio license apache 20httpwwwapacheorglicenseslicense
+on
+on an as
+on an as is
+on any
+on any theory
+on any theory of
+on or
+on such
+one of
+only for noncommercial distribution
+only if you received
+open
+open source
+open source initiative
+open source initiative osi
+open source lgpl
+open source lgpl 30
+open source license ext
+operate with any
+operating system on which
+or
+or agreed to
+or agreed to in
+or an oem software
+or another commercial
+or any damages whatsoever
+or any other required
+or as
+or at
+or at your option
+or business
+or collective works based
+or conditions
+or conditions of
+or consequential
+or consequential damages
+or consequential damages including
+or consequential damages of
+or contest
+or contributors
+or contributors be
+or copyright holders
+or derivative
+or fitness for
+or for the user
+or implied
+or implied including but
+or implied warranties
+or implied warranties including
+or in connection
+or in connection with
+or in part
+or later
+or later as
+or later as published
+or losses even
+or malfunction
+or merely link or
+or one of its
+or other dealings
+or other liability including
+or other liability whether
+or other tortious
+or otherwise
+or otherwise arising
+or otherwise that
+or performance of
+or portion of
+or profits
+or profits or
+or profits whether
+or profits whether in
+or promote
+or promote products
+or promote products derived
+or punitive
+or relink
+or services
+or services loss
+or services loss of
+or she is
+or small
+or substantial portions of
+or the
+or third parties
+or tort including
+or unenforceable under applicable
+or version
+or without
+or without fee
+or without fee is
+or without modification
+order to permit linking
+osi
+osi the
+osi the mit
+osi the mit license
+other dealings in
+other dealings in the
+other liability whether
+other liability whether in
+other licensees extend
+other materials
+other materials provided
+other materials provided with
+other tortious action arising
+otherwise
+otherwise arising
+otherwise arising from out
+otherwise arising in
+otherwise indicated below the
+otherwise noted at the
+out
+out of
+out of or
+out of the
+out of the use
+owned by
+owner
+owner or
+package contains
+package contains software licensed
+par listtexttabpardplain
+parameters data
+part of the pdnsd
+particular purpose
+particular purpose and
+particular purpose are
+particular purpose are disclaimed
+particular purpose see
+particular purpose see the
+particular purpose title
+parties hereto
+parties or failure of
+parties receiving the covered
+patent licenses in effect
+patent litigation against any
+pauli virtanen pavikifi
+pauli virtanen pavikifi redistribution
+pavikifi redistribution
+pdnsd source
+pdnsd source is
+pdnsd source is licensed
+per
+per the
+per the licensees
+per the licensees choosing
+performance
+performance of this
+permanently reinstated you
+permission
+permission is
+permission is hereby
+permission notice appear in
+permission notice shall be
+permission this software
+permission this software is
+permissions
+permissions and
+permissions and limitations under
+permissions of
+permit persons
+permit persons to
+permit persons to whom
+permits relicensing or
+permitted
+permitted above be
+permitted provided
+permitted provided that
+permitted provided that the
+persons to whom
+php
+php css html
+php css html files
+please refer
+portions
+portions of
+portions of the
+portions of the library
+portions of the okio
+pose constant threat to
+possibility
+possibility of
+possibility of such damage
+possible use of
+ppermission to use
+preferred
+present in the
+print an announcement
+print such an
+prior
+prior to 60
+prior written
+prior written permission this
+processor streaming parsergenerator is
+procurement
+procurement of
+procurement of substitute
+procurement of substitute goods
+produces two sets
+product
+product is licensed
+products
+products derived
+products derived from this
+profit
+profit purposes the
+profits or business
+profits whether in
+program
+program and
+program and the
+program and the accompanying
+program as
+program including contributions may
+program is
+program is distributed
+program is free
+program is free software
+program or with
+program originate from
+program the distribution
+programs needed
+promote
+promote products
+promote products derived
+promote products derived from
+promptly
+property of
+provided
+provided as
+provided as is and
+provided as is without
+provided by steinberg
+provided by the
+provided by the copyright
+provided by the library
+provided that
+provided that the
+provided that the above
+provided that the following
+provided with the
+provided with the distribution
+proxys
+pthe above
+pthe software is
+public
+public license
+public license as
+public license can
+public license for more
+public license gnu general
+public license v10
+public license v10 httpwwweclipseorglegalepl
+public license version
+publish
+publish distribute
+publish distribute sublicense
+publish distribute sublicense andor
+published
+published by
+published by the
+published by the free
+purpose
+purpose are
+purpose are disclaimed
+purpose are disclaimed in
+purpose title
+pursuant
+pursuant to the
+pursuant to the terms
+readable copy of
+reasonably considered independent and
+receipt
+received copy
+received copy of
+received it specifies that
+recyclerview animators by wasabeef
+redistribute it
+redistributed
+redistributing the
+redistribution and
+redistribution and use
+redistributions
+redistributions in
+redistributions in binary form
+redistributions of source
+redistributions of source code
+refer to
+referred to
+referred to in
+refers to any copyrightable
+refractions
+refractions bsd
+refractions bsd license
+refrain entirely from distribution
+regard to this
+regarding
+relevant
+rendered inaccurate or
+repository is variously licensed
+representing official policies either
+reproduce
+reproduce the above
+reproduction or
+required
+required by applicable
+reserved
+reserved redistribution
+reserved this
+reserved this program and
+responsibilities with
+responsibility to serve as
+restrict modification of the
+restriction including
+restrictions
+resulting
+resulting from
+retain
+retain the
+retain the above
+rights
+rights and
+rights and the
+rights regarding
+rights regarding derivate
+rights regarding derivate works
+rights reserved
+rights reserved this
+rights reserved this program
+rights to use
+rights to use copy
+running program
+runs unless that component
+saying it may
+says otherwise copyright this
+section above provided that
+section any
+see
+see httpwwwgnuorglicensesold licensesgpl 20txt
+see the gnu general
+see the license
+seealso
+seealso httpsopensourceorglicensesmit
+sell copies
+sell copies of
+sell copies of the
+separable portion
+separate works in
+services loss of
+services loss of use
+shall
+shall be
+shall be included
+shall the author be
+shall the author or
+shall the copyright
+shall the copyright holder
+shares or
+sharing
+should
+similar
+similar commercial
+similar in spirit
+small part
+so the ordinary gnu
+software
+software and
+software and associated
+software and documentation
+software be
+software developed and
+software distributed under
+software even if
+software foundation
+software foundation inc
+software foundation version or
+software is
+software is covered
+software is furnished
+software is provided
+software license
+software license and
+software license version
+software license version 20
+software licensed
+software licensed under
+software or
+software or the
+software solely
+software solely pursuant to
+software to
+software without
+software without restriction
+software without specific
+software without specific prior
+software would
+software would likely
+software would likely use
+software you
+software you can redistribute
+sole
+source
+source and
+source and binary
+source and binary forms
+source code
+source code in given
+source code means all
+source code must retain
+source code which
+source combined libraries you
+source initiative
+source initiative osi
+source initiative osi the
+source lgpl
+source lgpl 30
+source lgpl 30 license
+source license
+source license ext
+source or binary
+source software
+source software would
+source software would likely
+special
+special direct indirect
+special exemplary or
+special exemplary or consequential
+specific
+specific language
+specific language governing
+specific language governing permissions
+specific prior
+specific prior written
+specific rights
+specifies version number
+state
+state otherwise
+stefanmentatzanet pauli virtanen
+steinberg media technologies
+strict liability
+strict liability or tort
+subject to the following
+sublicense andor
+substantial
+substitute goods
+substitute goods or
+substitute goods or services
+such
+such addition
+such case this
+such commercial agreement
+such damage
+such damages could have
+such license exists
+such obligations you
+such provision shall
+such source
+sullivan
+sullivan cloudflare
+supplied by an
+supply
+supply such
+support
+sustained
+sweden ab referred to
+technologies
+terms
+terms httpopensourceorglicensesmit
+terms of
+terms of the
+terms of the apache
+terms of the eclipse
+terms of the gnu
+terms of the license
+terms of the open
+terms of this eclipse
+texts the
+that
+that certain numbered
+that do we wish
+that it
+that it will be
+that license is
+that makes use
+that proxy
+that reasonably
+that the
+that the above copyright
+that the following
+that the library is
+the
+the above copyright
+the above copyright notice
+the accompanying
+the accompanying materials
+the accompanying materials are
+the additional
+the agreement steward to
+the apache
+the apache license
+the apache license version
+the apache license you
+the apache software license
+the artwork
+the artwork license above
+the author
+the author and contributors
+the author be liable
+the author disclaims
+the author disclaims all
+the author or contributors
+the authors
+the binaries that
+the case of each
+the commercial use of
+the content
+the contribution of
+the copyright
+the copyright freedoms granted
+the copyright holder
+the copyright holder be
+the copyright holders
+the copyright holders and
+the directory
+the distribution contributors may
+the distribution neither the
+the distribution this
+the documentation
+the documentation andor
+the documentation andor other
+the eclipse
+the eclipse foundation or
+the eclipse public
+the elastic license and
+the entire whole
+the event
+the event an application
+the file licensetxt if
+the following conditions
+the following conditions are
+the following disclaimer
+the following disclaimer in
+the following disclaimer redistributions
+the following license
+the following restrictions
+the free
+the free software
+the free software foundation
+the gnu
+the gnu general
+the gnu general public
+the gnu lesser
+the gnu lesser general
+the hope
+the hope that
+the hope that it
+the implied
+the implied warranties
+the implied warranties of
+the incorporated material is
+the intel
+the javascript
+the javascript json
+the javascript json php
+the legion of
+the library contained
+the library more frequent
+the library the object
+the library to produce
+the license at
+the license at httpwwwapacheorglicenseslicense
+the license can
+the license can be
+the license file
+the license for
+the license in
+the license is
+the license this
+the license you
+the license you may
+the licensees choosing
+the licensees choosing under
+the licenses
+the major
+the manner specified by
+the mit
+the mit license
+the mit license httpwwwopensourceorglicensesmit
+the mit license mit
+the modified work as
+the most ordinary way
+the name
+the name of
+the name of the
+the names
+the names of
+the names of its
+the okio
+the open
+the open source
+the organization nor
+the original licensor to
+the original program
+the output
+the pack
+the pdnsd package redistribution
+the pdnsd source is
+the physical act
+the possibility
+the possibility of such
+the present version
+the program or any
+the regents
+the remainder of
+the rights
+the rights to
+the rights to use
+the sdk
+the software
+the software and
+the software and documentation
+the software for
+the software is
+the software is furnished
+the software is provided
+the software or
+the software software
+the software software developed
+the software solely
+the software to
+the software without restriction
+the sole
+the source
+the source code for
+the source form
+the specific
+the specific language
+the specific rights
+the term modification
+the terms
+the terms of
+the terms of the
+the transaction
+the use of
+the use or performance
+the warranties of merchantability
+them as separate
+then any
+then any derivative works
+then offering equivalent access
+theory of liability
+they are outside its
+they can relink
+they do
+third parties
+third party patent
+this
+this agreement and without
+this change
+this copy of
+this file except in
+this library is distributed
+this license accompany the
+this license and its
+this license applicable to
+this license for
+this license may add
+this license therefore by
+this license they are
+this license without
+this list
+this list of
+this list of conditions
+this module is
+this module is licensed
+this our decision will
+this permission notice
+this permission notice appear
+this plug in content
+this product
+this program
+this program and
+this program and the
+this program may
+this section the commercial
+this software
+this software and
+this software and associated
+this software even
+this software for any
+this software including all
+this software is
+this software may be
+thus to
+time no
+time no one
+title and non
+title non infringement
+to
+to achieve this non
+to comply with
+to deal
+to deal in
+to deal in the
+to decide if he
+to do so and
+to each and every
+to endorse
+to endorse or
+to endorse or promote
+to ensure that
+to exercise
+to in writing this
+to its contributions set
+to jury
+to or
+to or in
+to or in connection
+to permit
+to procurement
+to procurement of
+to procurement of substitute
+to say work
+to sell import
+to the free software
+to the implied
+to the implied warranties
+to the javascript
+to the warranties of
+to typical
+to use the program
+to which such contributions
+to whom the software
+to you
+to your
+together with other
+tort
+tort including
+tort or
+tortious action
+true depends
+two sets of
+under
+under apache license
+under apache license version
+under copyright law
+under either the
+under mit
+under mit license
+under mit license httpopensourceorglicensesmit
+under terms
+under the
+under the apache
+under the apache license
+under the artwork license
+under the gnu
+under the terms
+under the terms of
+unless
+unless required
+unless required by
+unless you
+use
+use copy modify
+use data
+use data or
+use hidapi
+use in
+use in source
+use in source and
+use large body
+use of
+use of this software
+use or inability to
+use the modified definitions
+use the program
+used
+used in
+used to
+used to endorse
+used to endorse or
+useful
+useful but without
+user
+users freedom than the
+uses
+uses portions
+uses portions of
+uses unless
+using modified version of
+utility
+v10
+v10 as
+v10 as published
+v10 httpwwweclipseorglegalepl v10html
+v10 httpwwweclipseorgorgdocumentsedl v10html
+v10html and
+v10html and refractions bsd
+v7 apache
+v7 apache license
+variously licensed under the
+version
+version 20
+version 20 httpwwwapacheorglicenseslicense 20
+version 20 the
+version 21
+version 21 february
+version 21 february 1999
+version 21 of
+version 21 of the
+version and
+version and you may
+version of the linked
+version or later
+version or of
+version provide
+version this
+versions
+versions will be similar
+vertx is licensed
+view copy of
+views and
+volume of storage
+warranties including
+warranties including but
+warranties including but not
+warranties of
+warranties of merchantability
+warranties of merchantability and
+warranties of merchantability fitness
+warranties or
+warranties with
+warranty
+warranty 15 because the
+warranty and distribute copy
+warranty of
+warranty of any
+warranty of any kind
+warranty without
+warranty without even
+warranty without even the
+was
+way
+way but it
+way out of the
+we want
+whatsoever
+whatsoever resulting from
+when
+when we speak
+whether
+whether in
+whether in an
+whether in contract strict
+which is
+which means any
+while this license
+who includes the
+whole is intended
+whom the
+whom the software
+will
+will be
+wish do
+wish to incorporate parts
+with
+with accompany the work
+with any of
+with each copy of
+with or
+with or without
+with or without modification
+with source
+with the
+with the distribution neither
+with the distribution the
+with the distribution this
+with the program program
+with the software or
+with these
+with written offer valid
+within
+within the
+without
+without any warranty
+without any warranty without
+without even
+without even the implied
+without fee is hereby
+without limitation
+without modification
+without modification are
+without modification are permitted
+without restriction including
+without restriction including without
+without specific prior
+without warranties
+without warranties or conditions
+work and each contributor
+work except in compliance
+work from you discriminatory
+work means the object
+work that you
+works
+works you may obtain
+would
+would likely
+would likely use
+would likely use hidapi
+write to
+writing this software distributed
+written
+written permission
+written permission the origin
+written permission this
+written permission this software
+wrote the original
+wso2
+wso2 inc
+wso2 inc under apache
+year after the
+you
+you can
+you can redistribute
+you can redistribute it
+you convey covered
+you have executed an
+you have the
+you may
+you may not
+you may obtain
+you may obtain copy
+you may remove
+you may use
+you must make sure
+you must not claim
+you must retain in
+you or third
+you redistribute the library
+you should have received
+you under
+you under the
+you wrote
+your own attribution
+专利声明和其他原来作者规 定需要包含的说明 如果再发布的产品中包含一个notice文件
+件中需要带有本协议内容
+件中需要带有本协议内容 你可以在notice中增加自己的
+件中需要带有本协议内容 你可以在notice中增加自己的 许可
+件中需要带有本协议内容 你可以在notice中增加自己的 许可 但不可以表现为对apache
+但不可以表现为对apache
+你可以在notice中增加自己的
+你可以在notice中增加自己的 许可
+你可以在notice中增加自己的 许可 但不可以表现为对apache licence构成更改
+修改和有源代码衍生的代码中
+修改和有源代码衍生的代码中 需要 带有原来代码中的协议
+具体的协议参考 httpwwwapacheorglicenseslicense
+则在notice文
+商标 专利声明和其他原来作者规
+商标 专利声明和其他原来作者规 定需要包含的说明
+商标 专利声明和其他原来作者规 定需要包含的说明 如果再发布的产品中包含一个notice文件
+在延伸的代码中
+在延伸的代码中 修改和有源代码衍生的代码中
+在延伸的代码中 修改和有源代码衍生的代码中 需要
+在延伸的代码中 修改和有源代码衍生的代码中 需要 带有原来代码中的协议
+如果你修改了代码
+如果你修改了代码 需要在被修改的文件中说明
+如果你修改了代码 需要在被修改的文件中说明 在延伸的代码中 修改和有源代码衍生的代码中
+如果再发布的产品中包含一个notice文件 则在notice文
+如果再发布的产品中包含一个notice文件 则在notice文 件中需要带有本协议内容 你可以在notice中增加自己的
+定需要包含的说明 如果再发布的产品中包含一个notice文件
+定需要包含的说明 如果再发布的产品中包含一个notice文件 则在notice文
+定需要包含的说明 如果再发布的产品中包含一个notice文件 则在notice文 件中需要带有本协议内容
+带有原来代码中的协议 商标
+带有原来代码中的协议 商标 专利声明和其他原来作者规 定需要包含的说明
+许可
+许可 但不可以表现为对apache licence构成更改
+许可 但不可以表现为对apache licence构成更改 具体的协议参考
+需要 带有原来代码中的协议 商标 专利声明和其他原来作者规
+需要在被修改的文件中说明 在延伸的代码中
+需要在被修改的文件中说明 在延伸的代码中 修改和有源代码衍生的代码中
+需要给代码的用户一份apache
+需要给代码的用户一份apache licence
