@@ -24,12 +24,9 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
 
 
                     if (elementArguments.size == 3) {
-                        val firstArg = elementArguments[0]
-                        val secondArg = elementArguments[1]
-                        val thirdArg = elementArguments[2]
-                        val firstArgChildren = firstArg.children
-                        val secondArgChildren = secondArg.children
-                        val thirdArgChildren = thirdArg.children
+                        val firstArgChildren = elementArguments[0].children
+                        val secondArgChildren = elementArguments[1].children
+                        val thirdArgChildren = elementArguments[2].children
 
                         //For implementation(group = "io.ktor", name = "ktor", version = "1.4.0")
                         //Arguments can be rearranged with each other
@@ -39,7 +36,7 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                             var groupId = ""
                             var artifactId = ""
 
-                            val argHandler = { arg: KtValueArgument ->
+                            elementArguments.forEach { arg: KtValueArgument ->
 
                                 val argValue = arg.getArgumentExpression()?.text
                                 val argName = arg.getArgumentName()?.text
@@ -51,18 +48,16 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                                 }
                             }
 
-                            argHandler(firstArg)
-                            argHandler(secondArg)
-                            argHandler(thirdArg)
-
-                            sink.addLicenseNameInlineIfExists(
-                                    groupId,
-                                    artifactId,
-                                    installedPackagesInfo,
-                                    element.textOffset + element.textLength,
-                                    editor,
-                                    factory
-                            )
+                            if (groupId.isNotEmpty() && artifactId.isNotEmpty()) {
+                                sink.addLicenseNameInlineIfExists(
+                                        groupId,
+                                        artifactId,
+                                        installedPackagesInfo,
+                                        element.textOffset + element.textLength,
+                                        editor,
+                                        factory
+                                )
+                            }
                         }
 
 
