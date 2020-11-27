@@ -3,6 +3,10 @@
     <name>License-Compatibility</name>
     <vendor>dmitrypogrebnoy</vendor>
 
+    <description><![CDATA[
+    A plugin for IntelliJ IDEA for license management and incompatibility detection.
+    ]]></description>
+
     <!-- Product and plugin compatibility requirements -->
     <!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
