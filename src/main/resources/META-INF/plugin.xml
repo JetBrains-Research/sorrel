@@ -26,7 +26,15 @@
 
     </applicationListeners>
     <actions>
-
+        <action
+                id="LicenseDetector.CreateProjectLicenseFileAction"
+                class="com.jetbrains.licensedetector.intellij.plugin.actions.CreateProjectLicenseFile"
+                description="Create project license file"
+                popup="true"
+                text="Project License File"
+                icon="AllIcons.FileTypes.Text">
+            <add-to-group group-id="NewGroup" relative-to-action="NewScratchFile" anchor="after"/>
+        </action>
     </actions>
 
 </idea-plugin>

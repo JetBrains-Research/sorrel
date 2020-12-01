@@ -64,9 +64,6 @@ tasks {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
-    withType<org.jetbrains.intellij.tasks.RunIdeTask> {
-        setJbrVersion("8u202b1483.24")
-    }
 
     withType(KotlinCompile::class).all {
         kotlinOptions {

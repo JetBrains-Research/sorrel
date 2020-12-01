@@ -1,5 +1,8 @@
 package com.jetbrains.licensedetector.intellij.plugin.licenses
 
+val COMPATIBLE_PROJECT_LICENSE_NOT_FOUND = "No licenses compatible with project dependency licenses."
+
+
 internal fun getLicenseOnSpdxIdOrNull(spdxId: String): SupportedLicense? {
     return when (spdxId) {
         Apache_2_0.spdxId -> Apache_2_0
