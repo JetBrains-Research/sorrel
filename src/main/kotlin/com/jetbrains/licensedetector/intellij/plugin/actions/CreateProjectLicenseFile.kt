@@ -6,6 +6,7 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.application.WriteActionAware
 import com.intellij.openapi.command.CommandProcessor
+import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.ThrowableComputable
@@ -17,15 +18,20 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.COMPATIBLE_PROJECT
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
 
 class CreateProjectLicenseFile : AnAction(), WriteActionAware {
-    private val actionName = "CreateProjectLicenseFile"
-    val licenseFileName: String = "LICENSE"
 
+    companion object {
+        const val LICENSE_FILE_NAME: String = "LICENSE"
+    }
+
+    private val actionName = "CreateProjectLicenseFile"
 
     override fun actionPerformed(e: AnActionEvent) {
         val application = ApplicationManager.getApplication()
         val commandProcessor = CommandProcessor.getInstance()
 
         val project: Project = e.project!!
+
+        val model = project.getUserData(ToolWindowModelKey)!!
 
         val baseProjectDir = PsiManager.getInstance(project).findDirectory(project.guessProjectDir()!!)!!
 
@@ -34,7 +40,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
             try {
                 val licenseFile: PsiFile = WriteAction.compute(
                         ThrowableComputable<PsiFile, IncorrectOperationException> {
-                            baseProjectDir.createFile(licenseFileName)
+                            baseProjectDir.createFile(LICENSE_FILE_NAME)
                         }
                 )
 
@@ -44,16 +50,18 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
                 //TODO: Mb must be done in full order in licenses. Now the order is partial
                 if (compatibleLicenses.any()) {
+                    val recommendedLicense = compatibleLicenses[0]
                     application.runWriteAction {
-                        licenseDocument.setText(
-                                compatibleLicenses.sortedByDescending {
-                                    it.priority
-                                }[0].fullText
-                        )
+                        licenseDocument.setText(recommendedLicense.fullText)
                     }
+                    model.mainProjectLicense.set(recommendedLicense)
                 } else {
                     licenseDocument.setText(COMPATIBLE_PROJECT_LICENSE_NOT_FOUND)
                 }
+
+                val openFileDescriptor = OpenFileDescriptor(project, licenseFile.virtualFile)
+                openFileDescriptor.navigate(true)
+
             } catch (e: IncorrectOperationException) {
                 //TODO: Log this
             }
@@ -83,7 +91,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
             return
         }
 
-        if (projectDir.files.any { it.name == licenseFileName }) {
+        if (projectDir.files.any { it.name == LICENSE_FILE_NAME }) {
             e.presentation.isEnabledAndVisible = false
             return
         }

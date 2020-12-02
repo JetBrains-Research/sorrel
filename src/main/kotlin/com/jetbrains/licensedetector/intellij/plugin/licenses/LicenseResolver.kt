@@ -28,5 +28,5 @@ internal fun getLicenseOnNameOrNull(licenseName: String): SupportedLicense? {
 internal fun getCompatiblePackageLicenses(projectLicenses: Set<SupportedLicense>): List<SupportedLicense> {
     return projectLicenses.map { it.compatiblePackageLicenses }.reduce { acc, set ->
         acc.intersect(set)
-    }.toList().sortedBy { it.name }
+    }.toList().sortedByDescending { it.priority }
 }

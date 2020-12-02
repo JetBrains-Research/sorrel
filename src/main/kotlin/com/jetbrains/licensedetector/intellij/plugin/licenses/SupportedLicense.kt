@@ -1,6 +1,10 @@
 package com.jetbrains.licensedetector.intellij.plugin.licenses
 
 interface SupportedLicense : License {
+    override val name: String
+    override val spdxId: String
+    override val url: String
+    override val htmlUrl: String
     val priority: LicensePriority
     val fullText: String
     val compatiblePackageLicenses: Set<SupportedLicense>

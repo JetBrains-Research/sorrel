@@ -8,7 +8,7 @@ import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
-import com.jetbrains.licensedetector.intellij.plugin.licenses.License
+import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
@@ -59,8 +59,10 @@ class ProjectTitleView(val project: Project, val model: LicenseDetectorToolWindo
 
     private fun projectTitleName(project: Project): String = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.name") + project.name
 
-    private fun mainProjectLicenseName(license: License): String =
-            LicenseDetectorBundle.message("licenseDetector.ui.toolwindow.tab.project.project.main.license") + license.name
+    private fun mainProjectLicenseName(license: SupportedLicense?): String =
+            LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.main.license") +
+                    (license?.name
+                            ?: LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.noProjectLicense"))
 
     private val infoPanel = RiderUI.headerPanel {
         border = JBEmptyBorder(12, 12, 20, 12)

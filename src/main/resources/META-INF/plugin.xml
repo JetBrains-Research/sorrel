@@ -20,6 +20,9 @@
         <toolWindow id="Project Licenses" anchor="right" secondary="false"
                     canCloseContents="true"
                     factoryClass="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory"/>
+        <editorNotificationProvider
+                id="LicenseFileEditorNotificationProvider"
+                implementation="com.jetbrains.licensedetector.intellij.plugin.notification.LicenseFileEditorNotificationProvider"/>
     </extensions>
 
     <applicationListeners>
