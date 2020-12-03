@@ -114,7 +114,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
      */
 
     @Suppress("ComplexMethod")
-    private fun refreshFoundPackages() {
+    fun refreshFoundPackages() {
         startOperation()
 
         if (installedPackages.value.any()) isSearching.set(true)

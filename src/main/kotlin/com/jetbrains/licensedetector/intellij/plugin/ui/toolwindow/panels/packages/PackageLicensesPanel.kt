@@ -177,6 +177,9 @@ class PackageLicensesPanel(
         ApplicationManager.getApplication().messageBus.connect().subscribe(
                 LafManagerListener.TOPIC, LafManagerListener { updateLaf() }
         )
+
+        //Paint packages after build ui
+        viewModel.refreshFoundPackages()
     }
 
     override fun build() = RiderUI.boxPanel {

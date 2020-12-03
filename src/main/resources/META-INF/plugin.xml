@@ -15,8 +15,6 @@
     <depends optional="true" config-file="withXml.xml">com.intellij.modules.xml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectService
-                serviceImplementation="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowAvailabilityService"/>
         <toolWindow id="Project Licenses" anchor="right" secondary="false"
                     canCloseContents="true"
                     factoryClass="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory"/>
@@ -28,6 +26,10 @@
     <applicationListeners>
 
     </applicationListeners>
+
+    <projectListeners>
+
+    </projectListeners>
     <actions>
         <action
                 id="LicenseDetector.CreateProjectLicenseFileAction"

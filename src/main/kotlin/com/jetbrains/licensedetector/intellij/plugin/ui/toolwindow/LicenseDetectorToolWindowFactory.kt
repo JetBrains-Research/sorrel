@@ -1,16 +1,22 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow
 
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.DumbUnawareHider
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.rd.createLifetime
+import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
+import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.project.ProjectLicensePanel
+import javax.swing.JComponent
 import javax.swing.JLabel
 
 class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
@@ -58,7 +64,38 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
 
         // Once indices have been built once, show tool window forever
         DumbService.getInstance(project).runWhenSmart {
-            ServiceManager.getService(project, LicenseDetectorToolWindowAvailabilityService::class.java).initialize(toolWindow)
+            createToolWindowContents(project, toolWindow)
         }
+    }
+
+    private fun createToolWindowContents(project: Project, toolWindow: ToolWindow) {
+        toolWindow.title = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
+
+        //Create model
+        val model = LicenseDetectorToolWindowModel(project, project.createLifetime())
+        //Add to userData
+        project.putUserData(ToolWindowModelKey, model)
+
+        val contentManager = toolWindow.contentManager
+
+        contentManager.removeAllContents(false)
+
+        addPanel(contentManager, PackageLicensesPanel(model))
+        addPanel(contentManager, ProjectLicensePanel(project, model))
+    }
+
+    private fun addPanel(contentManager: ContentManager, panel: PanelBase) {
+        contentManager.addTab(panel.title, panel.content, panel.toolbar)
+    }
+
+    private fun ContentManager.addTab(title: String, content: JComponent, toolbar: JComponent?) {
+        addContent(ContentFactory.SERVICE.getInstance().createContent(null, title, false).apply {
+            component = SimpleToolWindowPanel(false).setProvideQuickActions(true).apply {
+                setContent(content)
+                toolbar?.let { setToolbar(it) }
+
+                isCloseable = false
+            }
+        })
     }
 }
