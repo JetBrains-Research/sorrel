@@ -11,6 +11,7 @@ import com.intellij.openapi.roots.ModuleRootListener
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.util.Function
+import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.getCompatiblePackageLicenses
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
@@ -42,7 +43,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     val selectedProjectModule = Property<ProjectModule?>(null)
     val selectedPackage = Property("")
 
-    val mainProjectLicense = Property<SupportedLicense?>(null)
+    val mainProjectLicense = Property<SupportedLicense>(NoLicense)
     val projectLicensesCompatibleWithPackageLicenses = Property<List<SupportedLicense>>(listOf())
 
     // UI Signals
@@ -211,7 +212,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
             val installedPackagesToCheck = installedPackages.value
 
             val result = searchClient.packagesInfoByRange(installedPackagesToCheck.values.map {
-                "${it.identifier}"
+                it.identifier
             })
             result.forEach {
                 val simpleIdentifier = it.toSimpleIdentifier()

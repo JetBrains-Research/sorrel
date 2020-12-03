@@ -4,14 +4,20 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Document
+import com.intellij.openapi.editor.event.DocumentEvent
+import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
+import com.jetbrains.licensedetector.intellij.plugin.licenses.getLicenseOnFullTextOrNull
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import java.awt.Color
 
 class LicenseFileEditorNotificationPanel(
         val model: LicenseDetectorToolWindowModel,
@@ -23,41 +29,63 @@ class LicenseFileEditorNotificationPanel(
 
     init {
         setText(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.title"))
+        background = Color.WHITE
 
         val comboBoxCompatibleLicenses = createComboBoxWithLicenses()
 
         myLinksPanel.add(comboBoxCompatibleLicenses)
+
+        val licenseDocument: Document = ReadAction.compute<Document, Throwable> {
+            FileDocumentManager.getInstance().getDocument(licenseFile)!!
+        }
+
+        createUpdateLicenseFileTextActionLabel(comboBoxCompatibleLicenses, licenseDocument)
+        addUpdateOnLicenseFileText(comboBoxCompatibleLicenses, licenseDocument)
     }
 
     private fun createComboBoxWithLicenses(): ComboBox<SupportedLicense> {
-        val compatibleLicenses = model.projectLicensesCompatibleWithPackageLicenses.value
         val mainProjectLicense = model.mainProjectLicense.value
-        val comboBox = ComboBox(model.projectLicensesCompatibleWithPackageLicenses.value.toTypedArray())
+        val comboBox = ComboBox(ALL_SUPPORTED_LICENSE)
+        comboBox.isSwingPopup = false
+        comboBox.background = RiderUI.HeaderBackgroundColor
         comboBox.renderer = LicenseListCellRenderer()
-        comboBox.selectedItem = model.mainProjectLicense.value
+        comboBox.selectedItem = mainProjectLicense
         addUpdateProjectLicenseFileActions(comboBox)
         return comboBox
     }
 
-    private fun addUpdateProjectLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
+    private fun createUpdateLicenseFileTextActionLabel(
+            comboBox: ComboBox<SupportedLicense>,
+            licenseDocument: Document) {
         val application = ApplicationManager.getApplication()
         val commandProcessor = CommandProcessor.getInstance()
 
-        comboBox.addActionListener {
-
+        createActionLabel(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.updateLicenseFileText")) {
             val selectedLicense = (comboBox.selectedItem as SupportedLicense)
 
-            val licenseDocument: Document = ReadAction.compute<Document, Throwable> {
-                FileDocumentManager.getInstance().getDocument(licenseFile)!!
-            }
+            commandProcessor.executeCommand(project, {
+                application.runWriteAction {
+                    licenseDocument.setText(selectedLicense.fullText)
+                }
+            }, actionName, null)
+        }
+    }
 
-            //Launching without CommandProcessor because when the action is canceled,
-            // there is no way to revert the value in the combobox
-
-            application.runWriteAction {
-                licenseDocument.setText(selectedLicense.fullText)
-            }
+    private fun addUpdateProjectLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
+        comboBox.addActionListener {
+            val selectedLicense = (comboBox.selectedItem as SupportedLicense)
             model.mainProjectLicense.set(selectedLicense)
         }
+    }
+
+    private fun addUpdateOnLicenseFileText(comboBox: ComboBox<SupportedLicense>, licenseDocument: Document) {
+        licenseDocument.addDocumentListener(object : DocumentListener {
+            override fun documentChanged(event: DocumentEvent) {
+                val licenseDocumentText = licenseDocument.text
+                // TODO: Add using ml license text resolver
+                val license = getLicenseOnFullTextOrNull(licenseDocumentText) ?: return
+                comboBox.selectedItem = license
+            }
+        })
     }
 }

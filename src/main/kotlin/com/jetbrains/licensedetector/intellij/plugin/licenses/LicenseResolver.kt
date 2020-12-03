@@ -1,28 +1,26 @@
 package com.jetbrains.licensedetector.intellij.plugin.licenses
 
-val COMPATIBLE_PROJECT_LICENSE_NOT_FOUND = "No licenses compatible with project dependency licenses."
+const val COMPATIBLE_PROJECT_LICENSE_NOT_FOUND = "No licenses compatible with project dependency licenses."
 
+val ALL_SUPPORTED_LICENSE = listOf(
+        Apache_2_0,
+        BSD_3_Clause,
+        GPL_3_0_or_later,
+        LGPL_2_1_or_later,
+        MIT,
+        NoLicense
+).sortedByDescending { it.priority }.toTypedArray()
 
 internal fun getLicenseOnSpdxIdOrNull(spdxId: String): SupportedLicense? {
-    return when (spdxId) {
-        Apache_2_0.spdxId -> Apache_2_0
-        BSD_3_Clause.spdxId -> BSD_3_Clause
-        GPL_3_0_or_later.spdxId -> GPL_3_0_or_later
-        LGPL_2_1_or_later.spdxId -> LGPL_2_1_or_later
-        MIT.spdxId -> MIT
-        else -> null
-    }
+    return ALL_SUPPORTED_LICENSE.firstOrNull { it.spdxId == spdxId }
 }
 
 internal fun getLicenseOnNameOrNull(licenseName: String): SupportedLicense? {
-    return when (licenseName) {
-        Apache_2_0.name -> Apache_2_0
-        BSD_3_Clause.name -> BSD_3_Clause
-        GPL_3_0_or_later.name -> GPL_3_0_or_later
-        LGPL_2_1_or_later.name -> LGPL_2_1_or_later
-        MIT.name -> MIT
-        else -> null
-    }
+    return ALL_SUPPORTED_LICENSE.firstOrNull { it.name == licenseName }
+}
+
+internal fun getLicenseOnFullTextOrNull(fullText: String): SupportedLicense? {
+    return ALL_SUPPORTED_LICENSE.firstOrNull { it.fullText == fullText }
 }
 
 internal fun getCompatiblePackageLicenses(projectLicenses: Set<SupportedLicense>): List<SupportedLicense> {

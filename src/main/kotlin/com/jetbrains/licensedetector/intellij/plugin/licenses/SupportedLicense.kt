@@ -11,6 +11,7 @@ interface SupportedLicense : License {
 }
 
 enum class LicensePriority(val value: Int) {
+    NO_LICENSE(0),
     LOW(1),
     HIGH(100)
 }

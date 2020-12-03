@@ -32,12 +32,6 @@ class LicenseFileEditorNotificationProvider : EditorNotifications.Provider<Edito
 
         val model = project.getUserData(ToolWindowModelKey) ?: return null
 
-        val mainProjectLicense = model.mainProjectLicense.value ?: return null
-
-        if (!model.projectLicensesCompatibleWithPackageLicenses.value.contains(mainProjectLicense)) {
-            return null
-        }
-
         return LicenseFileEditorNotificationPanel(model, project, file)
     }
 }
