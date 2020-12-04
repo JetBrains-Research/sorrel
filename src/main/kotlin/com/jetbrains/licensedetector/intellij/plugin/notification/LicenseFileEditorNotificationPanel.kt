@@ -16,8 +16,9 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.getLicenseOnFullTextOrNull
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import java.awt.Color
+import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 
 class LicenseFileEditorNotificationPanel(
         val model: LicenseDetectorToolWindowModel,
@@ -29,7 +30,7 @@ class LicenseFileEditorNotificationPanel(
 
     init {
         setText(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.title"))
-        background = Color.WHITE
+        myBackgroundColor = RiderUI.HeaderBackgroundColor
 
         val comboBoxCompatibleLicenses = createComboBoxWithLicenses()
 
@@ -41,14 +42,18 @@ class LicenseFileEditorNotificationPanel(
 
         createUpdateLicenseFileTextActionLabel(comboBoxCompatibleLicenses, licenseDocument)
         addUpdateOnLicenseFileText(comboBoxCompatibleLicenses, licenseDocument)
+
+        model.projectLicensesCompatibleWithPackageLicenses.advise(model.lifetime) {
+            updateAndRepaint()
+            comboBoxCompatibleLicenses.updateAndRepaint()
+        }
     }
 
     private fun createComboBoxWithLicenses(): ComboBox<SupportedLicense> {
         val mainProjectLicense = model.mainProjectLicense.value
-        val comboBox = ComboBox(ALL_SUPPORTED_LICENSE)
+        val comboBox = comboBox(ALL_SUPPORTED_LICENSE)
         comboBox.isSwingPopup = false
-        comboBox.background = RiderUI.HeaderBackgroundColor
-        comboBox.renderer = LicenseListCellRenderer()
+        comboBox.renderer = LicenseListCellRenderer(model)
         comboBox.selectedItem = mainProjectLicense
         addUpdateProjectLicenseFileActions(comboBox)
         return comboBox

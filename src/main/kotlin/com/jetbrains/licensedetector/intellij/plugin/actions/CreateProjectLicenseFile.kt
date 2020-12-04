@@ -14,7 +14,7 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.util.IncorrectOperationException
-import com.jetbrains.licensedetector.intellij.plugin.licenses.COMPATIBLE_PROJECT_LICENSE_NOT_FOUND
+import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
 
 class CreateProjectLicenseFile : AnAction(), WriteActionAware {
@@ -56,7 +56,10 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
                     }
                     model.mainProjectLicense.set(recommendedLicense)
                 } else {
-                    licenseDocument.setText(COMPATIBLE_PROJECT_LICENSE_NOT_FOUND)
+                    application.runWriteAction {
+                        licenseDocument.setText(NoLicense.fullText)
+                    }
+                    model.mainProjectLicense.set(NoLicense)
                 }
 
                 val openFileDescriptor = OpenFileDescriptor(project, licenseFile.virtualFile)

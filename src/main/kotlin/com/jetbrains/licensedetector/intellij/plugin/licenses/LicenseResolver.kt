@@ -24,6 +24,10 @@ internal fun getLicenseOnFullTextOrNull(fullText: String): SupportedLicense? {
 }
 
 internal fun getCompatiblePackageLicenses(projectLicenses: Set<SupportedLicense>): List<SupportedLicense> {
+    if (projectLicenses.isEmpty()) {
+        return listOf()
+    }
+
     return projectLicenses.map { it.compatiblePackageLicenses }.reduce { acc, set ->
         acc.intersect(set)
     }.toList().sortedByDescending { it.priority }
