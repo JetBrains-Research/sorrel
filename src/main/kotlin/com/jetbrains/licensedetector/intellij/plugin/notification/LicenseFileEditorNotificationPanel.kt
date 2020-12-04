@@ -1,14 +1,24 @@
 package com.jetbrains.licensedetector.intellij.plugin.notification
 
+import com.intellij.diff.DiffContentFactory
+import com.intellij.diff.DiffDialogHints
+import com.intellij.diff.DiffManager
+import com.intellij.diff.actions.impl.MutableDiffRequestChain
+import com.intellij.diff.contents.DocumentContent
+import com.intellij.diff.util.DiffUserDataKeys
+import com.intellij.diff.util.Side
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Document
+import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
+import com.intellij.openapi.util.Pair
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
@@ -26,6 +36,7 @@ class LicenseFileEditorNotificationPanel(
         val licenseFile: VirtualFile
 ) : EditorNotificationPanel() {
 
+
     private val actionName = "Change project license file"
 
     init {
@@ -42,6 +53,8 @@ class LicenseFileEditorNotificationPanel(
 
         createUpdateLicenseFileTextActionLabel(comboBoxCompatibleLicenses, licenseDocument)
         addUpdateOnLicenseFileText(comboBoxCompatibleLicenses, licenseDocument)
+
+        createShowDiffLicenseFileActionLabel(comboBoxCompatibleLicenses, licenseFile)
 
         model.projectLicensesCompatibleWithPackageLicenses.advise(model.lifetime) {
             updateAndRepaint()
@@ -73,6 +86,44 @@ class LicenseFileEditorNotificationPanel(
                     licenseDocument.setText(selectedLicense.fullText)
                 }
             }, actionName, null)
+        }
+    }
+
+    private fun createShowDiffLicenseFileActionLabel(
+            comboBox: ComboBox<SupportedLicense>,
+            licenseFile: VirtualFile) {
+        createActionLabel(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.label")) {
+            val diffContentFactory = DiffContentFactory.getInstance()
+
+            val selectedLicense = comboBox.selectedItem as SupportedLicense
+            val selectedLicenseDocument = EditorFactory.getInstance().createDocument(selectedLicense.fullText)
+            selectedLicenseDocument.setReadOnly(true)
+            val referenceLicenseContent = diffContentFactory.create(
+                    project,
+                    selectedLicenseDocument,
+                    PlainTextFileType.INSTANCE
+            )
+            val currentLicenseFileContent = diffContentFactory.create(project, licenseFile)
+
+            val chain = MutableDiffRequestChain(currentLicenseFileContent, referenceLicenseContent)
+
+            if (currentLicenseFileContent is DocumentContent) {
+                val editors = EditorFactory.getInstance().getEditors(currentLicenseFileContent.document)
+                if (editors.isNotEmpty()) {
+                    val currentLine = editors[0].caretModel.logicalPosition.line
+                    chain.putRequestUserData(DiffUserDataKeys.SCROLL_TO_LINE, Pair.create(Side.LEFT, currentLine))
+                }
+            }
+
+            chain.putRequestUserData(DiffUserDataKeys.DO_NOT_IGNORE_WHITESPACES, true)
+
+            chain.windowTitle = licenseFile.name +
+                    LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.vs") +
+                    LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.referenceLicenseFile")
+            chain.title1 = licenseFile.name
+            chain.title2 = LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.referenceLicenseFile")
+
+            DiffManager.getInstance().showDiff(project, chain, DiffDialogHints.DEFAULT)
         }
     }
 

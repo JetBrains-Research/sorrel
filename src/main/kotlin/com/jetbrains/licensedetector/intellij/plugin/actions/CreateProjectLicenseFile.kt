@@ -20,7 +20,9 @@ import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetect
 class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
     companion object {
-        const val LICENSE_FILE_NAME: String = "LICENSE"
+        const val LICENSE_FILE_NAME: String = "LICENSE.txt"
+
+        val LICENSE_FILE_NAME_REGEX: Regex = Regex("LICENSE|LICENSE.txt|LICENSE.md|LICENSE.html", RegexOption.IGNORE_CASE)
     }
 
     private val actionName = "CreateProjectLicenseFile"
@@ -94,7 +96,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
             return
         }
 
-        if (projectDir.files.any { it.name == LICENSE_FILE_NAME }) {
+        if (projectDir.files.any { LICENSE_FILE_NAME_REGEX.matches(it.name) }) {
             e.presentation.isEnabledAndVisible = false
             return
         }
