@@ -158,7 +158,7 @@ object LGPL_2_1_or_later : SupportedLicense {
                 Ty Coon, President of Vice
                 That's all there is to it!
             """.trimIndent()
-    override val compatiblePackageLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
             GPL_3_0_or_later,
             this
     )

@@ -116,10 +116,13 @@ class PackageLicensesPanel(
         })
     }
 
-    private val scrollPane = JBScrollPane(packagesPanel.apply {
-        add(createListPanel(smartList))
-        add(Box.createVerticalGlue())
-    }, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER).apply {
+    private val scrollPane = JBScrollPane(
+            packagesPanel.apply {
+                add(createListPanel(smartList))
+                add(Box.createVerticalGlue())
+            },
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+    ).apply {
         this.border = BorderFactory.createMatteBorder(JBUI.scale(1), 0, 0, 0, JBUI.CurrentTheme.CustomFrameDecorations.separatorForeground())
         this.verticalScrollBar.unitIncrement = 16
 

@@ -4,38 +4,37 @@ import com.intellij.ProjectTopics
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootEvent
 import com.intellij.openapi.roots.ModuleRootListener
-import com.intellij.util.ui.JBEmptyBorder
-import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
-import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
-import net.miginfocom.layout.AC
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseManager
+import com.jetbrains.rd.util.lifetime.Lifetime
 import net.miginfocom.layout.CC
-import net.miginfocom.layout.LC
 import net.miginfocom.swing.MigLayout
-import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Font
+import javax.swing.JLabel
+import javax.swing.JPanel
+import javax.swing.JSeparator
 
-class ProjectTitleView(val project: Project, val model: LicenseDetectorToolWindowModel) {
+class ProjectTitleView(
+        private val project: Project,
+        private val licenseManager: LicenseManager,
+        lifetime: Lifetime
+) {
 
-    private val projectNameLabel = RiderUI.createBigLabel().apply {
-        text = projectTitleName(project)
-    }
+    private val projectNameLabel = RiderUI.createBigLabel(projectTitleName(project))
 
-    private val pathToProjectDirLabel = RiderUI.createLabel().apply {
+    private val pathToProjectDirLabel = JLabel().apply {
+        font = UIUtil.getLabelFont()
         foreground = RiderColor(Color.GRAY, Color.GRAY)
-        border = JBUI.Borders.empty(4, 0, 0, 0)
         text = project.basePath ?: ""
     }
 
-    private val projectLicenseLabel = RiderUI.createLabel().apply {
+    private val projectLicenseLabel = JLabel().apply {
         font = UIUtil.getListFont().let { Font(it.family, it.style, (it.size * 1.1).toInt()) }
-        border = JBUI.Borders.empty(4, 0, 0, 0)
-        text = mainProjectLicenseName(model.mainProjectLicense.value)
+        text = licenseManager.mainProjectLicense.value.name
     }
 
     init {
@@ -50,40 +49,36 @@ class ProjectTitleView(val project: Project, val model: LicenseDetectorToolWindo
 
         //TODO: Mb need to update pathToProjectDirLabel when project moved
 
-        model.mainProjectLicense.advise(model.lifetime) {
+        licenseManager.mainProjectLicense.advise(lifetime) {
             projectLicenseLabel.apply {
-                text = mainProjectLicenseName(it)
+                text = it.name
             }
         }
     }
 
     private fun projectTitleName(project: Project): String = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.name") + project.name
 
-    private fun mainProjectLicenseName(license: SupportedLicense?): String =
-            LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.main.license") +
-                    (license?.name
-                            ?: LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.noProjectLicense"))
-
-    private val infoPanel = RiderUI.headerPanel {
-        border = JBEmptyBorder(12, 12, 20, 12)
-        layout = MigLayout(
-                LC().fillX(),
-                AC().grow().gap(), // First column grows as much as it needs
-                AC().align("top").gap("1") // 4 units gap before second row (package identifier)
-                        .gap("12") // 12 units gap before third row (description)
-                        .fill()
-        )
-
-        add(projectNameLabel, CC().cell(0, 0).alignY("center"))
-
-        add(pathToProjectDirLabel, CC().cell(0, 1, 3, 1))
-
-        add(projectLicenseLabel, CC().cell(0, 2, 3, 1))
+    private fun createMainProjectLicenseTitle(): JLabel = JLabel(
+            LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.main.license")
+    ).apply {
+        font = Font(font.family, Font.BOLD, (font.size * 1.2).toInt())
     }
 
-    val panel = RiderUI.headerPanel {
-        border = JBUI.Borders.empty(0, 12, 0, 12)
+    fun createPanel(): JPanel {
+        return JPanel().apply {
+            background = RiderUI.UsualBackgroundColor
 
-        add(infoPanel, BorderLayout.CENTER)
+            layout = MigLayout(
+                    "fillx,flowy,insets 0",
+                    "[left]",
+                    "[top]0[top]10[top][top]10[top]15"
+            )
+
+            add(projectNameLabel)
+            add(pathToProjectDirLabel)
+            add(createMainProjectLicenseTitle())
+            add(JSeparator(), CC().growX())
+            add(projectLicenseLabel)
+        }
     }
 }

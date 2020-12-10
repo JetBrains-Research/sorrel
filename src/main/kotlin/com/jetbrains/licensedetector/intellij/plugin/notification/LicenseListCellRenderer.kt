@@ -17,7 +17,7 @@ class LicenseListCellRenderer(val model: LicenseDetectorToolWindowModel) : ListC
             isSelected: Boolean,
             cellHasFocus: Boolean): Component {
         return if (value != null) {
-            if (model.projectLicensesCompatibleWithPackageLicenses.value.contains(value)) {
+            if (model.licenseManager.mainProjectCompatibleLicenses.value.contains(value)) {
                 JBLabel(value.name, Commit, JBLabel.LEFT)
             } else {
                 JBLabel(value.name, Cancel, JBLabel.LEFT)

@@ -56,14 +56,14 @@ class LicenseFileEditorNotificationPanel(
 
         createShowDiffLicenseFileActionLabel(comboBoxCompatibleLicenses, licenseFile)
 
-        model.projectLicensesCompatibleWithPackageLicenses.advise(model.lifetime) {
+        model.licenseManager.mainProjectCompatibleLicenses.advise(model.lifetime) {
             updateAndRepaint()
             comboBoxCompatibleLicenses.updateAndRepaint()
         }
     }
 
     private fun createComboBoxWithLicenses(): ComboBox<SupportedLicense> {
-        val mainProjectLicense = model.mainProjectLicense.value
+        val mainProjectLicense = model.licenseManager.mainProjectLicense.value
         val comboBox = comboBox(ALL_SUPPORTED_LICENSE)
         comboBox.isSwingPopup = false
         comboBox.renderer = LicenseListCellRenderer(model)
@@ -130,7 +130,7 @@ class LicenseFileEditorNotificationPanel(
     private fun addUpdateProjectLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
         comboBox.addActionListener {
             val selectedLicense = (comboBox.selectedItem as SupportedLicense)
-            model.mainProjectLicense.set(selectedLicense)
+            model.licenseManager.mainProjectLicense.set(selectedLicense)
         }
     }
 

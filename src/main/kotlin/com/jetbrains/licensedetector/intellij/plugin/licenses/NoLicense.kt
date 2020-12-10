@@ -7,5 +7,5 @@ object NoLicense : SupportedLicense {
     override val htmlUrl: String = ""
     override val priority: LicensePriority = LicensePriority.NO_LICENSE
     override val fullText: String = COMPATIBLE_PROJECT_LICENSE_NOT_FOUND
-    override val compatiblePackageLicenses: Set<SupportedLicense> = setOf()
+    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf()
 }

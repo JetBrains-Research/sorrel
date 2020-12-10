@@ -69,7 +69,7 @@ object Apache_2_0 : SupportedLicense {
                 See the License for the specific language governing permissions and
                 limitations under the License.
             """.trimIndent()
-    override val compatiblePackageLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
             this,
             BSD_3_Clause,
             GPL_3_0_or_later,

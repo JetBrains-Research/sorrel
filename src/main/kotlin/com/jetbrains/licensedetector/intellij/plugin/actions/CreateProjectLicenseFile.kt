@@ -48,7 +48,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
                 val licenseDocument = PsiDocumentManager.getInstance(project).getDocument(licenseFile)!!
                 val compatibleLicenses = project.getUserData(ToolWindowModelKey)!!
-                        .projectLicensesCompatibleWithPackageLicenses.value
+                        .licenseManager.mainProjectCompatibleLicenses.value
 
                 //TODO: Mb must be done in full order in licenses. Now the order is partial
                 if (compatibleLicenses.any()) {
@@ -56,12 +56,12 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
                     application.runWriteAction {
                         licenseDocument.setText(recommendedLicense.fullText)
                     }
-                    model.mainProjectLicense.set(recommendedLicense)
+                    model.licenseManager.mainProjectLicense.set(recommendedLicense)
                 } else {
                     application.runWriteAction {
                         licenseDocument.setText(NoLicense.fullText)
                     }
-                    model.mainProjectLicense.set(NoLicense)
+                    model.licenseManager.mainProjectLicense.set(NoLicense)
                 }
 
                 val openFileDescriptor = OpenFileDescriptor(project, licenseFile.virtualFile)

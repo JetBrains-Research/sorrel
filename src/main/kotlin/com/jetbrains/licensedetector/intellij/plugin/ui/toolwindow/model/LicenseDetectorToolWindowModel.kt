@@ -11,9 +11,6 @@ import com.intellij.openapi.roots.ModuleRootListener
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.util.Function
-import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
-import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
-import com.jetbrains.licensedetector.intellij.plugin.licenses.getCompatiblePackageLicenses
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.utils.getSimpleIdentifier
 import com.jetbrains.licensedetector.intellij.plugin.utils.getVersion
@@ -43,8 +40,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     val selectedProjectModule = Property<ProjectModule?>(null)
     val selectedPackage = Property("")
 
-    val mainProjectLicense = Property<SupportedLicense>(NoLicense)
-    val projectLicensesCompatibleWithPackageLicenses = Property<List<SupportedLicense>>(listOf())
+    val licenseManager = LicenseManager(lifetime, installedPackages)
 
     // UI Signals
     val requestRefreshContext = Signal<Boolean>()
@@ -223,7 +219,9 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
             }
 
             // Update project licenses compatibility with packages licenses
-            updateProjectLicensesCompatibilityWithPackagesLicenses()
+            licenseManager.updateProjectLicensesCompatibilityWithPackagesLicenses(
+                    installedPackages.value.values
+            )
 
             // refresh found packages after receiving remote package info
             refreshFoundPackages()
@@ -232,26 +230,6 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
         }
     }
 
-
-    private fun updateProjectLicensesCompatibilityWithPackagesLicenses() {
-        val licensesAllPackages = mutableSetOf<SupportedLicense>()
-        installedPackages.value.values.forEach { dependency ->
-            //Add main package license to set
-            val mainPackageLicense = dependency.remoteInfo?.licenses?.mainLicense
-            if (mainPackageLicense is SupportedLicense) {
-                licensesAllPackages.add(mainPackageLicense)
-            }
-
-            //Add other package licenses to set
-            dependency.remoteInfo?.licenses?.otherLicenses?.forEach {
-                if (it is SupportedLicense) {
-                    licensesAllPackages.add(it)
-                }
-            }
-        }
-
-        projectLicensesCompatibleWithPackageLicenses.set(getCompatiblePackageLicenses(licensesAllPackages))
-    }
 
     private fun LicenseDetectorDependency.isInstalledInProjectModule(projectModule: ProjectModule?): Boolean {
         return projectModule == null ||

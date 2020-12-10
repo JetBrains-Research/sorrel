@@ -7,7 +7,9 @@ interface SupportedLicense : License {
     override val htmlUrl: String
     val priority: LicensePriority
     val fullText: String
-    val compatiblePackageLicenses: Set<SupportedLicense>
+
+    //Compatible project licenses if the dependency has a current license
+    val compatibleDependencyLicenses: Set<SupportedLicense>
 }
 
 enum class LicensePriority(val value: Int) {
