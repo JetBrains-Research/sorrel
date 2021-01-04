@@ -1,5 +1,8 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui
 
+import com.intellij.icons.AllIcons.Actions.Commit
+import com.intellij.icons.AllIcons.General.BalloonInformation
+import com.intellij.icons.AllIcons.RunConfigurations.ToolbarSkipped
 import com.intellij.ide.plugins.newui.TagComponent
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Presentation
@@ -91,7 +94,8 @@ class RiderUI {
 
         fun <TItem> comboBox(comboBoxModel: ComboBoxModel<TItem>) = ComboBox(comboBoxModel).apply {
             background = UsualBackgroundColor
-            border = BorderFactory.createMatteBorder(1, 1, 1, 1, JBUI.CurrentTheme.CustomFrameDecorations.paneBackground())
+            border =
+                BorderFactory.createMatteBorder(1, 1, 1, 1, JBUI.CurrentTheme.CustomFrameDecorations.paneBackground())
         }
 
         fun updateParentHeight(component: JComponent) {
@@ -100,9 +104,33 @@ class RiderUI {
             }
         }
 
-        fun createLabel() = JLabel().apply { font = UIUtil.getLabelFont() }
+        fun createLabel(text: String) = JLabel().apply {
+            font = UIUtil.getLabelFont()
+            this.text = text
+        }
+
         fun createHeaderLabel(text: String = "") = JLabel(text).apply { font = HeaderFont }
         fun createBigLabel(text: String = "") = JLabel(text).apply { font = BigFont }
+
+        fun createLicenseNameViewPanelLabel(licenseName: String) = JLabel().apply {
+            text = licenseName
+            font = UIUtil.getListFont().let { Font(it.family, Font.BOLD, (it.size * 1.3).toInt()) }
+        }
+
+        fun createLicensePermissionLabel(permissionText: String) = JLabel().apply {
+            text = permissionText
+            icon = Commit
+        }
+
+        fun createLicenseLimitationsLabel(limitationText: String) = JLabel().apply {
+            text = limitationText
+            icon = ToolbarSkipped
+        }
+
+        fun createLicenseConditionsLabel(conditionsLabel: String) = JLabel().apply {
+            text = conditionsLabel
+            icon = BalloonInformation
+        }
 
         fun createPlatformTag(text: String = "") = object : TagComponent(text.toLowerCase()) {
             override fun isInClickableArea(pt: Point?) = false

@@ -9,6 +9,7 @@ import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseManager
+import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import com.jetbrains.rd.util.lifetime.Lifetime
 import net.miginfocom.layout.CC
 import net.miginfocom.swing.MigLayout
@@ -23,7 +24,6 @@ class ProjectTitleView(
         private val licenseManager: LicenseManager,
         lifetime: Lifetime
 ) {
-
     private val projectNameLabel = RiderUI.createBigLabel(projectTitleName(project))
 
     private val pathToProjectDirLabel = JLabel().apply {
@@ -32,9 +32,19 @@ class ProjectTitleView(
         text = project.basePath ?: ""
     }
 
-    private val projectLicenseLabel = JLabel().apply {
-        font = UIUtil.getListFont().let { Font(it.family, it.style, (it.size * 1.1).toInt()) }
-        text = licenseManager.mainProjectLicense.value.name
+    val projectTitleViewPanel: JPanel = JPanel().apply {
+        background = RiderUI.UsualBackgroundColor
+
+        layout = MigLayout(
+            "fillx,flowy,insets 0",
+            "[left,grow]",
+            "[top]0[top]10[top][top]5[top]15"
+        )
+
+        add(projectNameLabel)
+        add(pathToProjectDirLabel)
+        add(createMainProjectLicenseTitle())
+        add(JSeparator(), CC().growX())
     }
 
     init {
@@ -50,9 +60,13 @@ class ProjectTitleView(
         //TODO: Mb need to update pathToProjectDirLabel when project moved
 
         licenseManager.mainProjectLicense.advise(lifetime) {
-            projectLicenseLabel.apply {
-                text = it.name
+            if (projectTitleViewPanel.componentCount == 5) {
+                projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
+                projectTitleViewPanel.add(it.descriptionPanel)
+            } else {
+                projectTitleViewPanel.add(it.descriptionPanel)
             }
+            projectTitleViewPanel.updateAndRepaint()
         }
     }
 
@@ -62,23 +76,5 @@ class ProjectTitleView(
             LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.project.project.main.license")
     ).apply {
         font = Font(font.family, Font.BOLD, (font.size * 1.2).toInt())
-    }
-
-    fun createPanel(): JPanel {
-        return JPanel().apply {
-            background = RiderUI.UsualBackgroundColor
-
-            layout = MigLayout(
-                    "fillx,flowy,insets 0",
-                    "[left]",
-                    "[top]0[top]10[top][top]10[top]15"
-            )
-
-            add(projectNameLabel)
-            add(pathToProjectDirLabel)
-            add(createMainProjectLicenseTitle())
-            add(JSeparator(), CC().growX())
-            add(projectLicenseLabel)
-        }
     }
 }

@@ -27,7 +27,7 @@ class ProjectLicensePanel(
             RiderUI.borderPanel {
                 border = JBEmptyBorder(12, 12, 20, 12)
 
-                addToTop(titleView.createPanel())
+                addToTop(titleView.projectTitleViewPanel)
                 addToCenter(compatibleIssueView.createPanel(licenseManager.compatibilityIssues, lifetime))
             },
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER

@@ -1,5 +1,17 @@
 package com.jetbrains.licensedetector.intellij.plugin.licenses
 
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createHeaderLabel
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createLabel
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createLicenseConditionsLabel
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createLicenseLimitationsLabel
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createLicenseNameViewPanelLabel
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createLicensePermissionLabel
+import net.miginfocom.swing.MigLayout
+import javax.swing.JComponent
+import javax.swing.JPanel
+
 object Apache_2_0 : SupportedLicense {
     override val name: String = "Apache License 2.0"
     override val url: String = "http://www.apache.org/licenses/LICENSE-2.0"
@@ -7,7 +19,7 @@ object Apache_2_0 : SupportedLicense {
     override val spdxId: String = "Apache-2.0"
     override val priority: LicensePriority = LicensePriority.HIGH
     override val fullText: String =
-            """
+        """
                 Apache License
                 Version 2.0, January 2004
                 http://www.apache.org/licenses/
@@ -69,11 +81,69 @@ object Apache_2_0 : SupportedLicense {
                 See the License for the specific language governing permissions and
                 limitations under the License.
             """.trimIndent()
+
+    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.description")
+    override val permissions: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.4"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.5")
+    )
+    override val limitations: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.3")
+    )
+    override val conditions: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.2")
+    )
+
+    override val descriptionPanel: JComponent = JPanel().apply {
+        background = RiderUI.UsualBackgroundColor
+
+        layout = MigLayout(
+            "fillx,flowy,insets 0",
+            "[left,grow][left,grow][left,grow]",
+            "0[top][top][top][top][top][top][top][top]0"
+        )
+
+        add(createLicenseNameViewPanelLabel(this@Apache_2_0.name), "span")
+        add(createLabel("<html>$description</html>"), "span")
+
+        add(
+            createHeaderLabel(LicenseDetectorBundle.message("licensedetector.ui.licenseView.permissions")),
+            "cell 0 2,growx"
+        )
+        add(
+            createHeaderLabel(LicenseDetectorBundle.message("licensedetector.ui.licenseView.limitations")),
+            "cell 1 2,growx"
+        )
+        add(
+            createHeaderLabel(LicenseDetectorBundle.message("licensedetector.ui.licenseView.conditions")),
+            "cell 2 2, growx"
+        )
+
+        add(createLicensePermissionLabel(permissions[0]), "cell 0 3,growx")
+        add(createLicensePermissionLabel(permissions[1]), "cell 0 4,growx")
+        add(createLicensePermissionLabel(permissions[2]), "cell 0 5,growx")
+        add(createLicensePermissionLabel(permissions[3]), "cell 0 6,growx")
+        add(createLicensePermissionLabel(permissions[4]), "cell 0 7,growx")
+
+        add(createLicenseLimitationsLabel(limitations[0]), "cell 1 3,growx")
+        add(createLicenseLimitationsLabel(limitations[1]), "cell 1 4,growx")
+        add(createLicenseLimitationsLabel(limitations[2]), "cell 1 5,growx")
+
+        add(createLicenseConditionsLabel(conditions[0]), "cell 2 3,growx")
+        add(createLicenseConditionsLabel(conditions[1]), "cell 2 4,growx")
+    }
+
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
-            this,
-            BSD_3_Clause,
-            GPL_3_0_or_later,
-            LGPL_2_1_or_later,
-            MIT
+        this,
+        BSD_3_Clause,
+        GPL_3_0_or_later,
+        LGPL_2_1_or_later,
+        MIT
     )
 }

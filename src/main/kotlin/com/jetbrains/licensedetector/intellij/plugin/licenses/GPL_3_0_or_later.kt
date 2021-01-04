@@ -1,5 +1,11 @@
 package com.jetbrains.licensedetector.intellij.plugin.licenses
 
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
+import net.miginfocom.swing.MigLayout
+import javax.swing.JComponent
+import javax.swing.JPanel
+
 object GPL_3_0_or_later : SupportedLicense {
     override val name: String = "GNU General Public License v3.0 or later"
     override val url: String = "https://www.gnu.org/licenses/gpl-3.0-standalone.html"
@@ -7,7 +13,7 @@ object GPL_3_0_or_later : SupportedLicense {
     override val spdxId: String = "GPL-3.0-or-later"
     override val priority: LicensePriority = LicensePriority.LOW
     override val fullText: String =
-            """
+        """
                 GNU GENERAL PUBLIC LICENSE
                 Version 3, 29 June 2007
 
@@ -209,7 +215,67 @@ object GPL_3_0_or_later : SupportedLicense {
 
                 The GNU General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License. But first, please read <https: //www.gnu.org/licenses/why-not-lgpl.html>.
             """.trimIndent()
+
+    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.description")
+    override val permissions: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.permissions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.permissions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.permissions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.permissions.4"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.permissions.5")
+    )
+    override val limitations: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.limitations.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.limitations.2")
+    )
+    override val conditions: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.conditions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.conditions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.conditions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.conditions.4")
+    )
+
+    override val descriptionPanel: JComponent = JPanel().apply {
+        background = RiderUI.UsualBackgroundColor
+
+        layout = MigLayout(
+            "fillx,flowy,insets 0",
+            "[left,grow][left,grow][left,grow]",
+            "0[top][top][top][top][top][top][top][top]0"
+        )
+
+        add(RiderUI.createLicenseNameViewPanelLabel(this@GPL_3_0_or_later.name), "span")
+        add(RiderUI.createLabel("<html>${description}</html>"), "span")
+
+        add(
+            RiderUI.createHeaderLabel(LicenseDetectorBundle.message("licensedetector.ui.licenseView.permissions")),
+            "cell 0 2,growx"
+        )
+        add(
+            RiderUI.createHeaderLabel(LicenseDetectorBundle.message("licensedetector.ui.licenseView.limitations")),
+            "cell 1 2,growx"
+        )
+        add(
+            RiderUI.createHeaderLabel(LicenseDetectorBundle.message("licensedetector.ui.licenseView.conditions")),
+            "cell 2 2, growx"
+        )
+
+        add(RiderUI.createLicensePermissionLabel(permissions[0]), "cell 0 3,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[1]), "cell 0 4,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[2]), "cell 0 5,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[3]), "cell 0 6,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[4]), "cell 0 7,growx")
+
+        add(RiderUI.createLicenseLimitationsLabel(limitations[0]), "cell 1 3,growx")
+        add(RiderUI.createLicenseLimitationsLabel(limitations[1]), "cell 1 4,growx")
+
+        add(RiderUI.createLicenseConditionsLabel(conditions[0]), "cell 2 3,growx")
+        add(RiderUI.createLicenseConditionsLabel(conditions[1]), "cell 2 4,growx")
+        add(RiderUI.createLicenseConditionsLabel(conditions[2]), "cell 2 5,growx")
+        add(RiderUI.createLicenseConditionsLabel(conditions[3]), "cell 2 6,growx")
+    }
+
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
-            this
+        this
     )
 }

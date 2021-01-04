@@ -2,8 +2,9 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packa
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.DataManager
-import com.intellij.ide.ui.LafManager
+import com.intellij.ide.ui.LafManagerListener
 import com.intellij.openapi.actionSystem.ActionGroup
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.ui.ClickListener
 import com.intellij.util.ui.JBUI
@@ -33,7 +34,9 @@ abstract class ContextComboBoxBase(protected val viewModel: LicenseDetectorToolW
     init {
         setDefaultForeground()
         updateBackground()
-        LafManager.getInstance().addLafManagerListener { updateBackground() }
+        ApplicationManager.getApplication().messageBus.connect().subscribe(
+            LafManagerListener.TOPIC, LafManagerListener { updateBackground() }
+        )
         isFocusable = false
         @Suppress("MagicNumber")
         border = JBUI.Borders.empty(2, 6, 2, 0)

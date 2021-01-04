@@ -35,18 +35,6 @@ class CompatibleIssueView {
             )
             add(compatibleIssueTitle)
             add(separator, CC().growX())
-
-            if (compatibilityIssues.value.isEmpty()) {
-                add(createEmptyLabel())
-            } else {
-                val stringBuilder = StringBuilder("<html><body><ol>")
-                compatibilityIssues.value.forEach { issue ->
-                    stringBuilder.append("<li>$issue</li>")
-                }
-                stringBuilder.append("</ol></body></html>")
-                add(createIssueLabel(stringBuilder.toString()))
-            }
-
         }
 
         //Update issues
