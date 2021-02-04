@@ -36,6 +36,7 @@ repositories {
 }
 dependencies {
     implementation("io.arrow-kt:arrow-core:0.10.4")
+    implementation("io.kinference:inference:0.1.2")
 }
 
 // Configure gradle-intellij-plugin plugin.
