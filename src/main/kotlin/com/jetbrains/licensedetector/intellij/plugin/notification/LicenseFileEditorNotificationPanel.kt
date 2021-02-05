@@ -6,6 +6,7 @@ import com.intellij.diff.DiffManager
 import com.intellij.diff.actions.impl.MutableDiffRequestChain
 import com.intellij.diff.contents.DocumentContent
 import com.intellij.diff.util.DiffUserDataKeys
+import com.intellij.diff.util.DiffUserDataKeysEx
 import com.intellij.diff.util.Side
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
@@ -22,6 +23,7 @@ import com.intellij.openapi.util.Pair
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.diff.WordsFirstDiffComputer
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.getLicenseOnFullTextOrNull
@@ -116,12 +118,15 @@ class LicenseFileEditorNotificationPanel(
             }
 
             chain.putRequestUserData(DiffUserDataKeys.DO_NOT_IGNORE_WHITESPACES, true)
+            chain.putRequestUserData(DiffUserDataKeysEx.CUSTOM_DIFF_COMPUTER, WordsFirstDiffComputer())
+
 
             chain.windowTitle = licenseFile.name +
                     LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.vs") +
                     LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.referenceLicenseFile")
             chain.title1 = licenseFile.name
-            chain.title2 = LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.referenceLicenseFile")
+            chain.title2 =
+                LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.referenceLicenseFile")
 
             DiffManager.getInstance().showDiff(project, chain, DiffDialogHints.DEFAULT)
         }
