@@ -1,8 +1,8 @@
 package com.jetbrains.licensedetector.intellij.plugin.notification
 
 import com.intellij.openapi.fileEditor.FileEditor
+import com.intellij.openapi.module.ModuleUtilCore.findModuleForFile
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
@@ -25,10 +25,7 @@ class LicenseFileEditorNotificationProvider : EditorNotifications.Provider<Edito
             return null
         }
 
-        val fileParentDir = file.parent
-        if (fileParentDir != project.guessProjectDir()) {
-            return null
-        }
+        findModuleForFile(file, project) ?: return null
 
         val model = project.getUserData(ToolWindowModelKey) ?: return null
 

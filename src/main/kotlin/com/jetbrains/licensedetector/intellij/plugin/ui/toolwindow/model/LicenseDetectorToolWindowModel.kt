@@ -12,6 +12,7 @@ import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.util.Function
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ModuleUtils.getTopLevelModule
 import com.jetbrains.licensedetector.intellij.plugin.utils.getSimpleIdentifier
 import com.jetbrains.licensedetector.intellij.plugin.utils.getVersion
 import com.jetbrains.packagesearch.intellij.plugin.api.SearchClient
@@ -35,12 +36,13 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     val searchTerm = Property("")
     val installedPackages = Property(mapOf<String, LicenseDetectorDependency>())
 
+    val rootModule: Property<ProjectModule?> = Property(null)
     val projectModules = Property(listOf<ProjectModule>())
 
     val selectedProjectModule = Property<ProjectModule?>(null)
     val selectedPackage = Property("")
 
-    val licenseManager = LicenseManager(lifetime, installedPackages)
+    val licenseManager = LicenseManager(lifetime, rootModule, projectModules, installedPackages)
 
     // UI Signals
     val requestRefreshContext = Signal<Boolean>()
@@ -185,11 +187,16 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
         // Any packages that are no longer installed?
         installedPackagesMap.filterNot { it.value.isInstalled }
-                .keys
-                .forEach { keyToRemove -> installedPackagesMap.remove(keyToRemove) }
+            .keys
+            .forEach { keyToRemove -> installedPackagesMap.remove(keyToRemove) }
 
         installedPackages.set(installedPackagesMap)
         projectModules.set(projectModulesList)
+
+        val topLevelModule: Module = project.getTopLevelModule()
+        val rootProjectModule: ProjectModule = projectModules.value.find { it.nativeModule == topLevelModule }!!
+        rootModule.set(rootProjectModule)
+
 
         // Receive packages remote info from PackageSearch
         refreshDependencyLicensesInfo()
@@ -218,9 +225,10 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
                 }
             }
 
-            // Update project licenses compatibility with packages licenses
+            // Update modules licenses compatibility with packages licenses
             licenseManager.updateProjectLicensesCompatibilityWithPackagesLicenses(
-                    installedPackages.value.values
+                projectModules.value,
+                installedPackages.value.values
             )
 
             // refresh found packages after receiving remote package info

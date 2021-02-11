@@ -17,6 +17,7 @@ import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileTypes.PlainTextFileType
+import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.util.Pair
@@ -27,6 +28,7 @@ import com.jetbrains.licensedetector.intellij.plugin.diff.WordsFirstDiffComputer
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.getLicenseOnFullTextOrNull
+import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
@@ -45,7 +47,9 @@ class LicenseFileEditorNotificationPanel(
         setText(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.title"))
         myBackgroundColor = RiderUI.HeaderBackgroundColor
 
-        val comboBoxCompatibleLicenses = createComboBoxWithLicenses()
+        val module = ModuleUtilCore.findModuleForFile(licenseFile, project)!!
+        val projectModule = model.projectModules.value.find { it.nativeModule == module }!!
+        val comboBoxCompatibleLicenses = createComboBoxWithLicenses(projectModule)
 
         myLinksPanel.add(comboBoxCompatibleLicenses)
 
@@ -58,25 +62,26 @@ class LicenseFileEditorNotificationPanel(
 
         createShowDiffLicenseFileActionLabel(comboBoxCompatibleLicenses, licenseFile)
 
-        model.licenseManager.mainProjectCompatibleLicenses.advise(model.lifetime) {
+        model.licenseManager.modulesCompatibleLicenses.advise(model.lifetime) {
             updateAndRepaint()
             comboBoxCompatibleLicenses.updateAndRepaint()
         }
     }
 
-    private fun createComboBoxWithLicenses(): ComboBox<SupportedLicense> {
-        val mainProjectLicense = model.licenseManager.mainProjectLicense.value
+    private fun createComboBoxWithLicenses(projectModule: ProjectModule): ComboBox<SupportedLicense> {
+        val moduleProjectLicense = model.licenseManager.modulesLicenses.value[projectModule]!!
         val comboBox = comboBox(ALL_SUPPORTED_LICENSE)
         comboBox.isSwingPopup = false
-        comboBox.renderer = LicenseListCellRenderer(model)
-        comboBox.selectedItem = mainProjectLicense
+        comboBox.renderer = LicenseListCellRenderer(model, projectModule)
+        comboBox.selectedItem = moduleProjectLicense
         addUpdateProjectLicenseFileActions(comboBox)
         return comboBox
     }
 
     private fun createUpdateLicenseFileTextActionLabel(
-            comboBox: ComboBox<SupportedLicense>,
-            licenseDocument: Document) {
+        comboBox: ComboBox<SupportedLicense>,
+        licenseDocument: Document
+    ) {
         val application = ApplicationManager.getApplication()
         val commandProcessor = CommandProcessor.getInstance()
 
@@ -134,8 +139,12 @@ class LicenseFileEditorNotificationPanel(
 
     private fun addUpdateProjectLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
         comboBox.addActionListener {
+            val module = ModuleUtilCore.findModuleForFile(licenseFile, project)!!
+            val projectModule = model.projectModules.value.find { it.nativeModule == module }!!
             val selectedLicense = (comboBox.selectedItem as SupportedLicense)
-            model.licenseManager.mainProjectLicense.set(selectedLicense)
+            val newModulesLicenses = model.licenseManager.modulesLicenses.value.toMutableMap()
+            newModulesLicenses[projectModule] = selectedLicense
+            model.licenseManager.modulesLicenses.set(newModulesLicenses)
         }
     }
 

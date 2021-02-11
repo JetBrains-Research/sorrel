@@ -2,13 +2,15 @@ package com.jetbrains.licensedetector.intellij.plugin.actions
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.application.WriteActionAware
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
+import com.intellij.openapi.module.ModuleUtilCore.findModuleForFile
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.project.guessModuleDir
 import com.intellij.openapi.util.ThrowableComputable
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
@@ -16,6 +18,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.util.IncorrectOperationException
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
+import java.io.File
 
 class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
@@ -35,20 +38,21 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
         val model = project.getUserData(ToolWindowModelKey)!!
 
-        val baseProjectDir = PsiManager.getInstance(project).findDirectory(project.guessProjectDir()!!)!!
-
+        val module = findModuleForFile(e.getRequiredData(PlatformDataKeys.VIRTUAL_FILE), project)!!
+        val moduleDir = PsiManager.getInstance(project).findDirectory(module.guessModuleDir()!!)!!
 
         val createProjectLicenseFile = {
             try {
                 val licenseFile: PsiFile = WriteAction.compute(
-                        ThrowableComputable<PsiFile, IncorrectOperationException> {
-                            baseProjectDir.createFile(LICENSE_FILE_NAME)
-                        }
+                    ThrowableComputable<PsiFile, IncorrectOperationException> {
+                        moduleDir.createFile(LICENSE_FILE_NAME)
+                    }
                 )
 
                 val licenseDocument = PsiDocumentManager.getInstance(project).getDocument(licenseFile)!!
+                val curProjectModule = model.projectModules.value.find { it.nativeModule == module }!!
                 val compatibleLicenses = project.getUserData(ToolWindowModelKey)!!
-                        .licenseManager.mainProjectCompatibleLicenses.value
+                    .licenseManager.modulesCompatibleLicenses.value[curProjectModule]!!
 
                 //TODO: Mb must be done in full order in licenses. Now the order is partial
                 if (compatibleLicenses.any()) {
@@ -56,12 +60,16 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
                     application.runWriteAction {
                         licenseDocument.setText(recommendedLicense.fullText)
                     }
-                    model.licenseManager.mainProjectLicense.set(recommendedLicense)
+                    val newModulesLicenseMap = model.licenseManager.modulesLicenses.value.toMutableMap()
+                    newModulesLicenseMap[curProjectModule] = recommendedLicense
+                    model.licenseManager.modulesLicenses.set(newModulesLicenseMap)
                 } else {
                     application.runWriteAction {
                         licenseDocument.setText(NoLicense.fullText)
                     }
-                    model.licenseManager.mainProjectLicense.set(NoLicense)
+                    val newModulesLicenseMap = model.licenseManager.modulesLicenses.value.toMutableMap()
+                    newModulesLicenseMap[curProjectModule] = NoLicense
+                    model.licenseManager.modulesLicenses.set(newModulesLicenseMap)
                 }
 
                 val openFileDescriptor = OpenFileDescriptor(project, licenseFile.virtualFile)
@@ -84,19 +92,31 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
             return
         }
 
-        val projectDirVirtualFile = project.guessProjectDir()
-        if (projectDirVirtualFile == null) {
+        val virtualFile = e.getData(PlatformDataKeys.VIRTUAL_FILE)
+        if (virtualFile == null) {
             e.presentation.isEnabledAndVisible = false
             return
         }
 
-        val projectDir = PsiManager.getInstance(project).findDirectory(projectDirVirtualFile)
-        if (projectDir == null) {
+        val module = findModuleForFile(virtualFile, project)
+        if (module == null) {
+            e.presentation.isEnabledAndVisible = false
+            return
+        }
+
+        val moduleDirPath = module.guessModuleDir()
+        if (moduleDirPath == null) {
             e.presentation.isEnabled = false
             return
         }
 
-        if (projectDir.files.any { LICENSE_FILE_NAME_REGEX.matches(it.name) }) {
+        val moduleDir = File(moduleDirPath.path)
+        if (!moduleDir.exists() || !moduleDir.isDirectory || !moduleDir.canRead()) {
+            e.presentation.isEnabled = false
+            return
+        }
+
+        if (moduleDir.listFiles()!!.any { LICENSE_FILE_NAME_REGEX.matches(it.name) }) {
             e.presentation.isEnabledAndVisible = false
             return
         }

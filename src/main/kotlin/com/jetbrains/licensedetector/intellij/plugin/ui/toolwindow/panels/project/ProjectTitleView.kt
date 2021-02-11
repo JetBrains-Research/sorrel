@@ -59,14 +59,33 @@ class ProjectTitleView(
 
         //TODO: Mb need to update pathToProjectDirLabel when project moved
 
-        licenseManager.mainProjectLicense.advise(lifetime) {
-            if (projectTitleViewPanel.componentCount == 5) {
-                projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
-                projectTitleViewPanel.add(it.descriptionPanel)
-            } else {
-                projectTitleViewPanel.add(it.descriptionPanel)
+        licenseManager.modulesLicenses.advise(lifetime) {
+            val rootModule = licenseManager.rootModule.value
+            val rootModuleLicense = it[rootModule]
+
+            if (rootModuleLicense != null) {
+                if (projectTitleViewPanel.componentCount == 5) {
+                    projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
+                    projectTitleViewPanel.add(rootModuleLicense.descriptionPanel)
+                } else {
+                    projectTitleViewPanel.add(rootModuleLicense.descriptionPanel)
+                }
+                projectTitleViewPanel.updateAndRepaint()
             }
-            projectTitleViewPanel.updateAndRepaint()
+        }
+
+        licenseManager.rootModule.advise(lifetime) {
+            val rootModuleLicense = licenseManager.modulesLicenses.value[it]
+
+            if (rootModuleLicense != null) {
+                if (projectTitleViewPanel.componentCount == 5) {
+                    projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
+                    projectTitleViewPanel.add(rootModuleLicense.descriptionPanel)
+                } else {
+                    projectTitleViewPanel.add(rootModuleLicense.descriptionPanel)
+                }
+                projectTitleViewPanel.updateAndRepaint()
+            }
         }
     }
 
