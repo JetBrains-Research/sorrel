@@ -139,11 +139,17 @@ object Apache_2_0 : SupportedLicense {
         add(createLicenseConditionsLabel(conditions[1]), "cell 2 4,growx")
     }
 
-    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
         this,
         BSD_3_Clause,
         GPL_3_0_or_later,
         LGPL_2_1_or_later,
         MIT
+    )
+
+    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
+        this,
+        MIT,
+        BSD_3_Clause
     )
 }

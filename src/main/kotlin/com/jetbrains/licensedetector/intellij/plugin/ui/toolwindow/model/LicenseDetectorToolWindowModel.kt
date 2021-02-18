@@ -225,10 +225,13 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
                 }
             }
 
-            // Update modules licenses compatibility with packages licenses
-            licenseManager.updateProjectLicensesCompatibilityWithPackagesLicenses(
-                projectModules.value,
-                installedPackages.value.values
+            licenseManager.updateModuleLicensesCompatibilityWithPackagesLicenses(
+                licenseManager.modulesLicenses.value,
+                installedPackagesToCheck.values
+            )
+            licenseManager.checkCompatibilityWithPackageDependencyLicenses(
+                licenseManager.modulesLicenses.value,
+                installedPackagesToCheck.values
             )
 
             // refresh found packages after receiving remote package info

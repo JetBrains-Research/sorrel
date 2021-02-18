@@ -10,7 +10,10 @@ interface SupportedLicense : License {
     val priority: LicensePriority
     val fullText: String
 
-    //Compatible project licenses if the dependency has a current license
+    //Compatible module licenses if the dependency has a current license
+    val compatibleModuleLicenses: Set<SupportedLicense>
+
+    //Compatible dependencies licenses if the module has a current license
     val compatibleDependencyLicenses: Set<SupportedLicense>
 
     //For description panel

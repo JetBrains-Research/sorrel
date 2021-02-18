@@ -30,5 +30,6 @@ object NoLicense : SupportedLicense {
         add(RiderUI.createLicenseNameViewPanelLabel(this@NoLicense.name), "span")
     }
 
+    override val compatibleModuleLicenses: Set<SupportedLicense> = setOf()
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf()
 }

@@ -589,6 +589,6 @@ fun Component.colored(table: JTable, isSelected: Boolean) = this.apply {
 }
 
 fun Component.updateAndRepaint() {
-    this.invalidate()
+    this.revalidate()
     this.repaint()
 }

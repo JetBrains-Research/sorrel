@@ -275,7 +275,15 @@ object GPL_3_0_or_later : SupportedLicense {
         add(RiderUI.createLicenseConditionsLabel(conditions[3]), "cell 2 6,growx")
     }
 
-    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
         this
+    )
+
+    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
+        Apache_2_0,
+        MIT,
+        this,
+        BSD_3_Clause,
+        LGPL_2_1_or_later
     )
 }

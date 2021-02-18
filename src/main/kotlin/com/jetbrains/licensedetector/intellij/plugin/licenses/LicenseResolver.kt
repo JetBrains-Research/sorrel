@@ -30,7 +30,7 @@ internal fun getCompatiblePackageLicenses(projectLicenses: Set<SupportedLicense>
         return ALL_SUPPORTED_LICENSE.remove(NoLicense).toSet()
     }
 
-    return projectLicenses.map { it.compatibleDependencyLicenses }.reduce { acc, set ->
+    return projectLicenses.map { it.compatibleModuleLicenses }.reduce { acc, set ->
         acc.intersect(set)
     }
 }
