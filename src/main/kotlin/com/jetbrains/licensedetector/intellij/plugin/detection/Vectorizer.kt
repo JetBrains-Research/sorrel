@@ -1,3 +1,5 @@
+package com.jetbrains.licensedetector.intellij.plugin.detection
+
 import java.io.File
 
 class Vectorizer constructor(val vocabulary: List<String>){
