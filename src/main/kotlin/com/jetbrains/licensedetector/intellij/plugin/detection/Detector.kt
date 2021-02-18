@@ -51,7 +51,6 @@ class Detector {
     // Shape of input data
     private val inputShape = listOf(numFeatures).toIntArray()
 
-
     private fun extractFiles(path: String): List<File> {
         /**
          * Given a path to some directory. Extracts all files from this directory.
@@ -103,15 +102,15 @@ class Detector {
     private fun findLicensesFiles(path: String): List<File> {
         val files = mutableListOf<File>()
         val regexps = mutableListOf<Regex>(Regex("LICENSE*"),
-                                           Regex("LEGAL*"),
-                                           Regex("COPYING*"),
-                                           Regex("COPYLEFT*"),
-                                           Regex("COPYRIGHT*"),
-                                           Regex("UNLICENSE*"),
-                                           Regex("MIT*"),
-                                           Regex("BSD*"),
-                                           Regex("GPL*"),
-                                           Regex("LGPL*"))
+            Regex("LEGAL*"),
+            Regex("COPYING*"),
+            Regex("COPYLEFT*"),
+            Regex("COPYRIGHT*"),
+            Regex("UNLICENSE*"),
+            Regex("MIT*"),
+            Regex("BSD*"),
+            Regex("GPL*"),
+            Regex("LGPL*"))
 
         for (file in extractFiles(path)) {
             for (regexp in regexps) {
@@ -124,7 +123,13 @@ class Detector {
         return files
     }
 
-    private fun detectLicense(path: String): License {
+    fun getMainLicense(path: String): File {
+        val files = extractFiles(path)
+
+        return files[0]
+    }
+
+    private fun detectLicense(path: String): License  {
         // Data preparation
         val vector = vectorizer.vectorize(File(path))
         val tensor = FloatNDArray(inputShape) { it -> vector[it].toFloat() }.asTensor("features")
@@ -153,7 +158,16 @@ class Detector {
         return fileToLicense
     }
 
+    fun detectProjectLicense(path: String): Map<String, License> {
+        val mainLicenseFile = getMainLicense(path).absolutePath
+        val retValue = mutableMapOf<String, License>()
+
+        retValue[mainLicenseFile] = detectLicense(mainLicenseFile)
+        return retValue
+    }
+
     fun detect(path: Path): Map<String, License> {
         return detect(path.toString())
     }
+
 }
