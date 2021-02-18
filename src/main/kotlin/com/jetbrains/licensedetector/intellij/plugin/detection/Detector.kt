@@ -129,9 +129,8 @@ class Detector {
         return files[0]
     }
 
-    private fun detectLicense(path: String): License  {
-        // Data preparation
-        val vector = vectorizer.vectorize(File(path))
+    fun detectLicenseFromText(text: String): License {
+        val vector = vectorizer.vectorize(text)
         val tensor = FloatNDArray(inputShape) { it -> vector[it].toFloat() }.asTensor("features")
 
         // Prediction
@@ -148,11 +147,16 @@ class Detector {
         return licenseToClass[license]!!
     }
 
+    private fun detectLicenseFromPath(path: String): License  {
+        val fileText = File(path).readText()
+        return detectLicenseFromText(fileText)
+    }
+
     fun detect(path: String): Map<String, License> {
         val fileToLicense = mutableMapOf<String, License>()
 
         for (file in findLicensesFiles(path)) {
-            fileToLicense[file.absolutePath] = detectLicense(file.absolutePath)
+            fileToLicense[file.absolutePath] = detectLicenseFromPath(file.absolutePath)
         }
 
         return fileToLicense
@@ -162,7 +166,7 @@ class Detector {
         val mainLicenseFile = getMainLicense(path).absolutePath
         val retValue = mutableMapOf<String, License>()
 
-        retValue[mainLicenseFile] = detectLicense(mainLicenseFile)
+        retValue[mainLicenseFile] = detectLicenseFromPath(mainLicenseFile)
         return retValue
     }
 
