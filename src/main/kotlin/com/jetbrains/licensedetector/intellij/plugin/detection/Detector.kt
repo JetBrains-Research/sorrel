@@ -1,6 +1,8 @@
 package com.jetbrains.licensedetector.intellij.plugin.detection
 
 import com.jetbrains.licensedetector.intellij.plugin.licenses.*
+import io.kinference.data.map.ONNXMap
+import io.kinference.data.seq.ONNXSequence
 import io.kinference.data.tensors.Tensor
 import io.kinference.data.tensors.asTensor
 import io.kinference.model.Model
@@ -8,6 +10,7 @@ import io.kinference.ndarray.arrays.FloatNDArray
 import io.kinference.ndarray.arrays.LongNDArray
 import java.io.File
 import java.nio.file.Path
+import java.util.ArrayList
 
 /**
  * This class provide all logics for License detection.
@@ -39,6 +42,7 @@ class Detector {
 
     // Number of features that model accepts
     private val numFeatures = vectorizer.vector_dim
+    private val THRESHOLD = 0.8
 
     // Shape of input data
     private val inputShape = listOf(numFeatures).toIntArray()
@@ -168,6 +172,14 @@ class Detector {
         val classIndex = array[0][0].toInt()
         val license = classes[classIndex]
 
+
+        val unpack1 = ((prediction[1] as ONNXSequence).data as ArrayList<ONNXMap>)[0]
+        val unpack2 = (unpack1.data as HashMap<Long, Tensor>)[classIndex.toLong()] as Tensor
+        val probability = (unpack2.data as FloatNDArray).array.blocks[0][0]
+
+        if (probability < THRESHOLD) {
+            return NoLicense
+        }
         return licenseToClass[license]!!
     }
 
