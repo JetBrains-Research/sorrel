@@ -8,24 +8,15 @@ import io.kinference.ndarray.arrays.FloatNDArray
 import io.kinference.ndarray.arrays.LongNDArray
 import java.io.File
 import java.nio.file.Path
-import java.nio.file.Paths
 
 /**
  * This class provide all logics for License detection.
  */
 class Detector {
-    // Base paths
-    private val baseDir = Paths.get("").toAbsolutePath()
-    private val resourcesDir = baseDir.resolve("src/main/resources/")
-
-    // Paths to important files
-    private val modelPath = resourcesDir.resolve("license_level_model_v1.onnx")
-    private val vocabularyPath = resourcesDir.resolve("license_level_model_words.txt")
-    private val classesPath = resourcesDir.resolve("license_level_classes.txt")
-
-    // Encode/decode stuff
-    private val vocabulary = mutableListOf<String>()
-    private val classes = mutableListOf<String>()
+    //Classes for decode numeric predictions
+    private val classes: List<String> = Detector::class.java.getResourceAsStream(
+        "/detection/license_level_classes.txt"
+    ).reader().readLines()
 
     // Detected License (string) to License class mapping
     private val licenseToClass = mapOf<String, License>(
@@ -36,18 +27,15 @@ class Detector {
         "MIT" to MIT
     )
 
-    // Vocabulary for encoding text & classes for decode numeric predictions
-    init {
-        val vocabularyFile = vocabularyPath.toFile()
-        vocabularyFile.forEachLine { line -> vocabulary.add(line) }
-
-        val classesFile = classesPath.toFile()
-        classesFile.forEachLine { line -> classes.add(line) }
-    }
-
     // Model & vectorizer for detection licenses on project level initializiation
-    private val model = Model.load(modelPath.toString())
-    private val vectorizer = Vectorizer(vocabulary)
+    private val model: Model = Model.load(
+        Detector::class.java.getResource("/detection/license_level_model_v1.onnx").readBytes()
+    )
+    private val vectorizer: Vectorizer = Vectorizer(
+        Detector::class.java.getResourceAsStream(
+            "/detection/license_level_model_words.txt"
+        ).reader().readLines()
+    )
 
     // Number of features that model accepts
     private val numFeatures = vectorizer.vector_dim
@@ -113,7 +101,7 @@ class Detector {
      * @return filtered text in one string
      */
     private fun filterText(strings: Iterable<String>): String {
-        return filterText(strings.joinToString(separator=" "))
+        return filterText(strings.joinToString(separator = " "))
     }
 
 
@@ -188,7 +176,7 @@ class Detector {
      * @param path path to a file from which license to be detected.
      * @return object of detected License.
      */
-    fun detectLicense(path: Path): License  {
+    fun detectLicense(path: Path): License {
         return detectLicense(path.toFile().readText())
     }
 
@@ -197,7 +185,7 @@ class Detector {
      * @param file file from which license to be detected.
      * @return object of detected License.
      */
-    fun detectLicense(file: File): License  {
+    fun detectLicense(file: File): License {
         return detectLicense(file.readText())
     }
 
