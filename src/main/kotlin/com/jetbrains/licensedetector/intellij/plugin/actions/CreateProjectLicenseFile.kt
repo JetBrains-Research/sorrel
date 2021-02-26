@@ -16,6 +16,7 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.util.IncorrectOperationException
+import com.jetbrains.licensedetector.intellij.plugin.detection.Detector.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
 import java.io.File
@@ -24,8 +25,6 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
     companion object {
         const val LICENSE_FILE_NAME: String = "LICENSE.txt"
-
-        val LICENSE_FILE_NAME_REGEX: Regex = Regex("LICENSE|LICENSE.txt|LICENSE.md|LICENSE.html", RegexOption.IGNORE_CASE)
     }
 
     private val actionName = "CreateProjectLicenseFile"
@@ -116,7 +115,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
             return
         }
 
-        if (moduleDir.listFiles()!!.any { LICENSE_FILE_NAME_REGEX.matches(it.name) }) {
+        if (moduleDir.listFiles()!!.any { licenseFileNamePattern.matches(it.name) }) {
             e.presentation.isEnabledAndVisible = false
             return
         }

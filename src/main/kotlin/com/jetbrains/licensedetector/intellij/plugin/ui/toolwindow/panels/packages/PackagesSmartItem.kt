@@ -9,7 +9,7 @@ import com.intellij.ui.AnimatedIcon
 import com.intellij.ui.HyperlinkLabel
 import com.intellij.util.ui.JBEmptyBorder
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
 import java.awt.BorderLayout
 import java.awt.FlowLayout
 import java.awt.datatransfer.StringSelection
@@ -25,7 +25,7 @@ sealed class PackagesSmartItem {
         }
     }
 
-    class Package(val meta: LicenseDetectorDependency) : PackagesSmartItem(), DataProvider, CopyProvider {
+    class Package(val meta: PackageDependency) : PackagesSmartItem(), DataProvider, CopyProvider {
 
         override fun getData(dataId: String): Any? = when {
             PlatformDataKeys.COPY_PROVIDER.`is`(dataId) -> this

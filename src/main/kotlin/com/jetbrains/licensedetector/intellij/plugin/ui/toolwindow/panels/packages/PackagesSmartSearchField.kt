@@ -3,13 +3,13 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packa
 import com.intellij.ui.SearchTextField
 import com.intellij.util.ui.JBUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import java.awt.Dimension
 import java.awt.event.KeyEvent
 
 class PackagesSmartSearchField(
-        val viewModel: LicenseDetectorToolWindowModel
+    val viewModel: ToolWindowModel
 ) : SearchTextField(false) {
 
     init {

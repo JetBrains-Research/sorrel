@@ -31,13 +31,13 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.getLicenseOnFullTe
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 
 class LicenseFileEditorNotificationPanel(
-        val model: LicenseDetectorToolWindowModel,
-        val project: Project,
-        val licenseFile: VirtualFile
+    val model: ToolWindowModel,
+    val project: Project,
+    val licenseFile: VirtualFile
 ) : EditorNotificationPanel() {
 
 

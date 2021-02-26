@@ -11,6 +11,7 @@ import com.intellij.openapi.roots.ModuleRootListener
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.util.Function
+import com.jetbrains.licensedetector.intellij.plugin.detection.Detector
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ModuleUtils.getTopLevelModule
 import com.jetbrains.licensedetector.intellij.plugin.utils.getSimpleIdentifier
@@ -22,7 +23,7 @@ import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.reactive.Signal
 import java.util.concurrent.atomic.AtomicInteger
 
-class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetime) {
+class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
 
     private val application = ApplicationManager.getApplication()
 
@@ -34,7 +35,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     val isSearching = Property(false)
 
     val searchTerm = Property("")
-    val installedPackages = Property(mapOf<String, LicenseDetectorDependency>())
+    val installedPackages = Property(mapOf<String, PackageDependency>())
 
     val rootModule: Property<ProjectModule?> = Property(null)
     val projectModules = Property(listOf<ProjectModule>())
@@ -46,7 +47,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
     // UI Signals
     val requestRefreshContext = Signal<Boolean>()
-    val searchResultsUpdated = Signal<Map<String, LicenseDetectorDependency>>()
+    val searchResultsUpdated = Signal<Map<String, PackageDependency>>()
 
     private fun startOperation() {
         isBusy.set(operationsCounter.incrementAndGet() > 0)
@@ -101,7 +102,11 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
                 refreshPackagesContext()
             }
 
-            override fun modulesRenamed(project: Project, modules: MutableList<Module>, oldNameProvider: Function<Module, String>) {
+            override fun modulesRenamed(
+                project: Project,
+                modules: MutableList<Module>,
+                oldNameProvider: Function<Module, String>
+            ) {
                 refreshPackagesContext()
             }
         })
@@ -121,11 +126,11 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
         val currentSelectedProjectModule = selectedProjectModule.value
 
         val packagesMatchingSearchTerm = installedPackages.value
-                .filter {
-                    it.value.isInstalled && it.value.isInstalledInProjectModule(currentSelectedProjectModule) &&
-                            (it.value.identifier.contains(currentSearchTerm, true) ||
-                                    it.value.remoteInfo?.name?.contains(currentSearchTerm, true) ?: false)
-                }.toMutableMap()
+            .filter {
+                it.value.isInstalled && it.value.isInstalledInProjectModule(currentSelectedProjectModule) &&
+                        (it.value.identifier.contains(currentSearchTerm, true) ||
+                                it.value.remoteInfo?.name?.contains(currentSearchTerm, true) ?: false)
+            }.toMutableMap()
 
         searchResultsUpdated.fire(packagesMatchingSearchTerm)
         isSearching.set(false)
@@ -157,25 +162,26 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
             val projectModule = ProjectModule(module.name, module)
 
             ModuleRootManager.getInstance(
-                    module
+                module
             ).orderEntries().forEachLibrary { library: Library ->
                 val identifier = library.getSimpleIdentifier()
                 if (identifier != null) {
                     val item = installedPackagesMap.getOrPut(
-                            identifier,
-                            {
-                                LicenseDetectorDependency(
-                                        identifier.substringBefore(':'),
-                                        identifier.substringAfterLast(':')
-                                )
-                            }
+                        identifier,
+                        {
+                            PackageDependency(
+                                identifier.substringBefore(':'),
+                                identifier.substringAfterLast(':'),
+                                licensesFromJarMetaInfo = Detector.getPackageLicensesFromJar(library, project)
+                            )
+                        }
                     )
 
                     item.installationInformation.add(
-                            InstallationInformation(
-                                    projectModule,
-                                    library.getVersion()
-                            )
+                        InstallationInformation(
+                            projectModule,
+                            library.getVersion()
+                        )
                     )
                 }
                 true
@@ -206,7 +212,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
 
     /**
      *  Requests remote package information from PackageSearch and invokes the refreshFoundPackages method
-     *  @see com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel.refreshFoundPackages
+     *  @see com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel.refreshFoundPackages
      */
 
     private fun refreshDependencyLicensesInfo() {
@@ -242,7 +248,7 @@ class LicenseDetectorToolWindowModel(val project: Project, val lifetime: Lifetim
     }
 
 
-    private fun LicenseDetectorDependency.isInstalledInProjectModule(projectModule: ProjectModule?): Boolean {
+    private fun PackageDependency.isInstalledInProjectModule(projectModule: ProjectModule?): Boolean {
         return projectModule == null ||
                 this.installationInformation.any { installationInformation ->
                     installationInformation.projectModule == projectModule

@@ -13,14 +13,6 @@ val ALL_SUPPORTED_LICENSE = listOf(
     NoLicense
 ).sortedByDescending { it.priority }.toTypedArray()
 
-internal fun getLicenseOnSpdxIdOrNull(spdxId: String): SupportedLicense? {
-    return ALL_SUPPORTED_LICENSE.firstOrNull { it.spdxId == spdxId }
-}
-
-internal fun getLicenseOnNameOrNull(licenseName: String): SupportedLicense? {
-    return ALL_SUPPORTED_LICENSE.firstOrNull { it.name == licenseName }
-}
-
 internal fun getLicenseOnFullTextOrNull(fullText: String): SupportedLicense? {
     return ALL_SUPPORTED_LICENSE.firstOrNull { it.fullText == fullText }
 }

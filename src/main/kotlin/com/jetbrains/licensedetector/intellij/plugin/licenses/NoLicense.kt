@@ -13,6 +13,8 @@ object NoLicense : SupportedLicense {
     override val priority: LicensePriority = LicensePriority.NO_LICENSE
     override val fullText: String = COMPATIBLE_PROJECT_LICENSE_NOT_FOUND
 
+    override val nameSpdxRegex: Regex = Regex("", RegexOption.IGNORE_CASE)
+
     override val description: String = ""
     override val permissions: List<String> = listOf()
     override val limitations: List<String> = listOf()

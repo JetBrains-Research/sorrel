@@ -10,6 +10,9 @@ interface SupportedLicense : License {
     val priority: LicensePriority
     val fullText: String
 
+    // For detection of license by name or by spdx
+    val nameSpdxRegex: Regex
+
     //Compatible module licenses if the dependency has a current license
     val compatibleModuleLicenses: Set<SupportedLicense>
 

@@ -7,7 +7,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotifications
-import com.jetbrains.licensedetector.intellij.plugin.actions.CreateProjectLicenseFile.Companion.LICENSE_FILE_NAME_REGEX
+import com.jetbrains.licensedetector.intellij.plugin.detection.Detector.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
 
 
@@ -21,7 +21,7 @@ class LicenseFileEditorNotificationProvider : EditorNotifications.Provider<Edito
 
     override fun createNotificationPanel(file: VirtualFile, fileEditor: FileEditor, project: Project): EditorNotificationPanel? {
         val fileName = file.name
-        if (!LICENSE_FILE_NAME_REGEX.matches(fileName)) {
+        if (!licenseFileNamePattern.matches(fileName)) {
             return null
         }
 

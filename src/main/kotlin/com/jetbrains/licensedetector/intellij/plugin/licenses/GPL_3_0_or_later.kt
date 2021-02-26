@@ -216,6 +216,11 @@ object GPL_3_0_or_later : SupportedLicense {
                 The GNU General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License. But first, please read <https: //www.gnu.org/licenses/why-not-lgpl.html>.
             """.trimIndent()
 
+    override val nameSpdxRegex: Regex = Regex(
+        "(GNU General Public License.*3.*.or.later)|(GPL.3.*or.later)",
+        RegexOption.IGNORE_CASE
+    )
+
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.description")
     override val permissions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.gpl_3_0_or_later.permissions.1"),

@@ -6,18 +6,18 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import javax.swing.JLabel
 
-class ModuleContextComboBox(viewModel: LicenseDetectorToolWindowModel) : ContextComboBoxBase(viewModel) {
+class ModuleContextComboBox(viewModel: ToolWindowModel) : ContextComboBoxBase(viewModel) {
 
     override fun createNameLabel() = JLabel("")
     override fun createValueLabel() = object : JLabel() {
         override fun getIcon() = AllIcons.General.ProjectStructure
 
         override fun getText() = viewModel.selectedProjectModule.value?.name
-                ?: PackageSearchBundle.message("packagesearch.ui.toolwindow.allModules")
+            ?: PackageSearchBundle.message("packagesearch.ui.toolwindow.allModules")
     }
 
     override fun createActionGroup(): ActionGroup {

@@ -5,13 +5,13 @@ import com.intellij.icons.AllIcons.Actions.Commit
 import com.intellij.ui.components.JBLabel
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import java.awt.Component
 import javax.swing.JList
 import javax.swing.ListCellRenderer
 
 class LicenseListCellRenderer(
-    private val model: LicenseDetectorToolWindowModel,
+    private val model: ToolWindowModel,
     private val projectModule: ProjectModule
 ) : ListCellRenderer<SupportedLicense> {
     override fun getListCellRendererComponent(

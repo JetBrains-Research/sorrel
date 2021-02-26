@@ -12,8 +12,8 @@ import com.intellij.ui.components.JBPanelWithEmptyText
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ModuleUtils.hasOneTopLevelModule
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.project.ProjectLicensePanel
@@ -28,7 +28,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
         //Must be equal to "id" in ToolWindow EP in plugin.xml
         private val ToolWindowId = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
 
-        val ToolWindowModelKey = Key.create<LicenseDetectorToolWindowModel>("LicenseDetector.Management.Model")
+        val ToolWindowModelKey = Key.create<ToolWindowModel>("LicenseDetector.Management.Model")
 
         //May be needed for tab cross-interaction
         /*
@@ -119,7 +119,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.title = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
 
         //Create model
-        val model = LicenseDetectorToolWindowModel(project, project.createLifetime())
+        val model = ToolWindowModel(project, project.createLifetime())
         //Add to userData
         project.putUserData(ToolWindowModelKey, model)
 

@@ -1,14 +1,16 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
+import com.jetbrains.licensedetector.intellij.plugin.licenses.License
 import com.jetbrains.licensedetector.intellij.plugin.utils.extractScmUrl
 import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Package
 
 //TODO: Maybe add installed version (what if many versions installed?)
-data class LicenseDetectorDependency(
-        val groupId: String,
-        val artifactId: String,
-        val installationInformation: MutableList<InstallationInformation> = mutableListOf(),
-        var remoteInfo: StandardV2Package? = null
+data class PackageDependency(
+    val groupId: String,
+    val artifactId: String,
+    val installationInformation: MutableList<InstallationInformation> = mutableListOf(),
+    var remoteInfo: StandardV2Package? = null,
+    var licensesFromJarMetaInfo: Set<License> = setOf()
 ) {
 
     val identifier = "$groupId:$artifactId".toLowerCase()
@@ -39,6 +41,37 @@ data class LicenseDetectorDependency(
             }
         }
         return links
+    }
+
+    fun getMainLicense(): License? {
+        return when {
+            licensesFromJarMetaInfo.size == 1 -> {
+                licensesFromJarMetaInfo.first()
+            }
+            remoteInfo?.licenses?.mainLicense != null -> {
+                remoteInfo?.licenses?.mainLicense!!
+            }
+            else -> {
+                null
+            }
+        }
+    }
+
+    fun getOtherLicenses(): Set<License> {
+        val mainLicense = getMainLicense()
+        val result = mutableSetOf<License>()
+
+        result.addAll(licensesFromJarMetaInfo)
+        val remoteMainLicense = remoteInfo?.licenses?.mainLicense
+        if (remoteMainLicense != null) {
+            result.add(remoteMainLicense)
+        }
+        val remoteOtherLicenses = remoteInfo?.licenses?.otherLicenses
+        if (remoteOtherLicenses != null) {
+            result.addAll(remoteOtherLicenses)
+        }
+        result.remove(mainLicense)
+        return result
     }
 
 }

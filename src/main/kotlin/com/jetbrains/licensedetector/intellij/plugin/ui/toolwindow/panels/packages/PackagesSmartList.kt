@@ -10,8 +10,8 @@ import com.intellij.ui.SpeedSearchComparator
 import com.intellij.ui.components.JBList
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import java.awt.Component
 import java.awt.Point
@@ -22,8 +22,8 @@ import javax.swing.DefaultListModel
 import javax.swing.DefaultListSelectionModel
 import javax.swing.ListSelectionModel
 
-class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
-        JBList<PackagesSmartItem>(emptyList()), DataProvider, CopyProvider {
+class PackagesSmartList(val viewModel: ToolWindowModel) :
+    JBList<PackagesSmartItem>(emptyList()), DataProvider, CopyProvider {
 
     var transferFocusUp: () -> Unit = { transferFocusBackward() }
 
@@ -32,13 +32,15 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
     private val listModel: DefaultListModel<PackagesSmartItem>
         get() = model as DefaultListModel<PackagesSmartItem>
 
-    val installedHeader = PackagesSmartItem.Header(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.packages.installedPackages"))
+    val installedHeader =
+        PackagesSmartItem.Header(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.packages.installedPackages"))
 
-    private val packageItems: List<PackagesSmartItem.Package> get() = listModel.elements().toList().filterIsInstance<PackagesSmartItem.Package>()
+    private val packageItems: List<PackagesSmartItem.Package>
+        get() = listModel.elements().toList().filterIsInstance<PackagesSmartItem.Package>()
     val hasPackageItems: Boolean get() = packageItems.any()
     val firstPackageIndex: Int get() = listModel.elements().toList().indexOfFirst { it is PackagesSmartItem.Package }
 
-    private val packageSelectionListeners = ArrayList<(LicenseDetectorDependency) -> Unit>()
+    private val packageSelectionListeners = ArrayList<(PackageDependency) -> Unit>()
 
     init {
         @Suppress("UnstableApiUsage") // yolo
@@ -108,17 +110,24 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         })
     }
 
-    private fun calcDisplayItems(packages: List<LicenseDetectorDependency>): List<PackagesSmartItem> {
+    private fun calcDisplayItems(packages: List<PackageDependency>): List<PackagesSmartItem> {
         val displayItems = mutableListOf<PackagesSmartItem>()
 
         val installedPackages = packages.filter { it.isInstalled }
 
         val message = PackageSearchBundle.message(
-                "packagesearch.ui.toolwindow.tab.packages.installedPackages.withCount",
-                installedPackages.size
+            "packagesearch.ui.toolwindow.tab.packages.installedPackages.withCount",
+            installedPackages.size
         )
         installedHeader.title = message + (viewModel.selectedProjectModule.value?.name
-                ?.let { " ${PackageSearchBundle.message("packagesearch.ui.toolwindow.tab.packages.installedPackages.titleSuffix", it)}" }
+            ?.let {
+                " ${
+                    PackageSearchBundle.message(
+                        "packagesearch.ui.toolwindow.tab.packages.installedPackages.titleSuffix",
+                        it
+                    )
+                }"
+            }
                 ?: "")
 
         displayItems.add(installedHeader)
@@ -126,7 +135,7 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         return displayItems
     }
 
-    fun updateAllPackages(packages: List<LicenseDetectorDependency>) {
+    fun updateAllPackages(packages: List<PackageDependency>) {
         synchronized(updateContentLock) {
             val displayItems = calcDisplayItems(packages)
 
@@ -167,7 +176,7 @@ class PackagesSmartList(val viewModel: LicenseDetectorToolWindowModel) :
         }
     }
 
-    fun addPackageSelectionListener(listener: (LicenseDetectorDependency) -> Unit) {
+    fun addPackageSelectionListener(listener: (PackageDependency) -> Unit) {
         packageSelectionListeners.add(listener)
     }
 

@@ -1,5 +1,11 @@
 package com.jetbrains.licensedetector.intellij.plugin.detection
 
+import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.OrderRootType
+import com.intellij.openapi.roots.libraries.Library
+import com.intellij.openapi.vfs.VfsUtilCore.iterateChildrenRecursively
+import com.intellij.psi.PsiManager
 import com.jetbrains.licensedetector.intellij.plugin.licenses.*
 import io.kinference.data.map.ONNXMap
 import io.kinference.data.seq.ONNXSequence
@@ -10,12 +16,21 @@ import io.kinference.ndarray.arrays.FloatNDArray
 import io.kinference.ndarray.arrays.LongNDArray
 import java.io.File
 import java.nio.file.Path
-import java.util.ArrayList
+import java.util.*
 
 /**
  * This class provide all logics for License detection.
  */
-class Detector {
+object Detector {
+
+    val licenseFileNamePattern: Regex = Regex(
+        "(.*LICENSE.*|.*LEGAL.*|.*COPYING.*|.*COPYLEFT.*|.*COPYRIGHT.*|.*UNLICENSE.*|" +
+                ".*MIT.*|.*BSD.*|.*GPL.*|.*LGPL.*|.*APACHE.*)(\\.txt|\\.md|\\.html)?", RegexOption.IGNORE_CASE
+    )
+
+    private const val metaInfoFolderName = "META-INF"
+    private const val pomXmlFileName = "pom.xml"
+
     //Classes for decode numeric predictions
     private val classes: List<String> = Detector::class.java.getResourceAsStream(
         "/detection/license_level_classes.txt"
@@ -42,7 +57,7 @@ class Detector {
 
     // Number of features that model accepts
     private val numFeatures = vectorizer.vector_dim
-    private val THRESHOLD = 0.8
+    private const val THRESHOLD = 0.8
 
     // Shape of input data
     private val inputShape = listOf(numFeatures).toIntArray()
@@ -116,27 +131,11 @@ class Detector {
      */
     private fun findLicensesFiles(path: String): List<File> {
         val files = mutableListOf<File>()
-        val licensePatterns = listOf(
-            Regex("LICENSE*"),
-            Regex("LEGAL*"),
-            Regex("COPYING*"),
-            Regex("COPYLEFT*"),
-            Regex("COPYRIGHT*"),
-            Regex("UNLICENSE*"),
-            Regex("MIT*"),
-            Regex("BSD*"),
-            Regex("GPL*"),
-            Regex("LGPL*")
-        )
-
         for (file in extractFiles(path)) {
-            for (regexp in licensePatterns) {
-                if (regexp.containsMatchIn(file.name)) {
-                    files.add(file)
-                }
+            if (licenseFileNamePattern.matches(file.name)) {
+                files.add(file)
             }
         }
-
         return files
     }
 
@@ -180,7 +179,7 @@ class Detector {
         if (probability < THRESHOLD) {
             return NoLicense
         }
-        return licenseToClass[license]!!
+        return licenseToClass[license] ?: UnsupportedLicense(license, null, null, null)
     }
 
     /**
@@ -228,4 +227,55 @@ class Detector {
         return detectLicense(mainLicenseFile)
     }
 
+    fun getPackageLicensesFromJar(library: Library, project: Project): Set<License> {
+        val result: MutableSet<License> = mutableSetOf()
+
+        val libraryRootFiles = library.getFiles(OrderRootType.CLASSES)
+
+        for (rootFile in libraryRootFiles) {
+            val rootFileChildren = rootFile.children
+
+            for (childrenFile in rootFileChildren) {
+                if (!childrenFile.isDirectory && licenseFileNamePattern.matches(childrenFile.name)) {
+                    val fileText = FileDocumentManager.getInstance().getDocument(childrenFile)?.text ?: continue
+                    result.add(detectLicense(fileText))
+                }
+            }
+
+            val metaInfFolder = rootFile.findChild(metaInfoFolderName) ?: continue
+            if (metaInfFolder.isDirectory) {
+                iterateChildrenRecursively(metaInfFolder,
+                    null,
+                    {
+                        if (licenseFileNamePattern.matches(it.name)) {
+                            val fileText = FileDocumentManager.getInstance().getDocument(it)?.text
+                            if (fileText != null) {
+                                result.add(detectLicense(fileText))
+                            }
+                        }
+
+                        if (it.name == pomXmlFileName) {
+                            PsiManager.getInstance(project).findFile(it)?.accept(PomXmlPsiElementVisitor(result))
+                        }
+                        true
+                    }
+                )
+            }
+        }
+        return result.filter { it != NoLicense }.toSet()
+    }
+
+    fun getLicenseOnNameOrSpdx(name: String): License? {
+        val detectedLicenseByModel = detectLicense(name)
+        if (detectedLicenseByModel != NoLicense && detectedLicenseByModel is SupportedLicense) {
+            return detectedLicenseByModel
+        }
+
+        val detectedLicenseByRegex = ALL_SUPPORTED_LICENSE.firstOrNull { it.nameSpdxRegex.matches(name) }
+        if (detectedLicenseByRegex != null) {
+            return detectedLicenseByRegex
+        }
+
+        return null
+    }
 }

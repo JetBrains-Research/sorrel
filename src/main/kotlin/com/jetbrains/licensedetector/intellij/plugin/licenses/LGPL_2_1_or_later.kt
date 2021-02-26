@@ -165,6 +165,11 @@ object LGPL_2_1_or_later : SupportedLicense {
                 That's all there is to it!
             """.trimIndent()
 
+    override val nameSpdxRegex: Regex = Regex(
+        "(GNU Lesser General Public License.*2\\.1.*or.*later)|(LGPL.2\\.1.*or.later)",
+        RegexOption.IGNORE_CASE
+    )
+
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.lgpl_2_1_or_later.description")
     override val permissions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.lgpl_2_1_or_later.permissions.1"),

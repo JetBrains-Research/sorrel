@@ -7,7 +7,7 @@ import com.jetbrains.licensedetector.intellij.plugin.ui.PackageSearchPluginIcons
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toHtml
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
 import org.apache.commons.lang3.StringUtils
 import java.awt.BorderLayout
 import java.awt.Component
@@ -43,28 +43,28 @@ class PackagesSmartRenderer : ListCellRenderer<PackagesSmartItem> {
             }
 
     private fun createPackagePanel(
-            packageSearchDependency: LicenseDetectorDependency,
-            isSelected: Boolean,
-            list: JList<out PackagesSmartItem>,
-            iconLabel: JLabel
+        packageSearchDependency: PackageDependency,
+        isSelected: Boolean,
+        list: JList<out PackagesSmartItem>,
+        iconLabel: JLabel
     ): JPanel {
         val textColor = RiderUI.getTextColor(isSelected)
         val textColor2 = RiderUI.getTextColor2(isSelected)
 
         return buildPanel(
-                packageSearchDependency = packageSearchDependency,
-                applyColors = applyColors(isSelected, list),
-                iconLabel = iconLabel,
-                idMessage = buildIdMessage(packageSearchDependency, textColor, textColor2),
-                mainLicenseName = packageSearchDependency.remoteInfo?.licenses?.mainLicense?.name,
-                otherLicensesNames = buildOtherLicensesNames(packageSearchDependency, textColor2)
+            packageSearchDependency = packageSearchDependency,
+            applyColors = applyColors(isSelected, list),
+            iconLabel = iconLabel,
+            idMessage = buildIdMessage(packageSearchDependency, textColor, textColor2),
+            mainLicenseName = packageSearchDependency.getMainLicense()?.name,
+            otherLicensesNames = buildOtherLicensesNames(packageSearchDependency, textColor2)
         )
     }
 
     private fun buildIdMessage(
-            packageSearchDependency: LicenseDetectorDependency,
-            textColor: RiderColor,
-            textColor2: RiderColor
+        packageSearchDependency: PackageDependency,
+        textColor: RiderColor,
+        textColor2: RiderColor
     ): String = buildString {
         if (packageSearchDependency.remoteInfo?.name != null && packageSearchDependency.remoteInfo?.name != packageSearchDependency.identifier) {
             append(colored(StringUtils.normalizeSpace(packageSearchDependency.remoteInfo?.name), textColor))
@@ -76,13 +76,12 @@ class PackagesSmartRenderer : ListCellRenderer<PackagesSmartItem> {
     }
 
     private fun buildOtherLicensesNames(
-            packageSearchDependency: LicenseDetectorDependency,
-            textColor: RiderColor
+        packageSearchDependency: PackageDependency,
+        textColor: RiderColor
     ): List<String> {
-        return packageSearchDependency
-                .remoteInfo?.licenses?.otherLicenses?.map {
-                    colored(it.name, textColor)
-                } ?: listOf()
+        return packageSearchDependency.getOtherLicenses().map {
+            colored(it.name, textColor)
+        }
     }
 
     private fun applyColors(isSelected: Boolean, list: JList<out PackagesSmartItem>): (JComponent) -> Unit {
@@ -97,12 +96,12 @@ class PackagesSmartRenderer : ListCellRenderer<PackagesSmartItem> {
 
     @Suppress("LongParameterList")
     private fun buildPanel(
-            packageSearchDependency: LicenseDetectorDependency,
-            applyColors: (JComponent) -> Unit,
-            iconLabel: JLabel,
-            idMessage: String,
-            mainLicenseName: String?,
-            otherLicensesNames: List<String>
+        packageSearchDependency: PackageDependency,
+        applyColors: (JComponent) -> Unit,
+        iconLabel: JLabel,
+        idMessage: String,
+        mainLicenseName: String?,
+        otherLicensesNames: List<String>
     ): JPanel = JPanel(BorderLayout()).apply {
         @Suppress("MagicNumber") // Gotta love Swing APIs
         if (packageSearchDependency.identifier.isNotBlank()) {

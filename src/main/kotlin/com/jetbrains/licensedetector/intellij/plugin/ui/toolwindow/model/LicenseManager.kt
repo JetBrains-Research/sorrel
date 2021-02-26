@@ -18,7 +18,7 @@ class LicenseManager(
     lifetime: Lifetime,
     val rootModule: Property<ProjectModule?>,
     private val projectModules: Property<List<ProjectModule>>,
-    private val installedPackages: Property<Map<String, LicenseDetectorDependency>>
+    private val installedPackages: Property<Map<String, PackageDependency>>
 ) {
     val modulesLicenses: Property<Map<ProjectModule, SupportedLicense>> =
         Property(projectModules.value.keysToMap { NoLicense })
@@ -163,7 +163,7 @@ class LicenseManager(
 
     fun updateModuleLicensesCompatibilityWithPackagesLicenses(
         modulesLicenses: Map<ProjectModule, SupportedLicense>,
-        packages: Collection<LicenseDetectorDependency>
+        packages: Collection<PackageDependency>
     ) {
         val newModuleLicensesCompatibleWithPackageLicenses: MutableMap<ProjectModule, Set<SupportedLicense>> =
             mutableMapOf()
@@ -189,13 +189,13 @@ class LicenseManager(
                         submodulesSet.contains(it.projectModule) || it.projectModule == module
                     }) {
                     //Add main package license to set
-                    val mainPackageLicense = dependency.remoteInfo?.licenses?.mainLicense
+                    val mainPackageLicense = dependency.getMainLicense()
                     if (mainPackageLicense is SupportedLicense) {
                         acc.add(mainPackageLicense)
                     }
 
                     //Add other package licenses to set
-                    dependency.remoteInfo?.licenses?.otherLicenses?.forEach {
+                    dependency.getOtherLicenses().forEach {
                         if (it is SupportedLicense) {
                             acc.add(it)
                         }
@@ -218,7 +218,7 @@ class LicenseManager(
      */
     fun checkCompatibilityWithPackageDependencyLicenses(
         modulesLicenses: Map<ProjectModule, SupportedLicense>,
-        packages: Collection<LicenseDetectorDependency>
+        packages: Collection<PackageDependency>
     ) {
         val issuesList = mutableListOf<String>()
 
@@ -237,7 +237,7 @@ class LicenseManager(
             // Add compatibility issues if needed
             packages.forEach { dependency ->
                 if (dependency.installationInformation.any { it.projectModule == module }) {
-                    val mainPackageLicense = dependency.remoteInfo?.licenses?.mainLicense
+                    val mainPackageLicense = dependency.getMainLicense()
                     if (mainPackageLicense is SupportedLicense &&
                         !mainPackageLicense.compatibleModuleLicenses.contains(inheritedLicense)
                     ) {
@@ -251,7 +251,7 @@ class LicenseManager(
                                     ) + "</li>"
                         )
                     }
-                    dependency.remoteInfo?.licenses?.otherLicenses?.forEach {
+                    dependency.getOtherLicenses().forEach {
                         if (it is SupportedLicense &&
                             !it.compatibleModuleLicenses.contains(inheritedLicense)
                         ) {

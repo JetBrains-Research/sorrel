@@ -6,27 +6,28 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.editor.markup.TextAttributes
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorDependency
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
 
 fun createLicenseNameInlayElement(mainLicenseName: String, editor: Editor, factory: PresentationFactory) =
         factory.inset(roundWithBackground(factory.text(mainLicenseName), editor), 5, 0, 0, 0)
 
 fun InlayHintsSink.addLicenseNameInlineIfExists(
-        groupId: String,
-        artifactId: String,
-        installedPackagesInfo: Map<String, LicenseDetectorDependency>,
-        offset: Int,
-        editor: Editor,
-        factory: PresentationFactory) {
+    groupId: String,
+    artifactId: String,
+    installedPackagesInfo: Map<String, PackageDependency>,
+    offset: Int,
+    editor: Editor,
+    factory: PresentationFactory
+) {
     val matchedPackageInfo = installedPackagesInfo["$groupId:$artifactId"]
 
-    val mainLicenseName: String? = matchedPackageInfo?.remoteInfo?.licenses?.mainLicense?.name
+    val mainLicenseName: String? = matchedPackageInfo?.getMainLicense()?.name
 
     if (mainLicenseName != null) {
         this.addInlineElement(
-                offset,
-                true,
-                createLicenseNameInlayElement(mainLicenseName, editor, factory)
+            offset,
+            true,
+            createLicenseNameInlayElement(mainLicenseName, editor, factory)
         )
     }
 }

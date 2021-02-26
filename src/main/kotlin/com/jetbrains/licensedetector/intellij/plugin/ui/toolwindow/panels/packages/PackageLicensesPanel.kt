@@ -15,7 +15,7 @@ import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.ComponentActionWrapper
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseDetectorToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import net.miginfocom.swing.MigLayout
@@ -25,7 +25,7 @@ import javax.swing.*
 import javax.swing.event.DocumentEvent
 
 class PackageLicensesPanel(
-        val viewModel: LicenseDetectorToolWindowModel
+    val viewModel: ToolWindowModel
 ) : PanelBase(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.tab.packages.title")) {
 
     private val smartList = PackagesSmartList(viewModel)
