@@ -24,10 +24,10 @@ import com.intellij.openapi.util.Pair
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.detection.Detector
 import com.jetbrains.licensedetector.intellij.plugin.diff.WordsFirstDiffComputer
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
-import com.jetbrains.licensedetector.intellij.plugin.licenses.getLicenseOnFullTextOrNull
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
@@ -139,12 +139,14 @@ class LicenseFileEditorNotificationPanel(
 
     private fun addUpdateProjectLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
         comboBox.addActionListener {
-            val module = ModuleUtilCore.findModuleForFile(licenseFile, project)!!
-            val projectModule = model.projectModules.value.find { it.nativeModule == module }!!
-            val selectedLicense = (comboBox.selectedItem as SupportedLicense)
-            val newModulesLicenses = model.licenseManager.modulesLicenses.value.toMutableMap()
-            newModulesLicenses[projectModule] = selectedLicense
-            model.licenseManager.modulesLicenses.set(newModulesLicenses)
+            synchronized(model.lockObject) {
+                val module = ModuleUtilCore.findModuleForFile(licenseFile, project)!!
+                val projectModule = model.projectModules.value.find { it.nativeModule == module }!!
+                val selectedLicense = (comboBox.selectedItem as SupportedLicense)
+                val newModulesLicenses = model.licenseManager.modulesLicenses.value.toMutableMap()
+                newModulesLicenses[projectModule] = selectedLicense
+                model.licenseManager.modulesLicenses.set(newModulesLicenses)
+            }
         }
     }
 
@@ -152,8 +154,7 @@ class LicenseFileEditorNotificationPanel(
         licenseDocument.addDocumentListener(object : DocumentListener {
             override fun documentChanged(event: DocumentEvent) {
                 val licenseDocumentText = licenseDocument.text
-                // TODO: Add using ml license text resolver
-                val license = getLicenseOnFullTextOrNull(licenseDocumentText) ?: return
+                val license = Detector.getLicenseByFullText(licenseDocumentText) ?: return
                 comboBox.selectedItem = license
             }
         })

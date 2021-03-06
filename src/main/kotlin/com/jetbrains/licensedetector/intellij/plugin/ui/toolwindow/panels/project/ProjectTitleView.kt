@@ -85,7 +85,15 @@ class ProjectTitleView(
                     projectTitleViewPanel.add(rootModuleLicense.descriptionPanel)
                 }
                 projectTitleViewPanel.updateAndRepaint()
-            }
+            }/* else {
+                if (projectTitleViewPanel.componentCount == 5) {
+                    projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
+                    projectTitleViewPanel.add(NoLicense.descriptionPanel)
+                } else {
+                    projectTitleViewPanel.add(NoLicense.descriptionPanel)
+                }
+                projectTitleViewPanel.updateAndRepaint()
+            }*/
         }
     }
 

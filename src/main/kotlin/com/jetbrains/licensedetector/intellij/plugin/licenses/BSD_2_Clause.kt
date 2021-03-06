@@ -6,11 +6,11 @@ import net.miginfocom.swing.MigLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
-object BSD_3_Clause : SupportedLicense {
-    override val name: String = "BSD 3-Clause \"New\" or \"Revised\" License"
-    override val url: String = "https://opensource.org/licenses/BSD-3-Clause"
-    override val htmlUrl: String = "https://opensource.org/licenses/BSD-3-Clause"
-    override val spdxId: String = "BSD-3-Clause"
+object BSD_2_Clause : SupportedLicense {
+    override val name: String = "BSD 2-Clause \"Simplified\" License"
+    override val url: String = "https://opensource.org/licenses/BSD-2-Clause"
+    override val htmlUrl: String = "https://opensource.org/licenses/BSD-2-Clause"
+    override val spdxId: String = "BSD-2-Clause"
     override val priority: LicensePriority = LicensePriority.LOW
     override val fullText: String =
         """
@@ -20,34 +20,33 @@ object BSD_3_Clause : SupportedLicense {
 
                 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
                 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-                3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
                 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex(
-        "(BSD 3-Clause \"New\" or \"Revised\" License)|(BSD-3-Clause)",
+        "(BSD 2-Clause \"Simplified\" License)|(BSD-2-Clause)",
         RegexOption.IGNORE_CASE
     )
 
     // Use a machine learning model to detect this license
     override val fullTextRegex: Regex = Regex(
-        "(BSD 3-Clause \"New\" or \"Revised\" License)|(BSD-3-Clause)",
+        "(BSD 2-Clause \"Simplified\" License)|(BSD-2-Clause)",
         RegexOption.IGNORE_CASE
     )
 
-    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.description")
+    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.description")
     override val permissions: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.2"),
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.3"),
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.4")
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.permissions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.permissions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.permissions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.permissions.4")
     )
     override val limitations: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.limitations.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.limitations.2")
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.limitations.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.limitations.2")
     )
     override val conditions: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.conditions.1")
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.conditions.1")
     )
 
     override val descriptionPanel: JComponent = JPanel().apply {
@@ -59,7 +58,7 @@ object BSD_3_Clause : SupportedLicense {
             "0[top][top][top][top][top][top][top]0"
         )
 
-        add(RiderUI.createLicenseNameViewPanelLabel(this@BSD_3_Clause.name), "span")
+        add(RiderUI.createLicenseNameViewPanelLabel(this@BSD_2_Clause.name), "span")
         add(RiderUI.createLabel("<html>${description}</html>"), "span")
 
         add(
@@ -88,8 +87,8 @@ object BSD_3_Clause : SupportedLicense {
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
-        BSD_2_Clause,
         this,
+        BSD_3_Clause,
         GPL_2_0_only,
         GPL_3_0_only,
         ISC,
@@ -102,7 +101,7 @@ object BSD_3_Clause : SupportedLicense {
         Apache_2_0,
         MIT,
         this,
-        BSD_2_Clause,
+        BSD_3_Clause,
         ISC
     )
 }

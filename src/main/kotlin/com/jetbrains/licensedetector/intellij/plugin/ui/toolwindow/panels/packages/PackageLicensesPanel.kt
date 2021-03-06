@@ -182,7 +182,7 @@ class PackageLicensesPanel(
         )
 
         //Paint packages after build ui
-        viewModel.refreshFoundPackages()
+        //viewModel.refreshFoundPackages()
     }
 
     override fun build() = RiderUI.boxPanel {

@@ -15,6 +15,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 class LicenseManager(
+    lockObject: Any,
     lifetime: Lifetime,
     val rootModule: Property<ProjectModule?>,
     private val projectModules: Property<List<ProjectModule>>,
@@ -34,7 +35,9 @@ class LicenseManager(
     val compatibilityIssues = Property(CompatibilityIssueData(listOf(), listOf()))
 
     init {
-        updatingModulesCompatibleLicenses(lifetime)
+        synchronized(lockObject) {
+            updatingModulesCompatibleLicenses(lifetime)
+        }
     }
 
     private fun updatingModulesCompatibleLicenses(lifetime: Lifetime) {

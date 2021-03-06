@@ -6,11 +6,19 @@ import net.miginfocom.swing.MigLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
-object LGPL_2_1_or_later : SupportedLicense {
-    override val name: String = "GNU Lesser General Public License v2.1 or later"
+/**
+ * The "only" version of this license is supported due to the fact that the texts of
+ * the "only" and "or later" license versions are the same.
+ * Therefore, it is impossible to determine the license version from the full texts.
+ * Their differences are indicated in file headers, which often do not exist or are not standardized.
+ * Therefore, the stricter version "only" is supported.
+ * All inaccuracies associated with incorrect recognition of the license version are left to the users.
+ */
+object LGPL_2_1_only : SupportedLicense {
+    override val name: String = "GNU Lesser General Public License v2.1 only"
     override val url: String = "https://www.gnu.org/licenses/old-licenses/lgpl-2.1-standalone.html"
     override val htmlUrl: String = "https://www.gnu.org/licenses/old-licenses/lgpl-2.1-standalone.html"
-    override val spdxId: String = "LGPL-2.1-or-later"
+    override val spdxId: String = "LGPL-2.1-only"
     override val priority: LicensePriority = LicensePriority.LOW
     override val fullText: String =
         """
@@ -166,7 +174,11 @@ object LGPL_2_1_or_later : SupportedLicense {
             """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex(
-        "(GNU Lesser General Public License.*2\\.1.*or.*later)|(LGPL.2\\.1.*or.later)",
+        "(GNU Lesser General Public License.*2\\.1.*)|(LGPL.*2\\.1.*)",
+        RegexOption.IGNORE_CASE
+    )
+    override val fullTextRegex: Regex = Regex(
+        ".*GNU Lesser General Public License.*version.*2\\.1.*",
         RegexOption.IGNORE_CASE
     )
 
@@ -197,7 +209,7 @@ object LGPL_2_1_or_later : SupportedLicense {
             "0[top][top][top][top][top][top][top]0"
         )
 
-        add(RiderUI.createLicenseNameViewPanelLabel(this@LGPL_2_1_or_later.name), "span")
+        add(RiderUI.createLicenseNameViewPanelLabel(this@LGPL_2_1_only.name), "span")
         add(RiderUI.createLabel("<html>${description}</html>"), "span")
 
         add(
@@ -228,14 +240,15 @@ object LGPL_2_1_or_later : SupportedLicense {
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
-        GPL_3_0_or_later,
         this
     )
 
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
         MIT,
+        BSD_2_Clause,
         BSD_3_Clause,
+        ISC,
         this
     )
 }
