@@ -14,6 +14,10 @@ object NoLicense : SupportedLicense {
     override val fullText: String = COMPATIBLE_PROJECT_LICENSE_NOT_FOUND
 
     override val nameSpdxRegex: Regex = Regex("", RegexOption.IGNORE_CASE)
+    override val fullTextRegex: Regex = Regex(
+        "|($COMPATIBLE_PROJECT_LICENSE_NOT_FOUND)",
+        RegexOption.IGNORE_CASE
+    )
 
     override val description: String = ""
     override val permissions: List<String> = listOf()

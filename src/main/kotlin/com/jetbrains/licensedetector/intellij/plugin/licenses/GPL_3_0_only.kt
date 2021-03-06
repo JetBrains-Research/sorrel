@@ -6,11 +6,19 @@ import net.miginfocom.swing.MigLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
-object GPL_3_0_or_later : SupportedLicense {
-    override val name: String = "GNU General Public License v3.0 or later"
+/**
+ * The "only" version of this license is supported due to the fact that the texts of
+ * the "only" and "or later" license versions are the same.
+ * Therefore, it is impossible to determine the license version from the full texts.
+ * Their differences are indicated in file headers, which often do not exist or are not standardized.
+ * Therefore, the stricter version "only" is supported.
+ * All inaccuracies associated with incorrect recognition of the license version are left to the users.
+ */
+object GPL_3_0_only : SupportedLicense {
+    override val name: String = "GNU General Public License v3.0 only"
     override val url: String = "https://www.gnu.org/licenses/gpl-3.0-standalone.html"
     override val htmlUrl: String = "https://www.gnu.org/licenses/gpl-3.0-standalone.html"
-    override val spdxId: String = "GPL-3.0-or-later"
+    override val spdxId: String = "GPL-3.0-only"
     override val priority: LicensePriority = LicensePriority.LOW
     override val fullText: String =
         """
@@ -217,7 +225,11 @@ object GPL_3_0_or_later : SupportedLicense {
             """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex(
-        "(GNU General Public License.*3.*.or.later)|(GPL.3.*or.later)",
+        "(GNU General Public License.*3.*)|(GPL.3.*)",
+        RegexOption.IGNORE_CASE
+    )
+    override val fullTextRegex: Regex = Regex(
+        ".*GNU General Public License.*version.*3.*",
         RegexOption.IGNORE_CASE
     )
 
@@ -249,7 +261,7 @@ object GPL_3_0_or_later : SupportedLicense {
             "0[top][top][top][top][top][top][top][top]0"
         )
 
-        add(RiderUI.createLicenseNameViewPanelLabel(this@GPL_3_0_or_later.name), "span")
+        add(RiderUI.createLicenseNameViewPanelLabel(this@GPL_3_0_only.name), "span")
         add(RiderUI.createLabel("<html>${description}</html>"), "span")
 
         add(
@@ -288,7 +300,8 @@ object GPL_3_0_or_later : SupportedLicense {
         Apache_2_0,
         MIT,
         this,
+        BSD_2_Clause,
         BSD_3_Clause,
-        LGPL_2_1_or_later
+        ISC
     )
 }

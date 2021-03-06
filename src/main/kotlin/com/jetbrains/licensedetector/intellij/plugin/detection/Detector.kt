@@ -39,9 +39,13 @@ object Detector {
     // Detected License (string) to License class mapping
     private val licenseToClass = mapOf<String, License>(
         "Apache-2.0" to Apache_2_0,
+        "BSD-3-Clause" to BSD_2_Clause,
         "BSD-3-Clause" to BSD_3_Clause,
-        "GPL-3.0-only" to GPL_3_0_or_later,
-        "LGPL-2.1-only" to LGPL_2_1_or_later,
+        "GPL-2.0-only" to GPL_2_0_only,
+        "GPL-3.0-only" to GPL_3_0_only,
+        "ISC" to ISC,
+        "LGPL-2.1-only" to LGPL_2_1_only,
+        "LGPL-3.0-only" to LGPL_3_0_only,
         "MIT" to MIT
     )
 
@@ -154,11 +158,11 @@ object Detector {
      * @param text text from which license to be detected.
      * @return object of detected License.
      */
-    fun detectLicense(text: String): License {
+    private fun detectLicense(text: String): License {
         // Convert text into vector
         val filteredText = filterText(text)
         val vector = vectorizer.vectorize(filteredText)
-        val tensor = FloatNDArray(inputShape) { it -> vector[it].toFloat() }.asTensor("features")
+        val tensor = FloatNDArray(inputShape) { vector[it].toFloat() }.asTensor("features")
 
         // Prediction
         val prediction = model.predict(listOf(tensor))
@@ -265,13 +269,27 @@ object Detector {
         return result.filter { it != NoLicense }.toSet()
     }
 
-    fun getLicenseOnNameOrSpdx(name: String): License? {
+    fun getLicenseByNameOrSpdx(name: String): SupportedLicense? {
         val detectedLicenseByModel = detectLicense(name)
         if (detectedLicenseByModel != NoLicense && detectedLicenseByModel is SupportedLicense) {
             return detectedLicenseByModel
         }
 
         val detectedLicenseByRegex = ALL_SUPPORTED_LICENSE.firstOrNull { it.nameSpdxRegex.matches(name) }
+        if (detectedLicenseByRegex != null) {
+            return detectedLicenseByRegex
+        }
+
+        return null
+    }
+
+    fun getLicenseByFullText(text: String): SupportedLicense? {
+        val detectedLicenseByModel = detectLicense(text)
+        if (detectedLicenseByModel != NoLicense && detectedLicenseByModel is SupportedLicense) {
+            return detectedLicenseByModel
+        }
+
+        val detectedLicenseByRegex = ALL_SUPPORTED_LICENSE.firstOrNull { it.fullTextRegex.matches(text) }
         if (detectedLicenseByRegex != null) {
             return detectedLicenseByRegex
         }

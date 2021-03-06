@@ -6,16 +6,16 @@ const val COMPATIBLE_PROJECT_LICENSE_NOT_FOUND = "No licenses compatible with pr
 
 val ALL_SUPPORTED_LICENSE = listOf(
     Apache_2_0,
+    BSD_2_Clause,
     BSD_3_Clause,
-    GPL_3_0_or_later,
-    LGPL_2_1_or_later,
+    GPL_2_0_only,
+    GPL_3_0_only,
+    ISC,
+    LGPL_2_1_only,
+    LGPL_3_0_only,
     MIT,
     NoLicense
 ).sortedByDescending { it.priority }.toTypedArray()
-
-internal fun getLicenseOnFullTextOrNull(fullText: String): SupportedLicense? {
-    return ALL_SUPPORTED_LICENSE.firstOrNull { it.fullText == fullText }
-}
 
 internal fun getCompatiblePackageLicenses(projectLicenses: Set<SupportedLicense>): Set<SupportedLicense> {
     if (projectLicenses.isEmpty()) {

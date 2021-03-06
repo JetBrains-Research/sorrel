@@ -83,6 +83,8 @@ object Apache_2_0 : SupportedLicense {
             """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex("(.*Apache.*2.*)|(.*2.*Apache.*)", RegexOption.IGNORE_CASE)
+    override val fullTextRegex: Regex = Regex("(.*Apache.*2.*)|(.*2.*Apache.*)", RegexOption.IGNORE_CASE)
+
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.description")
     override val permissions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.1"),
@@ -142,15 +144,20 @@ object Apache_2_0 : SupportedLicense {
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
         this,
+        BSD_2_Clause,
         BSD_3_Clause,
-        GPL_3_0_or_later,
-        LGPL_2_1_or_later,
+        GPL_3_0_only,
+        ISC,
+        LGPL_2_1_only,
+        LGPL_3_0_only,
         MIT
     )
 
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         this,
         MIT,
-        BSD_3_Clause
+        BSD_2_Clause,
+        BSD_3_Clause,
+        ISC
     )
 }
