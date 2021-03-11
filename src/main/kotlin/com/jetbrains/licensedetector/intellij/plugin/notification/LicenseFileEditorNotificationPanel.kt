@@ -24,7 +24,7 @@ import com.intellij.openapi.util.Pair
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
-import com.jetbrains.licensedetector.intellij.plugin.detection.Detector
+import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager
 import com.jetbrains.licensedetector.intellij.plugin.diff.WordsFirstDiffComputer
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
@@ -154,7 +154,7 @@ class LicenseFileEditorNotificationPanel(
         licenseDocument.addDocumentListener(object : DocumentListener {
             override fun documentChanged(event: DocumentEvent) {
                 val licenseDocumentText = licenseDocument.text
-                val license = Detector.getLicenseByFullText(licenseDocumentText) ?: return
+                val license = DetectorManager.getLicenseByFullText(licenseDocumentText)
                 comboBox.selectedItem = license
             }
         })

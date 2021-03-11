@@ -29,12 +29,6 @@ object ISC : SupportedLicense {
         RegexOption.IGNORE_CASE
     )
 
-    // Use a machine learning model to detect this license
-    override val fullTextRegex: Regex = Regex(
-        "(ISC License.*)|(ISC.*)",
-        RegexOption.IGNORE_CASE
-    )
-
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.isc.description")
     override val permissions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.isc.permissions.1"),

@@ -29,10 +29,6 @@ object MIT : SupportedLicense {
         "(.*MIT( License)?)|(MIT)",
         RegexOption.IGNORE_CASE
     )
-    override val fullTextRegex: Regex = Regex(
-        "(.*MIT( License)?)|(MIT)",
-        RegexOption.IGNORE_CASE
-    )
 
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.mit.description")
     override val permissions: List<String> = listOf(

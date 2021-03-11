@@ -23,8 +23,8 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FilenameIndex.getAllFilesByExt
 import com.intellij.util.Function
-import com.jetbrains.licensedetector.intellij.plugin.detection.Detector
-import com.jetbrains.licensedetector.intellij.plugin.detection.Detector.licenseFileNamePattern
+import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager
+import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
@@ -180,10 +180,8 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
                 val module = findModuleForFile(updatedFile, project) ?: continue
                 val projectModule =
                     currentProjectModules.find { it.nativeModule == module } ?: continue
-                val detectedLicense = Detector.getLicenseByFullText(licensePsiFile.text)
-                if (detectedLicense is SupportedLicense) {
-                    moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-                }
+                val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFile.text)
+                moduleLicenseByLicenseFiles[projectModule] = detectedLicense
             }
         }
         licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
@@ -215,10 +213,8 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
             val module = findModuleForFile(updatedFile.virtualFile, project)
             val projectModule = currentProjectModules.find { it.nativeModule == module }
             if (projectModule != null) {
-                val detectedLicense = Detector.getLicenseByFullText(updatedFile.text)
-                if (detectedLicense is SupportedLicense) {
-                    moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-                }
+                val detectedLicense = DetectorManager.getLicenseByFullText(updatedFile.text)
+                moduleLicenseByLicenseFiles[projectModule] = detectedLicense
             }
         }
     }
@@ -287,7 +283,10 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
                                     PackageDependency(
                                         identifier.substringBefore(':'),
                                         identifier.substringAfterLast(':'),
-                                        licensesFromJarMetaInfo = Detector.getPackageLicensesFromJar(library, project)
+                                        licensesFromJarMetaInfo = DetectorManager.getPackageLicensesFromJar(
+                                            library,
+                                            project
+                                        )
                                     )
                                 }
                             )
@@ -351,10 +350,8 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
                         val licensePsiFile = PsiManager.getInstance(project).findFile(licenseFile) ?: continue
                         val module = findModuleForFile(licenseFile, project) ?: continue
                         val projectModule = projectModuleList.find { it.nativeModule == module } ?: continue
-                        val detectedLicense = Detector.getLicenseByFullText(licensePsiFile.text)
-                        if (detectedLicense is SupportedLicense) {
-                            moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-                        }
+                        val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFile.text)
+                        moduleLicenseByLicenseFiles[projectModule] = detectedLicense
                     }
                 }
                 licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)

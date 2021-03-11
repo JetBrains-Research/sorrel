@@ -28,12 +28,6 @@ object BSD_2_Clause : SupportedLicense {
         RegexOption.IGNORE_CASE
     )
 
-    // Use a machine learning model to detect this license
-    override val fullTextRegex: Regex = Regex(
-        "(BSD 2-Clause \"Simplified\" License)|(BSD-2-Clause)",
-        RegexOption.IGNORE_CASE
-    )
-
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.description")
     override val permissions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.permissions.1"),
