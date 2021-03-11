@@ -28,11 +28,11 @@ import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.l
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
+import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.SearchClient
+import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.ServerURLs
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ModuleUtils.getTopLevelModule
 import com.jetbrains.licensedetector.intellij.plugin.utils.getSimpleIdentifier
 import com.jetbrains.licensedetector.intellij.plugin.utils.getVersion
-import com.jetbrains.packagesearch.intellij.plugin.api.SearchClient
-import com.jetbrains.packagesearch.intellij.plugin.api.ServerURLs
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.reactive.Signal

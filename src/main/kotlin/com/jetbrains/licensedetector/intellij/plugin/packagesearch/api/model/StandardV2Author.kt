@@ -1,11 +1,10 @@
-package com.jetbrains.packagesearch.intellij.plugin.api.model
+package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model
 
 import com.google.gson.annotations.SerializedName
-import com.jetbrains.packagesearch.intellij.plugin.api.RequiresWhitespaceCleanup
 
 data class StandardV2Author(
 
-        @RequiresWhitespaceCleanup
+    // Requires whitespace cleanup
         @SerializedName("name")
         val name: String?,
 

@@ -35,8 +35,9 @@ repositories {
     jcenter()
 }
 dependencies {
-    implementation("io.arrow-kt:arrow-core:0.10.4")
-    implementation("io.kinference:inference:0.1.2")
+    implementation("io.kinference:inference:0.1.2") {
+        exclude("org.slf4j", "slf4j-api")
+    }
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -55,6 +56,11 @@ intellij {
 }
 
 tasks {
+
+    runIde {
+        jvmArgs("--add-exports=java.base/jdk.internal.vm=ALL-UNNAMED")
+    }
+
     // Set the compatibility versions to 1.8
     withType<JavaCompile> {
         sourceCompatibility = "1.8"
@@ -82,24 +88,24 @@ tasks {
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription(
-                closure {
-                    File("./README.md").readText().lines().run {
-                        val start = "<!-- Plugin description -->"
-                        val end = "<!-- Plugin description end -->"
+            closure {
+                File("./README.md").readText().lines().run {
+                    val start = "<!-- Plugin description -->"
+                    val end = "<!-- Plugin description end -->"
 
-                        if (!containsAll(listOf(start, end))) {
-                            throw GradleException("Plugin description section not found in README.md file:\n$start ... $end")
-                        }
-                        subList(indexOf(start) + 1, indexOf(end))
-                    }.joinToString("\n").run { markdownToHTML(this) }
-                }
+                    if (!containsAll(listOf(start, end))) {
+                        throw GradleException("Plugin description section not found in README.md file:\n$start ... $end")
+                    }
+                    subList(indexOf(start) + 1, indexOf(end))
+                }.joinToString("\n").run { markdownToHTML(this) }
+            }
         )
 
         // Get the latest available change notes from the changelog file
         changeNotes(
-                closure {
-                    changelog.getLatest().toHTML()
-                }
+            closure {
+                changelog.getLatest().toHTML()
+            }
         )
     }
 

@@ -1,7 +1,7 @@
 package com.jetbrains.licensedetector.intellij.plugin.utils
 
+import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model.StandardV2Scm
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.InfoLink
-import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Scm
 
 internal fun extractScmUrl(scm: StandardV2Scm?): ScmUrl? {
     if (scm == null) return null

@@ -1,12 +1,12 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
-import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 
 enum class InfoLink(val displayName: String) {
-    PROJECT_SITE(PackageSearchBundle.message("packagesearch.ui.toolwindow.link.projectSite")),
-    DOCUMENTATION(PackageSearchBundle.message("packagesearch.ui.toolwindow.link.documentation")),
-    README(PackageSearchBundle.message("packagesearch.ui.toolwindow.link.readme")),
-    CODE_OF_CONDUCT(PackageSearchBundle.message("packagesearch.ui.toolwindow.link.codeOfConduct")),
-    GITHUB(PackageSearchBundle.message("packagesearch.ui.toolwindow.link.github")),
-    SCM(PackageSearchBundle.message("packagesearch.ui.toolwindow.link.scm"))
+    PROJECT_SITE(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.link.projectSite")),
+    DOCUMENTATION(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.link.documentation")),
+    README(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.link.readme")),
+    CODE_OF_CONDUCT(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.link.codeOfConduct")),
+    GITHUB(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.link.github")),
+    SCM(LicenseDetectorBundle.message("licensedetector.ui.toolwindow.link.scm"))
 }

@@ -1,4 +1,4 @@
-package com.jetbrains.packagesearch.intellij.plugin.api.model
+package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model
 
 import com.google.gson.annotations.SerializedName
 import gson.DeserializationFallback
@@ -6,10 +6,10 @@ import gson.DeserializationFallback
 // Note: any parameter that is typed as an enum class and deserialized with Gson must be nullable
 data class StandardV2Platform(
 
-        @SerializedName("type")
+    @SerializedName("type")
         val type: PlatformType?,
 
-        @SerializedName("targets")
+    @SerializedName("targets")
         val targets: List<PlatformTarget>?
 )
 

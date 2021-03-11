@@ -1,4 +1,4 @@
-package com.jetbrains.packagesearch.intellij.plugin.api
+package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

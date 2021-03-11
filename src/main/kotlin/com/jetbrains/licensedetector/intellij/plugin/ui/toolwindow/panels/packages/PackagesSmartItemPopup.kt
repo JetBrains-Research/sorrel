@@ -3,11 +3,11 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packa
 import com.intellij.icons.AllIcons
 import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.ide.CopyPasteManager
-import com.jetbrains.licensedetector.intellij.plugin.ui.PackageSearchPluginIcons
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.ui.LicenseDetectorPluginIcons
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.InfoLink
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
-import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import java.awt.datatransfer.StringSelection
 import javax.swing.JPopupMenu
 
@@ -22,12 +22,12 @@ class PackagesSmartItemPopup(private val meta: PackageDependency) : JPopupMenu()
         links.remove(InfoLink.CODE_OF_CONDUCT)
         add(
             RiderUI.menuItem(
-                PackageSearchBundle.message("packagesearch.ui.popup.show.online"),
-                PackageSearchPluginIcons.Artifact
+                LicenseDetectorBundle.message("licensedetector.ui.popup.show.online"),
+                LicenseDetectorPluginIcons.Artifact
             ) {
                 BrowserUtil.browse(
-                    PackageSearchBundle.message(
-                        "packagesearch.wellknown.url.jb.packagesearch.details",
+                    LicenseDetectorBundle.message(
+                        "licensedetector.wellknown.url.jb.packagesearch.details",
                         meta.identifier
                     )
                 )
@@ -38,7 +38,7 @@ class PackagesSmartItemPopup(private val meta: PackageDependency) : JPopupMenu()
             val gitHubLink = links.remove(InfoLink.GITHUB) ?: return@let
             add(
                 RiderUI.menuItem(
-                    PackageSearchBundle.message("packagesearch.ui.popup.open.github"),
+                    LicenseDetectorBundle.message("licensedetector.ui.popup.open.github"),
                     AllIcons.Vcs.Vendors.Github
                 ) {
                     BrowserUtil.browse(gitHubLink)
@@ -47,23 +47,35 @@ class PackagesSmartItemPopup(private val meta: PackageDependency) : JPopupMenu()
 
         meta.remoteInfo?.gitHub?.communityProfile?.files?.license?.let {
             val licenseUrl = it.htmlUrl ?: it.url
-            val licenseName = it.name ?: PackageSearchBundle.message("packagesearch.terminology.license.unknown")
+            val licenseName = it.name ?: LicenseDetectorBundle.message("licensedetector.terminology.license.unknown")
             if (!licenseUrl.isNullOrEmpty()) {
-                add(RiderUI.menuItem(PackageSearchBundle.message("packagesearch.ui.popup.open.license", licenseName), null) {
-                    BrowserUtil.browse(licenseUrl)
-                })
+                add(
+                    RiderUI.menuItem(
+                        LicenseDetectorBundle.message(
+                            "licensedetector.ui.popup.open.license",
+                            licenseName
+                        ), null
+                    ) {
+                        BrowserUtil.browse(licenseUrl)
+                    })
             }
         }
 
         links.forEach {
-            add(RiderUI.menuItem(PackageSearchBundle.message("packagesearch.ui.popup.browse.thing", it.key.displayName), null) {
-                BrowserUtil.browse(it.value)
-            })
+            add(
+                RiderUI.menuItem(
+                    LicenseDetectorBundle.message(
+                        "licensedetector.ui.popup.browse.thing",
+                        it.key.displayName
+                    ), null
+                ) {
+                    BrowserUtil.browse(it.value)
+                })
         }
 
         // Other entries
         addSeparator()
-        add(RiderUI.menuItem(PackageSearchBundle.message("packagesearch.ui.popup.copy.identifier"), null) {
+        add(RiderUI.menuItem(LicenseDetectorBundle.message("licensedetector.ui.popup.copy.identifier"), null) {
             CopyPasteManager.getInstance().setContents(StringSelection(meta.identifier))
         })
     }

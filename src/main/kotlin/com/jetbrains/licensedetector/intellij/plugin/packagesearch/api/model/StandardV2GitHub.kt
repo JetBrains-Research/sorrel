@@ -1,11 +1,10 @@
-package com.jetbrains.packagesearch.intellij.plugin.api.model
+package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model
 
 import com.google.gson.annotations.SerializedName
-import com.jetbrains.packagesearch.intellij.plugin.api.RequiresWhitespaceCleanup
 
 data class StandardV2GitHub(
 
-        @RequiresWhitespaceCleanup
+    // Requires whitespace cleanup
         @SerializedName("description")
         val description: String?,
 
@@ -42,7 +41,7 @@ data class StandardV2GitHubCommunityProfile(
         @SerializedName("documentation")
         val documentationUrl: String?,
 
-        @RequiresWhitespaceCleanup
+    // Requires whitespace cleanup
         @SerializedName("description")
         val description: String?,
 

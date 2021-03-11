@@ -1,4 +1,4 @@
-package com.jetbrains.packagesearch.intellij.plugin.api.model
+package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model
 
 import com.google.gson.annotations.SerializedName
 import com.jetbrains.licensedetector.intellij.plugin.licenses.License
