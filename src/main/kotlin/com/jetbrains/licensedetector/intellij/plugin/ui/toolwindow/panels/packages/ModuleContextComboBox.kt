@@ -5,9 +5,9 @@ import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
-import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import javax.swing.JLabel
 
 class ModuleContextComboBox(viewModel: ToolWindowModel) : ContextComboBoxBase(viewModel) {
@@ -17,7 +17,7 @@ class ModuleContextComboBox(viewModel: ToolWindowModel) : ContextComboBoxBase(vi
         override fun getIcon() = AllIcons.General.ProjectStructure
 
         override fun getText() = viewModel.selectedProjectModule.value?.name
-            ?: PackageSearchBundle.message("packagesearch.ui.toolwindow.allModules")
+            ?: LicenseDetectorBundle.message("licensedetector.ui.toolwindow.allModules")
     }
 
     override fun createActionGroup(): ActionGroup {
@@ -27,7 +27,8 @@ class ModuleContextComboBox(viewModel: ToolWindowModel) : ContextComboBoxBase(vi
         )
     }
 
-    private fun createSelectProjectAction() = createSelectAction(null, PackageSearchBundle.message("packagesearch.ui.toolwindow.allModules"))
+    private fun createSelectProjectAction() =
+        createSelectAction(null, LicenseDetectorBundle.message("licensedetector.ui.toolwindow.allModules"))
 
     private fun createSelectModuleActions(): List<AnAction> =
             viewModel.projectModules.value

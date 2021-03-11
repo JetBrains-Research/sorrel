@@ -3,7 +3,7 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packa
 import com.intellij.util.IconUtil
 import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.PackageSearchPluginIcons
+import com.jetbrains.licensedetector.intellij.plugin.ui.LicenseDetectorPluginIcons
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toHtml
@@ -15,7 +15,13 @@ import java.awt.Dimension
 import javax.swing.*
 
 private val packageIconSize by lazy { JBUI.scale(16) }
-private val packageIcon by lazy { IconUtil.toSize(PackageSearchPluginIcons.Package, packageIconSize, packageIconSize) }
+private val packageIcon by lazy {
+    IconUtil.toSize(
+        LicenseDetectorPluginIcons.Package,
+        packageIconSize,
+        packageIconSize
+    )
+}
 
 class PackagesSmartRenderer : ListCellRenderer<PackagesSmartItem> {
 

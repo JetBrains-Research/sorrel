@@ -1,8 +1,8 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
 import com.jetbrains.licensedetector.intellij.plugin.licenses.License
+import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model.StandardV2Package
 import com.jetbrains.licensedetector.intellij.plugin.utils.extractScmUrl
-import com.jetbrains.packagesearch.intellij.plugin.api.model.StandardV2Package
 
 //TODO: Maybe add installed version (what if many versions installed?)
 data class PackageDependency(

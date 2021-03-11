@@ -12,7 +12,6 @@ import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
-import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import java.awt.Component
 import java.awt.Point
 import java.awt.event.FocusAdapter
@@ -115,15 +114,15 @@ class PackagesSmartList(val viewModel: ToolWindowModel) :
 
         val installedPackages = packages.filter { it.isInstalled }
 
-        val message = PackageSearchBundle.message(
-            "packagesearch.ui.toolwindow.tab.packages.installedPackages.withCount",
+        val message = LicenseDetectorBundle.message(
+            "licensedetector.ui.toolwindow.tab.packages.installedPackages.withCount",
             installedPackages.size
         )
         installedHeader.title = message + (viewModel.selectedProjectModule.value?.name
             ?.let {
                 " ${
-                    PackageSearchBundle.message(
-                        "packagesearch.ui.toolwindow.tab.packages.installedPackages.titleSuffix",
+                    LicenseDetectorBundle.message(
+                        "licensedetector.ui.toolwindow.tab.packages.installedPackages.titleSuffix",
                         it
                     )
                 }"

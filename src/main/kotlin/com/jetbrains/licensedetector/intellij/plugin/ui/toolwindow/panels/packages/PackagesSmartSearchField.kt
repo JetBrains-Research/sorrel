@@ -2,9 +2,9 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packa
 
 import com.intellij.ui.SearchTextField
 import com.intellij.util.ui.JBUI
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
-import com.jetbrains.packagesearch.intellij.plugin.api.PackageSearchBundle
 import java.awt.Dimension
 import java.awt.event.KeyEvent
 
@@ -19,7 +19,7 @@ class PackagesSmartSearchField(
         minimumSize = Dimension(JBUI.scale(100), minimumSize.height)
 
         font = RiderUI.BigFont
-        textEditor.setTextToTriggerEmptyTextStatus(PackageSearchBundle.message("packagesearch.search.hint"))
+        textEditor.setTextToTriggerEmptyTextStatus(LicenseDetectorBundle.message("licensedetector.packages.searchfield.hint"))
         textEditor.emptyText.isShowAboveCenter = true
 
         RiderUI.overrideKeyStroke(textEditor, "shift ENTER", this::transferFocusBackward)
