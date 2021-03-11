@@ -13,9 +13,6 @@ interface SupportedLicense : License {
     // For detection of license by name or by spdx
     val nameSpdxRegex: Regex
 
-    // For detection of license by full text
-    val fullTextRegex: Regex
-
     //Compatible module licenses if the dependency has a current license
     val compatibleModuleLicenses: Set<SupportedLicense>
 

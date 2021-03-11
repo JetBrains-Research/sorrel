@@ -7,7 +7,7 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotifications
-import com.jetbrains.licensedetector.intellij.plugin.detection.Detector.licenseFileNamePattern
+import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
 
 

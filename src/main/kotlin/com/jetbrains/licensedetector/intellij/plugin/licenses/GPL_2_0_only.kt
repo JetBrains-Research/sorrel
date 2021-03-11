@@ -131,10 +131,6 @@ object GPL_2_0_only : SupportedLicense {
         "(GNU General Public License.*2.*)|(GPL.2.*)",
         RegexOption.IGNORE_CASE
     )
-    override val fullTextRegex: Regex = Regex(
-        ".*GNU General Public License.*version.*2.*",
-        RegexOption.IGNORE_CASE
-    )
 
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.description")
     override val permissions: List<String> = listOf(

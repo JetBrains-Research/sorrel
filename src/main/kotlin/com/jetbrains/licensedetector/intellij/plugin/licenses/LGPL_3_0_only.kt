@@ -79,10 +79,6 @@ object LGPL_3_0_only : SupportedLicense {
         "(GNU Lesser General Public License.*3.*)|(LGPL.*3.*)",
         RegexOption.IGNORE_CASE
     )
-    override val fullTextRegex: Regex = Regex(
-        "(.*GNU Lesser General Public License.*version.*3.*)|(LGPL.*3.*)",
-        RegexOption.IGNORE_CASE
-    )
 
     override val description: String = LicenseDetectorBundle.message("licensedetector.ui.lgpl_3_0_or_later.description")
     override val permissions: List<String> = listOf(

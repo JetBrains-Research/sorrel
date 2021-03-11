@@ -16,7 +16,7 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.util.IncorrectOperationException
-import com.jetbrains.licensedetector.intellij.plugin.detection.Detector.licenseFileNamePattern
+import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
 import java.io.File

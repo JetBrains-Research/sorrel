@@ -25,13 +25,7 @@ object BSD_3_Clause : SupportedLicense {
             """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex(
-        "(BSD 3-Clause \"New\" or \"Revised\" License)|(BSD-3-Clause)",
-        RegexOption.IGNORE_CASE
-    )
-
-    // Use a machine learning model to detect this license
-    override val fullTextRegex: Regex = Regex(
-        "(BSD 3-Clause \"New\" or \"Revised\" License)|(BSD-3-Clause)",
+        "(BSD 3-Clause \"New\" or \"Revised\" License)|(BSD-3-Clause)|(BSD.*3.*)",
         RegexOption.IGNORE_CASE
     )
 
