@@ -151,7 +151,7 @@ object GPL_2_0_only : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.4")
     )
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(

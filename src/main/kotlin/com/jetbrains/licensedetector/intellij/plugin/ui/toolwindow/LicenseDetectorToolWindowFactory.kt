@@ -104,7 +104,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
         if (project.hasOneTopLevelModule()) {
             createToolWindowContents(project, toolWindow)
         } else {
-            toolWindow.contentManager.removeAllContents(false)
+            toolWindow.contentManager.removeAllContents(true)
             toolWindow.contentManager.addContent(
                 ContentFactory.SERVICE.getInstance().createContent(
                     ManyRootModuleHider(),

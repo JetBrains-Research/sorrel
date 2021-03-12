@@ -13,8 +13,7 @@ import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.EditorFactory
-import com.intellij.openapi.editor.event.DocumentEvent
-import com.intellij.openapi.editor.event.DocumentListener
+import com.intellij.openapi.editor.event.BulkAwareDocumentListener
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.module.ModuleUtilCore
@@ -74,7 +73,7 @@ class LicenseFileEditorNotificationPanel(
         comboBox.isSwingPopup = false
         comboBox.renderer = LicenseListCellRenderer(model, projectModule)
         comboBox.selectedItem = moduleProjectLicense
-        addUpdateProjectLicenseFileActions(comboBox)
+        addUpdateLicenseFileActions(comboBox)
         return comboBox
     }
 
@@ -97,8 +96,9 @@ class LicenseFileEditorNotificationPanel(
     }
 
     private fun createShowDiffLicenseFileActionLabel(
-            comboBox: ComboBox<SupportedLicense>,
-            licenseFile: VirtualFile) {
+        comboBox: ComboBox<SupportedLicense>,
+        licenseFile: VirtualFile
+    ) {
         createActionLabel(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.showDiffLicenseFile.label")) {
             val diffContentFactory = DiffContentFactory.getInstance()
 
@@ -106,9 +106,9 @@ class LicenseFileEditorNotificationPanel(
             val selectedLicenseDocument = EditorFactory.getInstance().createDocument(selectedLicense.fullText)
             selectedLicenseDocument.setReadOnly(true)
             val referenceLicenseContent = diffContentFactory.create(
-                    project,
-                    selectedLicenseDocument,
-                    PlainTextFileType.INSTANCE
+                project,
+                selectedLicenseDocument,
+                PlainTextFileType.INSTANCE
             )
             val currentLicenseFileContent = diffContentFactory.create(project, licenseFile)
 
@@ -137,7 +137,7 @@ class LicenseFileEditorNotificationPanel(
         }
     }
 
-    private fun addUpdateProjectLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
+    private fun addUpdateLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
         comboBox.addActionListener {
             synchronized(model.lockObject) {
                 val module = ModuleUtilCore.findModuleForFile(licenseFile, project)!!
@@ -151,9 +151,9 @@ class LicenseFileEditorNotificationPanel(
     }
 
     private fun addUpdateOnLicenseFileText(comboBox: ComboBox<SupportedLicense>, licenseDocument: Document) {
-        licenseDocument.addDocumentListener(object : DocumentListener {
-            override fun documentChanged(event: DocumentEvent) {
-                val licenseDocumentText = licenseDocument.text
+        licenseDocument.addDocumentListener(object : BulkAwareDocumentListener.Simple {
+            override fun bulkUpdateFinished(document: Document) {
+                val licenseDocumentText = document.text
                 val license = DetectorManager.getLicenseByFullText(licenseDocumentText)
                 comboBox.selectedItem = license
             }

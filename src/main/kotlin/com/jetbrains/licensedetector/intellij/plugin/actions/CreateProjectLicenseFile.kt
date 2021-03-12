@@ -47,28 +47,29 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
                         moduleDir.createFile(LICENSE_FILE_NAME)
                     }
                 )
+                synchronized(model.lockObject) {
+                    val licenseDocument = PsiDocumentManager.getInstance(project).getDocument(licenseFile)!!
+                    val curProjectModule = model.projectModules.value.find { it.nativeModule == module }!!
+                    val compatibleLicenses = project.getUserData(ToolWindowModelKey)!!
+                        .licenseManager.modulesCompatibleLicenses.value[curProjectModule]!!
 
-                val licenseDocument = PsiDocumentManager.getInstance(project).getDocument(licenseFile)!!
-                val curProjectModule = model.projectModules.value.find { it.nativeModule == module }!!
-                val compatibleLicenses = project.getUserData(ToolWindowModelKey)!!
-                    .licenseManager.modulesCompatibleLicenses.value[curProjectModule]!!
-
-                //TODO: Mb must be done in full order in licenses. Now the order is partial
-                if (compatibleLicenses.any()) {
-                    val recommendedLicense = compatibleLicenses[0]
-                    application.runWriteAction {
-                        licenseDocument.setText(recommendedLicense.fullText)
+                    //TODO: Mb must be done in full order in licenses. Now the order is partial
+                    if (compatibleLicenses.any()) {
+                        val recommendedLicense = compatibleLicenses[0]
+                        application.runWriteAction {
+                            licenseDocument.setText(recommendedLicense.fullText)
+                        }
+                        val newModulesLicenseMap = model.licenseManager.modulesLicenses.value.toMutableMap()
+                        newModulesLicenseMap[curProjectModule] = recommendedLicense
+                        model.licenseManager.modulesLicenses.set(newModulesLicenseMap)
+                    } else {
+                        application.runWriteAction {
+                            licenseDocument.setText(NoLicense.fullText)
+                        }
+                        val newModulesLicenseMap = model.licenseManager.modulesLicenses.value.toMutableMap()
+                        newModulesLicenseMap[curProjectModule] = NoLicense
+                        model.licenseManager.modulesLicenses.set(newModulesLicenseMap)
                     }
-                    val newModulesLicenseMap = model.licenseManager.modulesLicenses.value.toMutableMap()
-                    newModulesLicenseMap[curProjectModule] = recommendedLicense
-                    model.licenseManager.modulesLicenses.set(newModulesLicenseMap)
-                } else {
-                    application.runWriteAction {
-                        licenseDocument.setText(NoLicense.fullText)
-                    }
-                    val newModulesLicenseMap = model.licenseManager.modulesLicenses.value.toMutableMap()
-                    newModulesLicenseMap[curProjectModule] = NoLicense
-                    model.licenseManager.modulesLicenses.set(newModulesLicenseMap)
                 }
 
                 val openFileDescriptor = OpenFileDescriptor(project, licenseFile.virtualFile)

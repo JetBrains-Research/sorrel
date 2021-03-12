@@ -3,28 +3,25 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 import com.intellij.ProjectTopics
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
-import com.intellij.openapi.editor.EditorFactory
-import com.intellij.openapi.editor.event.DocumentEvent
-import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.module.ModuleUtilCore.findModuleForFile
 import com.intellij.openapi.project.ModuleListener
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.rd.createNestedDisposable
 import com.intellij.openapi.roots.ModuleRootEvent
 import com.intellij.openapi.roots.ModuleRootListener
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.libraries.Library
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
-import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FilenameIndex.getAllFilesByExt
 import com.intellij.util.Function
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
+import com.jetbrains.licensedetector.intellij.plugin.licenses.License
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
@@ -107,7 +104,6 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
         subscribeOnProjectNotifications()
         subscribeOnModulesNotifications()
         subscribeOnVFSChanges()
-        subscribeOnDocumentChanges()
 
         application.executeOnPooledThread {
             refreshContext()
@@ -155,7 +151,9 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
         project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, object : BulkFileListener {
             override fun after(events: MutableList<out VFileEvent>) {
                 application.executeOnPooledThread {
-                    updateModuleLicenseByVFSEvents(events)
+                    synchronized(lockObject) {
+                        updateModuleLicenseByVFSEvents(events)
+                    }
                 }
             }
         })
@@ -174,51 +172,24 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
         for (event in events) {
             val updatedFile = event.file
             if (updatedFile != null && licenseFileNamePattern.matches(updatedFile.name) &&
-                !updatedFile.isDirectory
+                !updatedFile.isDirectory && updatedFile.isValid
             ) {
-                val licensePsiFile = updatedFile.toPsiFile(project) ?: continue
+                val licensePsiText = ReadAction.compute<String, Throwable> {
+                    if (updatedFile.isValid) {
+                        updatedFile.toPsiFile(project)?.text
+                    } else {
+                        null
+                    }
+                } ?: continue
                 val module = findModuleForFile(updatedFile, project) ?: continue
                 val projectModule =
                     currentProjectModules.find { it.nativeModule == module } ?: continue
-                val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFile.text)
+                val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiText)
                 moduleLicenseByLicenseFiles[projectModule] = detectedLicense
             }
         }
         licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
     }
-
-    private fun subscribeOnDocumentChanges() {
-        EditorFactory.getInstance().eventMulticaster.addDocumentListener(object : DocumentListener {
-            override fun documentChanged(event: DocumentEvent) {
-                application.executeOnPooledThread {
-                    updateModuleLicenseByDocumentEvent(event)
-                }
-            }
-        }, lifetime.createNestedDisposable())
-    }
-
-    // Update module license in accordance with Document change in the license file
-    private fun updateModuleLicenseByDocumentEvent(event: DocumentEvent) {
-        val moduleLicenseByLicenseFiles: MutableMap<ProjectModule, SupportedLicense> = mutableMapOf()
-        val currentModuleLicenses = licenseManager.modulesLicenses.value
-        val currentProjectModules = projectModules.value
-        for ((module, license) in currentModuleLicenses) {
-            moduleLicenseByLicenseFiles[module] = license
-        }
-
-        val updatedFile = PsiDocumentManager.getInstance(project).getPsiFile(event.document)
-        if (updatedFile != null && licenseFileNamePattern.matches(updatedFile.name) &&
-            !updatedFile.isDirectory
-        ) {
-            val module = findModuleForFile(updatedFile.virtualFile, project)
-            val projectModule = currentProjectModules.find { it.nativeModule == module }
-            if (projectModule != null) {
-                val detectedLicense = DetectorManager.getLicenseByFullText(updatedFile.text)
-                moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-            }
-        }
-    }
-
 
     /**
      * Calculate packages that match the selected module and search query and feeds the result to UI component
@@ -252,110 +223,111 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
      *  then requests remote package information from PackageSearch
      */
     private fun refreshContext() {
-        ReadAction.run<Throwable> {
-            synchronized(lockObject) {
-                startOperation()
-                isSearching.set(true)
+        synchronized(lockObject) {
+            startOperation()
+            isSearching.set(true)
 
-                val installedPackagesMap = installedPackages.value.toMutableMap()
+            val installedPackagesMap = installedPackages.value.toMutableMap()
 
-                val projectModulesList = mutableListOf<ProjectModule>()
+            val projectModulesList = mutableListOf<ProjectModule>()
 
-                // Mark all packages as "no longer installed"
-                for (entry in installedPackagesMap) {
-                    entry.value.installationInformation.clear()
-                }
+            // Mark all packages as "no longer installed"
+            for (entry in installedPackagesMap) {
+                entry.value.installationInformation.clear()
+            }
 
-                // Fetch all project modules
-                val modules = ModuleManager.getInstance(project).modules.toList()
-                for (module in modules) {
-                    // Fetch all packages that are installed in the project and re-populate our map
-                    val projectModule = ProjectModule(module.name, module)
+            // Fetch all project modules
+            val modules = ModuleManager.getInstance(project).modules.toList()
+            for (module in modules) {
+                // Fetch all packages that are installed in the project and re-populate our map
+                val projectModule = ProjectModule(module.name, module)
 
-                    ModuleRootManager.getInstance(
-                        module
-                    ).orderEntries().forEachLibrary { library: Library ->
-                        val identifier = library.getSimpleIdentifier()
-                        if (identifier != null) {
-                            val item = installedPackagesMap.getOrPut(
-                                identifier,
-                                {
-                                    PackageDependency(
-                                        identifier.substringBefore(':'),
-                                        identifier.substringAfterLast(':'),
-                                        licensesFromJarMetaInfo = DetectorManager.getPackageLicensesFromJar(
+                ModuleRootManager.getInstance(
+                    module
+                ).orderEntries().forEachLibrary { library: Library ->
+                    val identifier = library.getSimpleIdentifier()
+                    if (identifier != null) {
+                        val item = installedPackagesMap.getOrPut(
+                            identifier,
+                            {
+                                PackageDependency(
+                                    identifier.substringBefore(':'),
+                                    identifier.substringAfterLast(':'),
+                                    licensesFromJarMetaInfo = ReadAction.compute<Set<License>, Throwable> {
+                                        DetectorManager.getPackageLicensesFromJar(
                                             library,
                                             project
                                         )
-                                    )
-                                }
-                            )
-
-                            item.installationInformation.add(
-                                InstallationInformation(
-                                    projectModule,
-                                    library.getVersion()
+                                    }
                                 )
-                            )
-                        }
-                        true
-                    }
+                            }
+                        )
 
-                    // Update list of project modules
-                    projectModulesList.add(projectModule)
+                        item.installationInformation.add(
+                            InstallationInformation(
+                                projectModule,
+                                library.getVersion()
+                            )
+                        )
+                    }
+                    true
                 }
 
-                // Any packages that are no longer installed?
-                installedPackagesMap.filterNot { it.value.isInstalled }
-                    .keys
-                    .forEach { keyToRemove -> installedPackagesMap.remove(keyToRemove) }
-
-                installedPackages.set(installedPackagesMap)
-                projectModules.set(projectModulesList)
-
-                val topLevelModule: Module = project.getTopLevelModule()
-                val rootProjectModule: ProjectModule = projectModules.value.find { it.nativeModule == topLevelModule }!!
-                rootModule.set(rootProjectModule)
-
-                updateModulesLicensesByLicenseFile(projectModulesList)
-
-                // Receive packages remote info from PackageSearch
-                refreshDependencyLicensesInfo()
-
-                finishOperation()
+                // Update list of project modules
+                projectModulesList.add(projectModule)
             }
+
+            // Any packages that are no longer installed?
+            installedPackagesMap.filterNot { it.value.isInstalled }
+                .keys
+                .forEach { keyToRemove -> installedPackagesMap.remove(keyToRemove) }
+
+            installedPackages.set(installedPackagesMap)
+            projectModules.set(projectModulesList)
+
+            val topLevelModule: Module? = project.getTopLevelModule()
+            val rootProjectModule: ProjectModule? = projectModules.value.find { it.nativeModule == topLevelModule }
+            rootModule.set(rootProjectModule)
+
+            updateModulesLicensesByLicenseFile(projectModulesList)
+
+            // Receive packages remote info from PackageSearch
+            refreshDependencyLicensesInfo()
+
+            finishOperation()
         }
     }
 
     private fun updateModulesLicensesByLicenseFile(projectModuleList: List<ProjectModule>) {
-        ReadAction.run<Throwable> {
-            synchronized(lockObject) {
-                //TODO: cannot find proper way to get all project files by regex
-                // It will probably run very slowly on real projects.
-                // One option is to capture the set of names to be found.
-                // Then it will be possible to use indices and get an acceleration of 1000x.
-                val licenseFiles = getAllFilesByExt(project, "txt") +
+        synchronized(lockObject) {
+            //TODO: cannot find proper way to get all project files by regex
+            // It will probably run very slowly on real projects.
+            // One option is to capture the set of names to be found.
+            // Then it will be possible to use indices and get an acceleration of 1000x.
+            val licenseFiles = ReadAction.compute<Collection<VirtualFile>, Throwable> {
+                getAllFilesByExt(project, "txt") +
                         getAllFilesByExt(project, "md") +
                         getAllFilesByExt(project, "html") +
                         getAllFilesByExt(project, "")
-
-                val moduleLicenseByLicenseFiles: MutableMap<ProjectModule, SupportedLicense> = mutableMapOf()
-
-                for (module in projectModuleList) {
-                    moduleLicenseByLicenseFiles[module] = NoLicense
-                }
-
-                for (licenseFile in licenseFiles) {
-                    if (licenseFileNamePattern.matches(licenseFile.name) && !licenseFile.isDirectory) {
-                        val licensePsiFile = PsiManager.getInstance(project).findFile(licenseFile) ?: continue
-                        val module = findModuleForFile(licenseFile, project) ?: continue
-                        val projectModule = projectModuleList.find { it.nativeModule == module } ?: continue
-                        val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFile.text)
-                        moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-                    }
-                }
-                licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
             }
+            val moduleLicenseByLicenseFiles: MutableMap<ProjectModule, SupportedLicense> = mutableMapOf()
+
+            for (module in projectModuleList) {
+                moduleLicenseByLicenseFiles[module] = NoLicense
+            }
+
+            for (licenseFile in licenseFiles) {
+                if (licenseFileNamePattern.matches(licenseFile.name) && !licenseFile.isDirectory) {
+                    val licensePsiFileText = ReadAction.compute<String?, Throwable> {
+                        PsiManager.getInstance(project).findFile(licenseFile)?.text
+                    } ?: continue
+                    val module = findModuleForFile(licenseFile, project) ?: continue
+                    val projectModule = projectModuleList.find { it.nativeModule == module } ?: continue
+                    val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFileText)
+                    moduleLicenseByLicenseFiles[projectModule] = detectedLicense
+                }
+            }
+            licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
         }
     }
 

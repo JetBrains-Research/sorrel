@@ -44,7 +44,7 @@ object ISC : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.isc.conditions.1")
     )
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(

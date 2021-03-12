@@ -97,8 +97,13 @@ class LicenseManager(
 
         projectModules.advise(lifetime) { moduleList ->
             val newModuleLicenses: MutableMap<ProjectModule, SupportedLicense> = modulesLicenses.value.toMutableMap()
+            //Add new module if module added or renamed
             moduleList.forEach {
                 newModuleLicenses.putIfAbsent(it, NoLicense)
+            }
+            //Delete old module if module removed or renamed
+            newModuleLicenses.filter {
+                moduleList.contains(it.key)
             }
             modulesLicenses.set(newModuleLicenses)
         }

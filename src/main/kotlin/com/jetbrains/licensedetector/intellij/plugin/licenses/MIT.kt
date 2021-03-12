@@ -45,7 +45,7 @@ object MIT : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.mit.conditions.1")
     )
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(
