@@ -25,7 +25,7 @@ interface SupportedLicense : License {
     val limitations: List<String>
     val conditions: List<String>
 
-    val descriptionPanel: JComponent
+    fun descriptionPanel(): JComponent
 }
 
 enum class LicensePriority(val value: Int) {

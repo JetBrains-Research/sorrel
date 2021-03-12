@@ -48,9 +48,7 @@ class HttpWrapper {
         timeoutInSeconds: Int = 10,
         headers: List<Pair<String, String>>
     ): JsonObject {
-        val response = requestString(url, acceptContentType, timeoutInSeconds, headers)
-
-        return response.asJSONObject()
+        return requestString(url, acceptContentType, timeoutInSeconds, headers).asJSONObject()
     }
 
     private fun String.asJSONObject(): JsonObject = JsonParser().parse(this).asJsonObject

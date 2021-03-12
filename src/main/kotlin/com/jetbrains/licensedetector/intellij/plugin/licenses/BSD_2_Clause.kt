@@ -43,7 +43,7 @@ object BSD_2_Clause : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.bsd_2_clause.conditions.1")
     )
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(

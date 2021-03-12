@@ -102,7 +102,7 @@ object Apache_2_0 : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.2")
     )
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(

@@ -20,7 +20,7 @@ object NoLicense : SupportedLicense {
     override val limitations: List<String> = listOf()
     override val conditions: List<String> = listOf()
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(

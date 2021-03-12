@@ -98,7 +98,7 @@ object LGPL_3_0_only : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.lgpl_3_0_or_later.conditions.4")
     )
 
-    override val descriptionPanel: JComponent = JPanel().apply {
+    override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(
