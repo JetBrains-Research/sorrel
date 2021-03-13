@@ -2,12 +2,12 @@ package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.http
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.util.io.HttpRequests
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.utils.logInfo
+import com.jetbrains.licensedetector.intellij.plugin.utils.logWarn
 
 class HttpWrapper {
-    private val logger = Logger.getInstance(this.javaClass)
     private val pluginUserAgent: String = "License Detector Plugin"
 
     private fun requestString(
@@ -31,13 +31,13 @@ class HttpWrapper {
 
             return when {
                 responseText.isEmpty() -> {
-                    logger.info(LicenseDetectorBundle.message("licensedetector.search.client.response.body.is.empty"))
+                    logInfo(LicenseDetectorBundle.message("licensedetector.search.client.response.body.is.empty"))
                     ""
                 }
                 else -> responseText
             }
         } catch (e: Exception) {
-            logger.warn(e)
+            logWarn(LicenseDetectorBundle.message("licensedetector.search.client.response.exception", url), e)
             return ""
         }
     }

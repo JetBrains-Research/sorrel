@@ -18,9 +18,16 @@
         <toolWindow id="Project Licenses" anchor="right" secondary="false"
                     canCloseContents="true"
                     factoryClass="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory"/>
+
         <editorNotificationProvider
                 id="LicenseFileEditorNotificationProvider"
                 implementation="com.jetbrains.licensedetector.intellij.plugin.notification.LicenseFileEditorNotificationProvider"/>
+
+        <registryKey id="licensedetector.plugin.debug.logging"
+                     key="licensedetector.plugin.debug.logging"
+                     defaultValue="false"
+                     description="Emit in-depth debug logging (warning: very spammy, only useful for debugging data flow issues). Make sure you have this line in Help | Diagnostic Tools | Debug Log Settings: '#com.jetbrains.licensedetector.intellij-plugin:trace'."
+                     restartRequired="true"/>
     </extensions>
 
     <applicationListeners>
