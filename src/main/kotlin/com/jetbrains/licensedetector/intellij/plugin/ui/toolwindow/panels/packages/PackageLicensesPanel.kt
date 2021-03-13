@@ -56,7 +56,7 @@ class PackageLicensesPanel(
                     AllIcons.Actions.Refresh
             ) {
                 override fun actionPerformed(e: AnActionEvent) {
-                    viewModel.requestRefreshContext.fire(true)
+                    viewModel.requestRefreshContext.fire(Unit)
                 }
             }
 

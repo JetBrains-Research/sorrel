@@ -6,6 +6,10 @@ import com.intellij.openapi.extensions.PluginId
 
 class PluginEnvironment {
 
+    companion object {
+        const val PLUGIN_ID = "com.jetbrains.licensedetector.intellij-plugin"
+    }
+
     val pluginVersion
         get() = PluginManager.getPlugin(PluginId.getId("license-detector-plugin"))?.version
             ?: LicenseDetectorBundle.message("licensedetector.version.undefined")

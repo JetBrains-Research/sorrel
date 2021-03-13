@@ -2,12 +2,13 @@ package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.intellij.openapi.diagnostic.Logger
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.PluginEnvironment
 import com.jetbrains.licensedetector.intellij.plugin.licenses.License
 import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.http.HttpWrapper
 import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model.StandardV2Package
+import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
+import com.jetbrains.licensedetector.intellij.plugin.utils.logWarn
 import gson.EnumWithDeserializationFallbackAdapterFactory
 import org.apache.commons.httpclient.util.URIUtil
 
@@ -29,8 +30,6 @@ class SearchClient(
         Pair("JB-IDE-Version", pluginEnvironment.ideVersion)
     )
 ) {
-    private val logger = Logger.getInstance(this.javaClass)
-
     private val httpWrapper = HttpWrapper()
 
     private val maxRequestResultsCount = 25
@@ -59,11 +58,11 @@ class SearchClient(
             return emptyList()
         }
         if (chunk.size > maxRequestResultsCount) {
-            logger.warn(LicenseDetectorBundle.message("licensedetector.search.client.error.too.many.requests.for.range"))
+            logWarn(LicenseDetectorBundle.message("licensedetector.search.client.error.too.many.requests.for.range"))
             return emptyList()
         }
         if (chunk.any { it.split(":").size >= maxMavenCoordinatesParts }) {
-            logger.warn(LicenseDetectorBundle.message("licensedetector.search.client.error.no.versions.for.range"))
+            logWarn(LicenseDetectorBundle.message("licensedetector.search.client.error.no.versions.for.range"))
             return emptyList()
         }
 
@@ -71,7 +70,14 @@ class SearchClient(
         val requestUrl = "$baseUrl/package?range=$joinedRange"
 
         val responseJson = httpWrapper.requestJsonObject(requestUrl, ContentType.standard, timeoutInSeconds, headers)
+        logDebug("Requested info about $chunk packages from Package Search")
 
-        return gson.fromJson(responseJson[packagesNameInJson], listPackagesType) ?: emptyList()
+        val responsePackageInfo: List<StandardV2Package> = gson.fromJson(
+            responseJson[packagesNameInJson], listPackagesType
+        ) ?: emptyList()
+
+        logDebug("Received info about $chunk from Package Search")
+
+        return responsePackageInfo
     }
 }
