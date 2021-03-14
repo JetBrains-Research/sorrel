@@ -12,7 +12,7 @@ class PomXmlPsiElementVisitor(private val resultLicenseSet: MutableSet<License>)
     private val licenseTagName = "license"
     private val licenseNameTagName = "name"
 
-    override fun visitElement(element: PsiElement?) {
+    override fun visitElement(element: PsiElement) {
         if (element is XmlTag && element.node.elementType == XML_TAG && element.name == licensesTagName) {
             val licensesSubTags = element.subTags
             for (subTag in licensesSubTags) {

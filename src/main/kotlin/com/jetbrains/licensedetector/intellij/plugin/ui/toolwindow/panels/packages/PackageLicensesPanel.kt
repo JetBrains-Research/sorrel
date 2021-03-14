@@ -46,7 +46,7 @@ class PackageLicensesPanel(
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
     }
 
-    private val moduleContextComboBox = ModuleContextComboBox(project)
+    private val moduleContextComboBox = ModuleContextComboBox(project.licenseDetectorModel())
 
     private fun updateLaf() {
         @Suppress("MagicNumber") // Gotta love Swing APIs

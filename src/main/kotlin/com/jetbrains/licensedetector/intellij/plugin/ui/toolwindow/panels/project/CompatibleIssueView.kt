@@ -14,6 +14,7 @@ import java.awt.Font
 import javax.swing.JLabel
 import javax.swing.JPanel
 import javax.swing.JSeparator
+import javax.swing.SwingUtilities
 
 class CompatibleIssueView {
 
@@ -40,31 +41,33 @@ class CompatibleIssueView {
 
         //Update issues
         compatibilityIssues.advise(lifetime) {
-            panel.removeAll()
-            panel.add(compatibleIssueTitle)
-            panel.add(separator, CC().growX())
+            SwingUtilities.invokeLater {
+                panel.removeAll()
+                panel.add(compatibleIssueTitle)
+                panel.add(separator, CC().growX())
 
-            if (it.packageDependencyLicenseIssues.isEmpty() &&
-                it.submoduleLicenseIssues.isEmpty()
-            ) {
-                panel.add(createEmptyLabel())
-            } else {
-                val stringBuilder = StringBuilder("<html><body><ol>")
-                if (it.packageDependencyLicenseIssues.isNotEmpty()) {
-                    it.packageDependencyLicenseIssues.forEach { issue ->
-                        stringBuilder.append("<li>$issue</li>")
+                if (it.packageDependencyLicenseIssues.isEmpty() &&
+                    it.submoduleLicenseIssues.isEmpty()
+                ) {
+                    panel.add(createEmptyLabel())
+                } else {
+                    val stringBuilder = StringBuilder("<html><body><ol>")
+                    if (it.packageDependencyLicenseIssues.isNotEmpty()) {
+                        it.packageDependencyLicenseIssues.forEach { issue ->
+                            stringBuilder.append("<li>$issue</li>")
+                        }
                     }
-                }
-                if (it.submoduleLicenseIssues.isNotEmpty()) {
-                    it.submoduleLicenseIssues.forEach { issue ->
-                        stringBuilder.append("<li>$issue</li>")
+                    if (it.submoduleLicenseIssues.isNotEmpty()) {
+                        it.submoduleLicenseIssues.forEach { issue ->
+                            stringBuilder.append("<li>$issue</li>")
+                        }
                     }
+                    stringBuilder.append("</ol></body></html>")
+                    panel.add(createIssueLabel(stringBuilder.toString()))
                 }
-                stringBuilder.append("</ol></body></html>")
-                panel.add(createIssueLabel(stringBuilder.toString()))
+
+                panel.updateAndRepaint()
             }
-
-            panel.updateAndRepaint()
         }
 
         return panel

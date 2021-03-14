@@ -217,7 +217,7 @@ internal abstract class ChunkOptimizer<T>(
             shift = getUnchangedBoundaryShift(touchSide, equalForward, equalBackward, range1, range2, threshold)!!
             if (shift != null) return shift
             shift = getChangedBoundaryShift(touchSide, equalForward, equalBackward, range1, range2, threshold)!!
-            return shift ?: 0
+            return shift
         }
 
         /**

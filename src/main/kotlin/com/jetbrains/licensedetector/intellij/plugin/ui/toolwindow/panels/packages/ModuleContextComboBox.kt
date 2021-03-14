@@ -5,20 +5,26 @@ import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.DefaultActionGroup
-import com.intellij.openapi.project.Project
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
-import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import javax.swing.JLabel
 
-class ModuleContextComboBox(val project: Project) : ContextComboBoxBase() {
+class ModuleContextComboBox(val model: ToolWindowModel) : ContextComboBoxBase(model) {
 
     override fun createNameLabel() = JLabel("")
     override fun createValueLabel() = object : JLabel() {
         override fun getIcon() = AllIcons.General.ProjectStructure
 
-        override fun getText() = project.licenseDetectorModel().selectedProjectModule.value?.name
-            ?: LicenseDetectorBundle.message("licensedetector.ui.toolwindow.allModules")
+        override fun getText(): String {
+            // I completely don't know why model sometimes is null
+            return if (model != null) {
+                model.selectedProjectModule.value?.name
+                    ?: LicenseDetectorBundle.message("licensedetector.ui.toolwindow.allModules")
+            } else {
+                LicenseDetectorBundle.message("licensedetector.ui.toolwindow.allModules")
+            }
+        }
     }
 
     override fun createActionGroup(): ActionGroup {
@@ -32,7 +38,7 @@ class ModuleContextComboBox(val project: Project) : ContextComboBoxBase() {
         createSelectAction(null, LicenseDetectorBundle.message("licensedetector.ui.toolwindow.allModules"))
 
     private fun createSelectModuleActions(): List<AnAction> =
-        project.licenseDetectorModel().projectModules.value
+        model.projectModules.value
             .sortedBy { it.getFullName() }
             .map {
                 createSelectAction(it, it.getFullName())
@@ -41,7 +47,7 @@ class ModuleContextComboBox(val project: Project) : ContextComboBoxBase() {
     private fun createSelectAction(projectModule: ProjectModule?, title: String) =
         object : AnAction(title, title, AllIcons.General.ProjectStructure) {
             override fun actionPerformed(e: AnActionEvent) {
-                project.licenseDetectorModel().selectedProjectModule.set(projectModule)
+                model.selectedProjectModule.set(projectModule)
                 updateLabel()
             }
         }
