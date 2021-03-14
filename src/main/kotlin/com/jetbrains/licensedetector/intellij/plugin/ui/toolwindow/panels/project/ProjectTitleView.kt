@@ -4,15 +4,17 @@ import com.intellij.ProjectTopics
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootEvent
 import com.intellij.openapi.roots.ModuleRootListener
+import com.intellij.ui.AnimatedIcon
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createRefreshButton
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseManager
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
+import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import com.jetbrains.rd.util.lifetime.Lifetime
-import net.miginfocom.layout.CC
 import net.miginfocom.swing.MigLayout
 import java.awt.Color
 import java.awt.Font
@@ -34,19 +36,26 @@ class ProjectTitleView(
         text = project.basePath ?: ""
     }
 
+    private val progressIcon = JLabel(AnimatedIcon.Default())
+        .apply {
+            isVisible = false
+        }
+
     val projectTitleViewPanel: JPanel = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(
-            "fillx,flowy,insets 0",
-            "[left,grow]",
-            "[top]0[top]10[top][top]5[top]15"
+            "fillx,flowy,insets 0,debug",
+            "[left,grow]0[right]0[right]",
+            "[]0[top]10[top][top]5[top]15"
         )
 
-        add(projectNameLabel)
-        add(pathToProjectDirLabel)
-        add(createMainProjectLicenseTitle())
-        add(JSeparator(), CC().growX())
+        add(projectNameLabel, "cell 0 0")
+        add(progressIcon, "cell 1 0,shrink,align center")
+        add(createRefreshButton(project), "cell 2 0,shrink")
+        add(pathToProjectDirLabel, "cell 0 1,span")
+        add(createMainProjectLicenseTitle(), "cell 0 2")
+        add(JSeparator(), "cell 0 3,growx,span")
     }
 
     init {
@@ -67,19 +76,19 @@ class ProjectTitleView(
                 val rootModuleLicense = it[rootModule]
 
                 if (rootModuleLicense != null) {
-                    if (projectTitleViewPanel.componentCount == 5) {
+                    if (projectTitleViewPanel.componentCount == 6) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
-                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel())
+                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel(), "span")
                     } else {
-                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel())
+                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel(), "span")
                     }
                     projectTitleViewPanel.updateAndRepaint()
                 } else {
-                    if (projectTitleViewPanel.componentCount == 5) {
+                    if (projectTitleViewPanel.componentCount == 6) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
-                        projectTitleViewPanel.add(NoLicense.descriptionPanel())
+                        projectTitleViewPanel.add(NoLicense.descriptionPanel(), "span")
                     } else {
-                        projectTitleViewPanel.add(NoLicense.descriptionPanel())
+                        projectTitleViewPanel.add(NoLicense.descriptionPanel(), "span")
                     }
                     projectTitleViewPanel.updateAndRepaint()
                 }
@@ -90,23 +99,30 @@ class ProjectTitleView(
             SwingUtilities.invokeLater {
                 val rootModuleLicense = licenseManager.modulesLicenses.value[it]
                 if (rootModuleLicense != null) {
-                    if (projectTitleViewPanel.componentCount == 5) {
+                    if (projectTitleViewPanel.componentCount == 6) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
-                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel())
+                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel(), "span")
                     } else {
-                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel())
+                        projectTitleViewPanel.add(rootModuleLicense.descriptionPanel(), "span")
                     }
                     projectTitleViewPanel.updateAndRepaint()
                 } else {
-                    if (projectTitleViewPanel.componentCount == 5) {
+                    if (projectTitleViewPanel.componentCount == 6) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
-                        projectTitleViewPanel.add(NoLicense.descriptionPanel())
+                        projectTitleViewPanel.add(NoLicense.descriptionPanel(), "span")
                     } else {
-                        projectTitleViewPanel.add(NoLicense.descriptionPanel())
+                        projectTitleViewPanel.add(NoLicense.descriptionPanel(), "span")
                     }
                     projectTitleViewPanel.updateAndRepaint()
                 }
             }
+        }
+
+        val licenseDetectorModel = project.licenseDetectorModel()
+
+        licenseDetectorModel.isBusy.advise(licenseDetectorModel.lifetime) {
+            progressIcon.isVisible = it
+            projectTitleViewPanel.updateAndRepaint()
         }
     }
 
