@@ -3,7 +3,6 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow
 import com.intellij.ProjectTopics
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.*
-import com.intellij.openapi.rd.createLifetime
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.wm.ToolWindow
@@ -17,6 +16,7 @@ import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWin
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.project.ProjectLicensePanel
+import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import java.awt.BorderLayout
 import javax.swing.JComponent
 import javax.swing.JLabel
@@ -119,7 +119,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.title = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
 
         //Create model
-        val model = ToolWindowModel(project, project.createLifetime())
+        val model = project.licenseDetectorModel()
         //Add to userData
         project.putUserData(ToolWindowModelKey, model)
 

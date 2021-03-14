@@ -1,6 +1,7 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
 import com.intellij.ProjectTopics
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.module.Module
@@ -8,6 +9,7 @@ import com.intellij.openapi.module.ModuleManager
 import com.intellij.openapi.module.ModuleUtilCore.findModuleForFile
 import com.intellij.openapi.project.ModuleListener
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.rd.createLifetime
 import com.intellij.openapi.roots.ModuleRootEvent
 import com.intellij.openapi.roots.ModuleRootListener
 import com.intellij.openapi.roots.ModuleRootManager
@@ -38,11 +40,12 @@ import com.jetbrains.rd.util.reactive.Signal
 import org.jetbrains.kotlin.idea.core.util.toPsiFile
 import java.util.concurrent.atomic.AtomicInteger
 
-class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
+class ToolWindowModel(val project: Project) : Disposable {
 
     private val application = ApplicationManager.getApplication()
 
     val lockObject = Any()
+    val lifetime: Lifetime = createLifetime()
 
     private val searchClient = SearchClient(ServerURLs.base)
     private val operationsCounter = AtomicInteger(0)
@@ -535,5 +538,9 @@ class ToolWindowModel(val project: Project, val lifetime: Lifetime) {
                 this.installationInformation.any { installationInformation ->
                     installationInformation.projectModule == projectModule
                 }
+    }
+
+    override fun dispose() {
+        logDebug { "Disposing ToolWindowModel..." }
     }
 }
