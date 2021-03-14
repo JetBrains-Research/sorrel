@@ -8,7 +8,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotifications
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
+import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 
 
 class LicenseFileEditorNotificationProvider : EditorNotifications.Provider<EditorNotificationPanel>() {
@@ -27,8 +27,6 @@ class LicenseFileEditorNotificationProvider : EditorNotifications.Provider<Edito
 
         findModuleForFile(file, project) ?: return null
 
-        val model = project.getUserData(ToolWindowModelKey) ?: return null
-
-        return LicenseFileEditorNotificationPanel(model, project, file)
+        return LicenseFileEditorNotificationPanel(project.licenseDetectorModel(), project, file)
     }
 }

@@ -1,7 +1,7 @@
 package com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.http
 
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
+import com.google.gson.JsonParser.parseString
 import com.intellij.util.io.HttpRequests
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.utils.logInfo
@@ -51,5 +51,5 @@ class HttpWrapper {
         return requestString(url, acceptContentType, timeoutInSeconds, headers).asJSONObject()
     }
 
-    private fun String.asJSONObject(): JsonObject = JsonParser().parse(this).asJsonObject
+    private fun String.asJSONObject(): JsonObject = parseString(this).asJsonObject
 }

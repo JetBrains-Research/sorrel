@@ -18,7 +18,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.util.IncorrectOperationException
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory.Companion.ToolWindowModelKey
+import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import java.io.File
 
 class CreateProjectLicenseFile : AnAction(), WriteActionAware {
@@ -35,7 +35,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
         val project: Project = e.project!!
 
-        val model = project.getUserData(ToolWindowModelKey)!!
+        val model = project.licenseDetectorModel()
 
         val module = findModuleForFile(e.getRequiredData(PlatformDataKeys.VIRTUAL_FILE), project)!!
         val moduleDir = PsiManager.getInstance(project).findDirectory(module.guessModuleDir()!!)!!
@@ -50,8 +50,8 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
                 synchronized(model.lockObject) {
                     val licenseDocument = PsiDocumentManager.getInstance(project).getDocument(licenseFile)!!
                     val curProjectModule = model.projectModules.value.find { it.nativeModule == module }!!
-                    val compatibleLicenses = project.getUserData(ToolWindowModelKey)!!
-                        .licenseManager.modulesCompatibleLicenses.value[curProjectModule]!!
+                    val compatibleLicenses = model.licenseManager.modulesCompatibleLicenses
+                        .value[curProjectModule]!!
 
                     //TODO: Mb must be done in full order in licenses. Now the order is partial
                     if (compatibleLicenses.any()) {
@@ -80,8 +80,10 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
             }
         }
 
-        commandProcessor.executeCommand(project,
-                createProjectLicenseFile, actionName, null)
+        commandProcessor.executeCommand(
+            project,
+            createProjectLicenseFile, actionName, null
+        )
     }
 
     override fun update(e: AnActionEvent) {
@@ -118,12 +120,6 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
 
         if (moduleDir.listFiles()!!.any { licenseFileNamePattern.matches(it.name) }) {
             e.presentation.isEnabledAndVisible = false
-            return
-        }
-
-        //When model not exist, for example before indexing
-        if (project.getUserData(ToolWindowModelKey) == null) {
-            e.presentation.isEnabled = false
             return
         }
 

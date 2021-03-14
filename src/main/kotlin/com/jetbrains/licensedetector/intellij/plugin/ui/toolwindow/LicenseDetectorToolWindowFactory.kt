@@ -4,7 +4,6 @@ import com.intellij.ProjectTopics
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.*
 import com.intellij.openapi.ui.SimpleToolWindowPanel
-import com.intellij.openapi.util.Key
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBPanelWithEmptyText
@@ -12,7 +11,6 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ModuleUtils.hasOneTopLevelModule
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packages.PackageLicensesPanel
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.project.ProjectLicensePanel
@@ -27,8 +25,6 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
 
         //Must be equal to "id" in ToolWindow EP in plugin.xml
         private val ToolWindowId = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
-
-        val ToolWindowModelKey = Key.create<ToolWindowModel>("LicenseDetector.Management.Model")
 
         //May be needed for tab cross-interaction
         /*
@@ -120,8 +116,6 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
 
         //Create model
         val model = project.licenseDetectorModel()
-        //Add to userData
-        project.putUserData(ToolWindowModelKey, model)
 
         val contentManager = toolWindow.contentManager
 

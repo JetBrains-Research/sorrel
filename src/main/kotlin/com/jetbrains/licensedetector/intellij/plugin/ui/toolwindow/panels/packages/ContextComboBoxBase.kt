@@ -10,6 +10,7 @@ import com.intellij.ui.ClickListener
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import java.awt.event.MouseAdapter
@@ -19,7 +20,7 @@ import javax.swing.BoxLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-abstract class ContextComboBoxBase : JPanel() {
+abstract class ContextComboBoxBase(protected val viewModel: ToolWindowModel) : JPanel() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val nameLabel = this.createNameLabel()
