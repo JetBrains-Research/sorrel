@@ -3,6 +3,7 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.packa
 import com.intellij.ide.CopyProvider
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.actionSystem.DataProvider
+import com.intellij.openapi.project.Project
 import com.intellij.ui.AnimatedIcon
 import com.intellij.ui.ListSpeedSearch
 import com.intellij.ui.PopupHandler
@@ -11,7 +12,7 @@ import com.intellij.ui.components.JBList
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.PackageDependency
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import java.awt.Component
 import java.awt.Point
 import java.awt.event.FocusAdapter
@@ -21,7 +22,7 @@ import javax.swing.DefaultListModel
 import javax.swing.DefaultListSelectionModel
 import javax.swing.ListSelectionModel
 
-class PackagesSmartList(val viewModel: ToolWindowModel) :
+class PackagesSmartList(val project: Project) :
     JBList<PackagesSmartItem>(emptyList()), DataProvider, CopyProvider {
 
     var transferFocusUp: () -> Unit = { transferFocusBackward() }
@@ -118,7 +119,8 @@ class PackagesSmartList(val viewModel: ToolWindowModel) :
             "licensedetector.ui.toolwindow.tab.packages.installedPackages.withCount",
             installedPackages.size
         )
-        installedHeader.title = message + (viewModel.selectedProjectModule.value?.name
+        val licenseDetectorModel = project.licenseDetectorModel()
+        installedHeader.title = message + (licenseDetectorModel.selectedProjectModule.value?.name
             ?.let {
                 " ${
                     LicenseDetectorBundle.message(
@@ -127,7 +129,7 @@ class PackagesSmartList(val viewModel: ToolWindowModel) :
                     )
                 }"
             }
-                ?: "")
+            ?: "")
 
         displayItems.add(installedHeader)
         displayItems.addAll(installedPackages.map { PackagesSmartItem.Package(it) })
@@ -140,8 +142,8 @@ class PackagesSmartList(val viewModel: ToolWindowModel) :
 
             // save selected package Id; we have to restore selection after the list rebuilding
             val selectedPackageIndex = selectedIndex
-
-            val selectedPackageId = viewModel.selectedPackage.value.apply {
+            val licenseDetectorModel = project.licenseDetectorModel()
+            val selectedPackageId = licenseDetectorModel.selectedPackage.value.apply {
                 if (isEmpty()) {
                     (selectedValue as PackagesSmartItem.Package?)?.meta?.identifier
                 }

@@ -4,13 +4,10 @@ import com.intellij.ui.SearchTextField
 import com.intellij.util.ui.JBUI
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import java.awt.Dimension
 import java.awt.event.KeyEvent
 
-class PackagesSmartSearchField(
-    val viewModel: ToolWindowModel
-) : SearchTextField(false) {
+class PackagesSmartSearchField() : SearchTextField(false) {
 
     init {
         RiderUI.setHeight(this, height = 25)

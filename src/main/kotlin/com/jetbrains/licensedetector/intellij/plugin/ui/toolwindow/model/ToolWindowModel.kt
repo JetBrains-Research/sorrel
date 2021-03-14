@@ -192,7 +192,7 @@ class ToolWindowModel(val project: Project) : Disposable {
                         "Context refresh started"
                     }
 
-                    refreshContext(traceInfo)
+                    //refreshContext(traceInfo)
 
                     logDebug(traceInfo) {
                         "Context refresh completed"
@@ -214,7 +214,7 @@ class ToolWindowModel(val project: Project) : Disposable {
                         "Context refresh started"
                     }
 
-                    refreshContext(traceInfo)
+                    //refreshContext(traceInfo)
 
                     logDebug(traceInfo) {
                         "Context refresh completed"
@@ -233,7 +233,7 @@ class ToolWindowModel(val project: Project) : Disposable {
                         "Context refresh started"
                     }
 
-                    refreshContext(traceInfo)
+                    //refreshContext(traceInfo)
 
                     logDebug(traceInfo) {
                         "Context refresh completed"
@@ -256,7 +256,7 @@ class ToolWindowModel(val project: Project) : Disposable {
                         "Context refresh started"
                     }
 
-                    refreshContext(traceInfo)
+                    //refreshContext(traceInfo)
 
                     logDebug(traceInfo) {
                         "Context refresh completed"
@@ -280,7 +280,7 @@ class ToolWindowModel(val project: Project) : Disposable {
                     }
 
                     synchronized(lockObject) {
-                        updateModuleLicenseByVFSEvents(traceInfo, events)
+                        //updateModuleLicenseByVFSEvents(traceInfo, events)
                     }
 
                     logDebug(traceInfo) {

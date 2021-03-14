@@ -128,7 +128,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
         contentManager.removeAllContents(false)
 
         addPanel(contentManager, ProjectLicensePanel(project, model.licenseManager, model.lifetime))
-        addPanel(contentManager, PackageLicensesPanel(model))
+        addPanel(contentManager, PackageLicensesPanel(project))
     }
 
     private fun addPanel(contentManager: ContentManager, panel: PanelBase) {
