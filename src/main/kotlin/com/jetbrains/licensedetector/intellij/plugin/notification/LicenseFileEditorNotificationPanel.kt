@@ -32,6 +32,7 @@ import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
+import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
 
 class LicenseFileEditorNotificationPanel(
     val project: Project,
@@ -145,6 +146,7 @@ class LicenseFileEditorNotificationPanel(
             val selectedLicense = (comboBox.selectedItem as SupportedLicense)
             val newModulesLicenses = model.licenseManager.modulesLicenses.value.toMutableMap()
             newModulesLicenses[projectModule] = selectedLicense
+            logDebug("Notification panel: Updating license of ${module.name}")
             model.licenseManager.modulesLicenses.set(newModulesLicenses)
         }
     }

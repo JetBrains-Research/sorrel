@@ -19,6 +19,7 @@ import com.intellij.util.IncorrectOperationException
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
+import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
 import java.io.File
 
 class CreateProjectLicenseFile : AnAction(), WriteActionAware {
@@ -75,7 +76,7 @@ class CreateProjectLicenseFile : AnAction(), WriteActionAware {
                 openFileDescriptor.navigate(true)
 
             } catch (e: IncorrectOperationException) {
-                //TODO: Log this
+                logDebug("Failed to create license file.", e)
             }
         }
 
