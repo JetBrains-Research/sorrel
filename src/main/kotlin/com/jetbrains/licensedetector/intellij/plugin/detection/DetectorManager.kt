@@ -1,15 +1,19 @@
 package com.jetbrains.licensedetector.intellij.plugin.detection
 
+import com.intellij.openapi.application.ReadAction
+import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.libraries.Library
-import com.intellij.openapi.vfs.VfsUtilCore.iterateChildrenRecursively
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.License
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
+import kotlinx.coroutines.yield
+import org.jetbrains.kotlin.backend.common.pop
 
 /**
  * This class provide all logics for License detection.
@@ -27,7 +31,7 @@ object DetectorManager {
     private const val metaInfoFolderName = "META-INF"
     private const val pomXmlFileName = "pom.xml"
 
-    fun getPackageLicensesFromJar(library: Library, project: Project): Set<License> {
+    suspend fun getPackageLicensesFromJar(library: Library, project: Project): Set<License> {
         val result: MutableSet<License> = mutableSetOf()
 
         val libraryRootFiles = library.getFiles(OrderRootType.CLASSES)
@@ -35,31 +39,46 @@ object DetectorManager {
         for (rootFile in libraryRootFiles) {
             val rootFileChildren = rootFile.children
 
+            yield()
+
             for (childrenFile in rootFileChildren) {
+                yield()
+
                 if (!childrenFile.isDirectory && licenseFileNamePattern.matches(childrenFile.name)) {
-                    val fileText = FileDocumentManager.getInstance().getDocument(childrenFile)?.text ?: continue
+                    val fileText = ReadAction.compute<Document?, Throwable> {
+                        FileDocumentManager.getInstance().getDocument(childrenFile)
+                    }?.text ?: continue
                     result.add(getLicenseByFullText(fileText))
                 }
             }
 
             val metaInfFolder = rootFile.findChild(metaInfoFolderName) ?: continue
             if (metaInfFolder.isDirectory) {
-                iterateChildrenRecursively(metaInfFolder,
-                    null,
-                    {
-                        if (licenseFileNamePattern.matches(it.name)) {
-                            val fileText = FileDocumentManager.getInstance().getDocument(it)?.text
-                            if (fileText != null) {
-                                result.add(getLicenseByFullText(fileText))
+                val childListToProcess = mutableListOf<VirtualFile>(*metaInfFolder.children)
+                while (childListToProcess.isNotEmpty()) {
+                    yield()
+                    val child = childListToProcess.pop()
+                    if (child.isValid) {
+                        if (!child.isDirectory) {
+                            if (licenseFileNamePattern.matches(child.name)) {
+                                val fileText = ReadAction.compute<Document, Throwable> {
+                                    FileDocumentManager.getInstance().getDocument(child)
+                                }?.text
+                                if (fileText != null) {
+                                    result.add(getLicenseByFullText(fileText))
+                                }
+                            }
+
+                            yield()
+
+                            if (child.name == pomXmlFileName) {
+                                PsiManager.getInstance(project).findFile(child)?.accept(PomXmlPsiElementVisitor(result))
                             }
                         }
-
-                        if (it.name == pomXmlFileName) {
-                            PsiManager.getInstance(project).findFile(it)?.accept(PomXmlPsiElementVisitor(result))
-                        }
-                        true
+                    } else {
+                        childListToProcess.addAll(child.children)
                     }
-                )
+                }
             }
         }
         return result.filter { it != NoLicense }.toSet()

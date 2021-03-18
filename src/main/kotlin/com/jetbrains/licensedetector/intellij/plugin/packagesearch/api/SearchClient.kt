@@ -10,6 +10,10 @@ import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model.Sta
 import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
 import com.jetbrains.licensedetector.intellij.plugin.utils.logWarn
 import gson.EnumWithDeserializationFallbackAdapterFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import org.apache.commons.httpclient.util.URIUtil
 
 object ServerURLs {
@@ -47,9 +51,13 @@ class SearchClient(
 
     private val packagesNameInJson = "packages"
 
-    fun packagesInfoByRange(range: List<String>): List<StandardV2Package> {
-        return range.chunked(maxRequestResultsCount).map {
-            packagesInfoByChunk(it)
+    suspend fun packagesInfoByRange(range: List<String>): List<StandardV2Package> {
+        return withContext(Dispatchers.IO) {
+            val result = range.chunked(maxRequestResultsCount).map {
+                async { packagesInfoByChunk(it) }
+            }
+
+            awaitAll(*result.toTypedArray())
         }.flatten()
     }
 

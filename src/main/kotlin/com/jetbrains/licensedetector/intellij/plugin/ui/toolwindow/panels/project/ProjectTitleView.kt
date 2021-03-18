@@ -28,6 +28,7 @@ class ProjectTitleView(
     private val licenseManager: LicenseManager,
     lifetime: Lifetime
 ) {
+    private val countComponentsWithoutLicensePanel = 7
     private val projectNameLabel = RiderUI.createBigLabel(projectTitleName(project))
 
     private val pathToProjectDirLabel = JLabel().apply {
@@ -45,7 +46,7 @@ class ProjectTitleView(
         background = RiderUI.UsualBackgroundColor
 
         layout = MigLayout(
-            "fillx,flowy,insets 0,debug",
+            "fillx,flowy,insets 0",
             "[left,grow]0[right]0[right]",
             "[]0[top]10[top][top]5[top]15"
         )
@@ -76,7 +77,7 @@ class ProjectTitleView(
                 val rootModuleLicense = it[rootModule]
 
                 if (rootModuleLicense != null) {
-                    if (projectTitleViewPanel.componentCount == 6) {
+                    if (projectTitleViewPanel.componentCount == countComponentsWithoutLicensePanel) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
                         projectTitleViewPanel.add(rootModuleLicense.descriptionPanel(), "span")
                     } else {
@@ -84,7 +85,7 @@ class ProjectTitleView(
                     }
                     projectTitleViewPanel.updateAndRepaint()
                 } else {
-                    if (projectTitleViewPanel.componentCount == 6) {
+                    if (projectTitleViewPanel.componentCount == countComponentsWithoutLicensePanel) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
                         projectTitleViewPanel.add(NoLicense.descriptionPanel(), "span")
                     } else {
@@ -99,7 +100,7 @@ class ProjectTitleView(
             SwingUtilities.invokeLater {
                 val rootModuleLicense = licenseManager.modulesLicenses.value[it]
                 if (rootModuleLicense != null) {
-                    if (projectTitleViewPanel.componentCount == 6) {
+                    if (projectTitleViewPanel.componentCount == countComponentsWithoutLicensePanel) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
                         projectTitleViewPanel.add(rootModuleLicense.descriptionPanel(), "span")
                     } else {
@@ -107,7 +108,7 @@ class ProjectTitleView(
                     }
                     projectTitleViewPanel.updateAndRepaint()
                 } else {
-                    if (projectTitleViewPanel.componentCount == 6) {
+                    if (projectTitleViewPanel.componentCount == countComponentsWithoutLicensePanel) {
                         projectTitleViewPanel.remove(projectTitleViewPanel.components.last())
                         projectTitleViewPanel.add(NoLicense.descriptionPanel(), "span")
                     } else {
@@ -120,8 +121,8 @@ class ProjectTitleView(
 
         val licenseDetectorModel = project.licenseDetectorModel()
 
-        licenseDetectorModel.isBusy.advise(licenseDetectorModel.lifetime) {
-            progressIcon.isVisible = it
+        licenseDetectorModel.status.advise(licenseDetectorModel.lifetime) {
+            progressIcon.isVisible = it.isBusy
             projectTitleViewPanel.updateAndRepaint()
         }
     }

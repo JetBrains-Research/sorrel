@@ -122,10 +122,10 @@ class PackageLicensesPanel(
     init {
         val viewModel = project.licenseDetectorModel()
 
-        viewModel.searchTerm.set("")
+        viewModel.searchQuery.set("")
 
-        viewModel.isBusy.advise(viewModel.lifetime) {
-            searchTextField.isEnabled = !it
+        viewModel.status.advise(viewModel.lifetime) {
+            searchTextField.isEnabled = !it.isBusy
         }
 
         smartList.transferFocusUp = {
@@ -135,11 +135,11 @@ class PackageLicensesPanel(
         searchTextField.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(e: DocumentEvent) {
                 ApplicationManager.getApplication().invokeLater {
-                    viewModel.searchTerm.set(searchTextField.text)
+                    viewModel.searchQuery.set(searchTextField.text)
                 }
             }
         })
-        viewModel.searchTerm.advise(viewModel.lifetime) { searchTerm ->
+        viewModel.searchQuery.advise(viewModel.lifetime) { searchTerm ->
             if (searchTextField.text != searchTerm) {
                 searchTextField.text = searchTerm
             }
@@ -154,8 +154,8 @@ class PackageLicensesPanel(
             viewModel.selectedPackage.set(it.identifier)
         }
 
-        viewModel.isSearching.advise(viewModel.lifetime) {
-            smartList.installedHeader.setProgressVisibility(it)
+        viewModel.status.advise(viewModel.lifetime) {
+            smartList.installedHeader.setProgressVisibility(it.isBusy)
             smartList.updateAndRepaint()
             packagesPanel.updateAndRepaint()
         }

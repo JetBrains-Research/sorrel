@@ -38,6 +38,7 @@ dependencies {
     implementation("io.kinference:inference:0.1.2") {
         exclude("org.slf4j", "slf4j-api")
     }
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.4.3")
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -59,6 +60,7 @@ tasks {
 
     runIde {
         jvmArgs("--add-exports=java.base/jdk.internal.vm=ALL-UNNAMED")
+        maxHeapSize = "2g"
     }
 
     // Set the compatibility versions to 1.8

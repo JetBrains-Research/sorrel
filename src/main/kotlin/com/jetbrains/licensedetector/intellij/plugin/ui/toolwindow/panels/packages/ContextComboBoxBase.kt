@@ -20,7 +20,7 @@ import javax.swing.BoxLayout
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-abstract class ContextComboBoxBase(protected val viewModel: ToolWindowModel) : JPanel() {
+internal abstract class ContextComboBoxBase(protected val viewModel: ToolWindowModel) : JPanel() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected val nameLabel = this.createNameLabel()

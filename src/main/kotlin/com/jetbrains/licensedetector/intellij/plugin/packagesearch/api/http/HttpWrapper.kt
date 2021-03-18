@@ -32,13 +32,13 @@ class HttpWrapper {
             return when {
                 responseText.isEmpty() -> {
                     logInfo(LicenseDetectorBundle.message("licensedetector.search.client.response.body.is.empty"))
-                    ""
+                    "null"
                 }
                 else -> responseText
             }
         } catch (e: Exception) {
             logWarn(LicenseDetectorBundle.message("licensedetector.search.client.response.exception", url), e)
-            return ""
+            return "null"
         }
     }
 

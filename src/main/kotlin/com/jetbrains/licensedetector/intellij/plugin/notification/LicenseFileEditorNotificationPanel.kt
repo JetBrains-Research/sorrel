@@ -30,16 +30,15 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
+import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 
 class LicenseFileEditorNotificationPanel(
-    val model: ToolWindowModel,
     val project: Project,
     val licenseFile: VirtualFile
 ) : EditorNotificationPanel() {
 
-
+    private val model = project.licenseDetectorModel()
     private val actionName = "Change project license file"
 
     init {
@@ -139,14 +138,14 @@ class LicenseFileEditorNotificationPanel(
 
     private fun addUpdateLicenseFileActions(comboBox: ComboBox<SupportedLicense>) {
         comboBox.addActionListener {
-            synchronized(model.lockObject) {
-                val module = ModuleUtilCore.findModuleForFile(licenseFile, project)!!
-                val projectModule = model.projectModules.value.find { it.nativeModule == module }!!
-                val selectedLicense = (comboBox.selectedItem as SupportedLicense)
-                val newModulesLicenses = model.licenseManager.modulesLicenses.value.toMutableMap()
-                newModulesLicenses[projectModule] = selectedLicense
-                model.licenseManager.modulesLicenses.set(newModulesLicenses)
-            }
+            val module = ModuleUtilCore.findModuleForFile(licenseFile, project) ?: return@addActionListener
+            val projectModule = model.projectModules.value.find {
+                it.nativeModule == module
+            } ?: return@addActionListener
+            val selectedLicense = (comboBox.selectedItem as SupportedLicense)
+            val newModulesLicenses = model.licenseManager.modulesLicenses.value.toMutableMap()
+            newModulesLicenses[projectModule] = selectedLicense
+            model.licenseManager.modulesLicenses.set(newModulesLicenses)
         }
     }
 
