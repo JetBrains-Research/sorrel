@@ -7,6 +7,7 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.getCompatiblePackageLicenses
 import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
+import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.remove
@@ -41,6 +42,7 @@ class LicenseManager(
 
     private fun updatingModulesCompatibleLicenses(lifetime: Lifetime) {
         moduleLicensesCompatibleWithPackageLicenses.advise(lifetime) { mapLicenses ->
+            logDebug("LicenseManager: Updating packages licenses")
             val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
             val curModuleLicenseCompatibleWithSubmoduleLicenses =
                 moduleLicensesCompatibleWithSubmoduleLicenses.value
@@ -58,6 +60,7 @@ class LicenseManager(
         }
 
         moduleLicenseCompatibleWithSourceLicenses.advise(lifetime) { mapLicenses ->
+            logDebug("LicenseManager: Updating sources licenses")
             val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
             val curModuleLicensesCompatibleWithPackageLicenses = moduleLicensesCompatibleWithPackageLicenses.value
             val curModuleLicenseCompatibleWithSubmoduleLicenses =
@@ -75,6 +78,7 @@ class LicenseManager(
         }
 
         moduleLicensesCompatibleWithSubmoduleLicenses.advise(lifetime) { mapLicenses ->
+            logDebug("LicenseManager: Updating submodules licenses")
             val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
             val curModuleLicensesCompatibleWithPackageLicenses = moduleLicensesCompatibleWithPackageLicenses.value
             for ((module, setLicense) in mapLicenses) {
@@ -90,6 +94,7 @@ class LicenseManager(
         }
 
         modulesLicenses.advise(lifetime) { newMap ->
+            logDebug("LicenseManager: Updating modules licenses")
             updateModuleLicensesCompatibilityWithSubmoduleLicenses(newMap)
             checkCompatibilityWithSubmodulesLicenses(newMap)
             updateModuleLicensesCompatibilityWithPackagesLicenses(newMap, installedPackages.value.values)
@@ -97,6 +102,7 @@ class LicenseManager(
         }
 
         projectModules.advise(lifetime) { moduleList ->
+            logDebug("LicenseManager: Updating modules")
             val newModuleLicenses: MutableMap<ProjectModule, SupportedLicense> =
                 modulesLicenses.value.toMutableMap()
             //Add new module if module added or renamed
@@ -111,6 +117,7 @@ class LicenseManager(
         }
 
         installedPackages.advise(lifetime) {
+            logDebug("LicenseManager: Updating installed packages")
             updateModuleLicensesCompatibilityWithPackagesLicenses(modulesLicenses.value, it.values)
             checkCompatibilityWithPackageDependencyLicenses(modulesLicenses.value, it.values)
         }
