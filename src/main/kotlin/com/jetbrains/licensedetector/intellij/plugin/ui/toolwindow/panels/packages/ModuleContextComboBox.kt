@@ -10,7 +10,7 @@ import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
 import javax.swing.JLabel
 
-class ModuleContextComboBox(val model: ToolWindowModel) : ContextComboBoxBase(model) {
+internal class ModuleContextComboBox(val model: ToolWindowModel) : ContextComboBoxBase(model) {
 
     override fun createNameLabel() = JLabel("")
     override fun createValueLabel() = object : JLabel() {

@@ -15,8 +15,8 @@ The plugin is currently in early development, so the first build is coming. Curr
 - [x] Detect the licenses of the project's dependencies and visualize them by module.
 - [x] Show inlay hints with license names for dependency add expressions in project build scripts.
 - [x] Suggest possible license for the project based on its dependencies.
-- [ ] Detect possible incompatibilities between the licenses in the project and warn the developer about them.
-- [ ] Provide short and understandable descriptions for existing licenses.
+- [x] Detect possible incompatibilities between the licenses in the project and warn the developer about them.
+- [x] Provide short and understandable descriptions for existing licenses.
 - [ ] Support the detection of the licenses in the files of the project and detect incompatibilities in them also.
 
 ## Contacts

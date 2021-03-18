@@ -10,17 +10,18 @@ import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.remove
+import kotlinx.coroutines.*
 import org.jetbrains.kotlin.utils.keysToMap
 import java.nio.file.Path
 import java.nio.file.Paths
 
 class LicenseManager(
-    lockObject: Any,
     lifetime: Lifetime,
     val rootModule: Property<ProjectModule?>,
     private val projectModules: Property<List<ProjectModule>>,
     private val installedPackages: Property<Map<String, PackageDependency>>
 ) {
+
     val modulesLicenses: Property<Map<ProjectModule, SupportedLicense>> =
         Property(projectModules.value.keysToMap { NoLicense })
     val modulesCompatibleLicenses: Property<Map<ProjectModule, List<SupportedLicense>>> =
@@ -35,15 +36,14 @@ class LicenseManager(
     val compatibilityIssues = Property(CompatibilityIssueData(listOf(), listOf()))
 
     init {
-        synchronized(lockObject) {
-            updatingModulesCompatibleLicenses(lifetime)
-        }
+        updatingModulesCompatibleLicenses(lifetime)
     }
 
     private fun updatingModulesCompatibleLicenses(lifetime: Lifetime) {
         moduleLicensesCompatibleWithPackageLicenses.advise(lifetime) { mapLicenses ->
             val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
-            val curModuleLicenseCompatibleWithSubmoduleLicenses = moduleLicensesCompatibleWithSubmoduleLicenses.value
+            val curModuleLicenseCompatibleWithSubmoduleLicenses =
+                moduleLicensesCompatibleWithSubmoduleLicenses.value
             for ((module, setLicense) in mapLicenses) {
                 //TODO: Replace ALL_SUPPORTED_LICENSE when ml model is ready
                 if (curModuleLicenseCompatibleWithSubmoduleLicenses.containsKey(module)) {
@@ -60,7 +60,8 @@ class LicenseManager(
         moduleLicenseCompatibleWithSourceLicenses.advise(lifetime) { mapLicenses ->
             val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
             val curModuleLicensesCompatibleWithPackageLicenses = moduleLicensesCompatibleWithPackageLicenses.value
-            val curModuleLicenseCompatibleWithSubmoduleLicenses = moduleLicensesCompatibleWithSubmoduleLicenses.value
+            val curModuleLicenseCompatibleWithSubmoduleLicenses =
+                moduleLicensesCompatibleWithSubmoduleLicenses.value
             for ((module, setLicense) in mapLicenses) {
                 curModuleLicensesCompatibleWithPackageLicenses[module] ?: continue
                 curModuleLicenseCompatibleWithSubmoduleLicenses[module] ?: continue
@@ -96,7 +97,8 @@ class LicenseManager(
         }
 
         projectModules.advise(lifetime) { moduleList ->
-            val newModuleLicenses: MutableMap<ProjectModule, SupportedLicense> = modulesLicenses.value.toMutableMap()
+            val newModuleLicenses: MutableMap<ProjectModule, SupportedLicense> =
+                modulesLicenses.value.toMutableMap()
             //Add new module if module added or renamed
             moduleList.forEach {
                 newModuleLicenses.putIfAbsent(it, NoLicense)

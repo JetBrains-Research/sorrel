@@ -25,8 +25,11 @@ class LicenseFileEditorNotificationProvider : EditorNotifications.Provider<Edito
             return null
         }
 
+        val module = findModuleForFile(file, project) ?: return null
+        project.licenseDetectorModel().projectModules.value.find { it.nativeModule == module } ?: return null
+
         findModuleForFile(file, project) ?: return null
 
-        return LicenseFileEditorNotificationPanel(project.licenseDetectorModel(), project, file)
+        return LicenseFileEditorNotificationPanel(project, file)
     }
 }

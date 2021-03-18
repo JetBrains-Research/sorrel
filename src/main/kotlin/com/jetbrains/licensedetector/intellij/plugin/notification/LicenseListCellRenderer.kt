@@ -10,7 +10,7 @@ import java.awt.Component
 import javax.swing.JList
 import javax.swing.ListCellRenderer
 
-class LicenseListCellRenderer(
+internal class LicenseListCellRenderer(
     private val model: ToolWindowModel,
     private val projectModule: ProjectModule
 ) : ListCellRenderer<SupportedLicense> {

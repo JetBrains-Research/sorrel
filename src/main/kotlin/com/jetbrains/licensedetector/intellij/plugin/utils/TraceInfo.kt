@@ -23,7 +23,8 @@ internal data class TraceInfo(
         NEW_MODULE_ADDED,
         MODULE_REMOVED,
         EXISTING_MODULE_RENAMED,
-        VFS_CHANGES
+        VFS_CHANGES,
+        STATUS_CHANGES
     }
 
     companion object {
