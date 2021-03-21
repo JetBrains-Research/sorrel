@@ -138,15 +138,21 @@ object LGPL_3_0_only : SupportedLicense {
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
+        AGPL_3_0_only,
         this
     )
 
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
-        MIT,
         BSD_2_Clause,
         BSD_3_Clause,
+        CDDL_1_0,
+        EPL_1_0,
         ISC,
-        this
+        this,
+        MIT,
+        MPL_1_1,
+        MPL_2_0,
+        WTFPL
     )
 }

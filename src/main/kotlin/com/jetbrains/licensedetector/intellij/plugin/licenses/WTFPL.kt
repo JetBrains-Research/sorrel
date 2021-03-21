@@ -4,44 +4,48 @@ import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import net.miginfocom.swing.MigLayout
 import javax.swing.JComponent
+import javax.swing.JLabel
 import javax.swing.JPanel
 
-object ISC : SupportedLicense {
-    override val name: String = "ISC License"
-    override val url: String = "https://opensource.org/licenses/ISC"
-    override val htmlUrl: String = "https://opensource.org/licenses/ISC"
-    override val spdxId: String = "ISC"
+object WTFPL : SupportedLicense {
+    override val name: String = "Do What The F*ck You Want To Public License"
+    override val url: String = "http://www.wtfpl.net/about/"
+    override val htmlUrl: String = "http://sam.zoy.org/wtfpl/COPYING"
+    override val spdxId: String = "WTFPL"
     override val priority: LicensePriority = LicensePriority.LOW
     override val fullText: String =
         """
-                ISC License
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+            Version 2, December 2004
 
-                Copyright (c) 2004-2010 by Internet Systems Consortium, Inc. ("ISC")
-                Copyright (c) 1995-2003 by Internet Software Consortium
+            Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
 
-                Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+            Everyone is permitted to copy and distribute verbatim or modified copies of this license document, and changing it is allowed as long as the name is changed.
 
-                THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+            TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+            0. You just DO WHAT THE FUCK YOU WANT TO.
         """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex(
-        "(ISC License)|(ISC)",
+        "(Do What The F\\*ck You Want To Public License)|(.*WTFPL)",
         RegexOption.IGNORE_CASE
     )
 
-    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.isc.description")
+    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.wtfpl.description")
     override val permissions: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.isc.permissions.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.isc.permissions.2"),
-        LicenseDetectorBundle.message("licensedetector.ui.isc.permissions.3"),
-        LicenseDetectorBundle.message("licensedetector.ui.isc.permissions.4")
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.permissions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.permissions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.permissions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.permissions.4"),
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.permissions.5")
     )
     override val limitations: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.isc.limitations.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.isc.limitations.2")
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.limitations.1"),
     )
     override val conditions: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.isc.conditions.1")
+        LicenseDetectorBundle.message("licensedetector.ui.wtfpl.conditions.1")
     )
 
     override fun descriptionPanel(): JComponent = JPanel().apply {
@@ -50,10 +54,10 @@ object ISC : SupportedLicense {
         layout = MigLayout(
             "fillx,flowy,insets 0",
             "[left,grow][left,grow][left,grow]",
-            "0[top][top][top][top][top][top][top]0"
+            "0[top][top][top][top][top][top][top][top]0"
         )
 
-        add(RiderUI.createLicenseNameViewPanelLabel(this@ISC.name), "span")
+        add(RiderUI.createLicenseNameViewPanelLabel(this@WTFPL.name), "span")
         add(RiderUI.createLabel("<html>${description}</html>"), "span")
 
         add(
@@ -73,14 +77,15 @@ object ISC : SupportedLicense {
         add(RiderUI.createLicensePermissionLabel(permissions[1]), "cell 0 4,growx")
         add(RiderUI.createLicensePermissionLabel(permissions[2]), "cell 0 5,growx")
         add(RiderUI.createLicensePermissionLabel(permissions[3]), "cell 0 6,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[4]), "cell 0 7,growx")
 
-        add(RiderUI.createLicenseLimitationsLabel(limitations[0]), "cell 1 3,growx")
-        add(RiderUI.createLicenseLimitationsLabel(limitations[1]), "cell 1 4,growx")
+        add(JLabel(limitations[0]), "cell 1 3,growx")
 
         add(RiderUI.createLicenseConditionsLabel(conditions[0]), "cell 2 3,growx")
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
+        AGPL_3_0_only,
         Apache_2_0,
         BSD_2_Clause,
         BSD_3_Clause,
@@ -88,25 +93,25 @@ object ISC : SupportedLicense {
         EPL_1_0,
         GPL_2_0_only,
         GPL_3_0_only,
-        this,
+        ISC,
         LGPL_2_1_only,
         LGPL_3_0_only,
         MIT,
         MPL_1_1,
         MPL_2_0,
-        WTFPL
+        this
     )
 
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
-        BSD_2_Clause,
         BSD_3_Clause,
+        BSD_2_Clause,
         CDDL_1_0,
         EPL_1_0,
-        this,
+        ISC,
         MIT,
         MPL_1_1,
         MPL_2_0,
-        WTFPL
+        this
     )
 }
