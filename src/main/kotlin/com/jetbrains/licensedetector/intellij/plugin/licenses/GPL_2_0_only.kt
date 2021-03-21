@@ -196,10 +196,11 @@ object GPL_2_0_only : SupportedLicense {
     )
 
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
-        MIT,
-        this,
         BSD_2_Clause,
         BSD_3_Clause,
-        ISC
+        this,
+        ISC,
+        MIT,
+        WTFPL
     )
 }

@@ -85,18 +85,28 @@ object MIT : SupportedLicense {
         Apache_2_0,
         BSD_2_Clause,
         BSD_3_Clause,
+        CDDL_1_0,
+        EPL_1_0,
         GPL_2_0_only,
         GPL_3_0_only,
         ISC,
         LGPL_2_1_only,
         LGPL_3_0_only,
-        this
+        this,
+        MPL_1_1,
+        MPL_2_0,
+        WTFPL
     )
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
-        this,
         BSD_2_Clause,
         BSD_3_Clause,
-        ISC
+        CDDL_1_0,
+        EPL_1_0,
+        ISC,
+        this,
+        MPL_1_1,
+        MPL_2_0,
+        WTFPL
     )
 }

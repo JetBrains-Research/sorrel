@@ -81,22 +81,33 @@ object BSD_3_Clause : SupportedLicense {
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
+        AGPL_3_0_only,
         Apache_2_0,
         BSD_2_Clause,
         this,
+        CDDL_1_0,
+        EPL_1_0,
         GPL_2_0_only,
         GPL_3_0_only,
         ISC,
         LGPL_2_1_only,
         LGPL_3_0_only,
-        MIT
+        MIT,
+        MPL_1_1,
+        MPL_2_0,
+        WTFPL
     )
 
     override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
-        MIT,
-        this,
         BSD_2_Clause,
-        ISC
+        this,
+        CDDL_1_0,
+        EPL_1_0,
+        ISC,
+        MIT,
+        MPL_1_1,
+        MPL_2_0,
+        WTFPL
     )
 }
