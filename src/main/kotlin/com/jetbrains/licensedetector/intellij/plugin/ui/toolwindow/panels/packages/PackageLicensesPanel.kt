@@ -13,8 +13,9 @@ import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.ui.ComponentActionWrapper
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createRefreshButton
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createActionToolbar
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.PanelBase
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.RefreshAction
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import net.miginfocom.swing.MigLayout
@@ -86,7 +87,7 @@ class PackageLicensesPanel(
                 layout = MigLayout("ins 0 0 0 0, fill", "[left, fill, grow][][right]", "center")
                 add(searchTextField)
                 add(moduleSelectionToolbar.component)
-                add(createRefreshButton(project))
+                add(createActionToolbar(RefreshAction()))
             }
 
             override fun getBackground() = RiderUI.UsualBackgroundColor

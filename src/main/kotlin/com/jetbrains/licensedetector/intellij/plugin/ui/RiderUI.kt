@@ -1,6 +1,5 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui
 
-import com.intellij.icons.AllIcons
 import com.intellij.icons.AllIcons.Actions.Commit
 import com.intellij.icons.AllIcons.General.BalloonInformation
 import com.intellij.icons.AllIcons.RunConfigurations.ToolbarSkipped
@@ -9,7 +8,6 @@ import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.actionSystem.ex.CustomComponentAction
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbAwareAction
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.popup.JBPopupFactory
 import com.intellij.openapi.util.IconLoader
@@ -21,8 +19,6 @@ import com.intellij.util.ui.JBEmptyBorder
 import com.intellij.util.ui.JBUI
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.components.BorderLayoutPanel
-import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
-import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import java.awt.*
 import java.awt.event.*
 import javax.swing.*
@@ -135,21 +131,10 @@ class RiderUI {
             icon = BalloonInformation
         }
 
-        fun createRefreshButton(project: Project): JComponent {
-            val refreshAction =
-                object : AnAction(
-                    LicenseDetectorBundle.message("licensedetector.ui.toolwindow.actions.reload.text"),
-                    LicenseDetectorBundle.message("licensedetector.ui.toolwindow.actions.reload.description"),
-                    AllIcons.Actions.Refresh
-                ) {
-                    override fun actionPerformed(e: AnActionEvent) {
-                        project.licenseDetectorModel().requestRefreshContext.fire(Unit)
-                    }
-                }
-
+        fun createActionToolbar(vararg action: AnAction): JComponent {
             val refreshButtonAction = ActionManager.getInstance().createActionToolbar(
                 "",
-                DefaultActionGroup(refreshAction),
+                DefaultActionGroup(*action),
                 true
             ).apply {
                 component.background = HeaderBackgroundColor

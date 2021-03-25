@@ -13,6 +13,6 @@ data class UnsupportedLicense(
         @SerializedName("spdx_id")
         override val spdxId: String?
 ) : License {
-        override val name: String?
-                get() = pureName + LicenseDetectorBundle.message("licensedetector.license.unsupported.postfix")
+        override val name: String
+            get() = pureName + LicenseDetectorBundle.message("licensedetector.license.unsupported.postfix")
 }

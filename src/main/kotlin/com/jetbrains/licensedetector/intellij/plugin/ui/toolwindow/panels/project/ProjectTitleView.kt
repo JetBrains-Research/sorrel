@@ -7,11 +7,13 @@ import com.intellij.openapi.roots.ModuleRootListener
 import com.intellij.ui.AnimatedIcon
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.export.ExportJsonLicenseDataAction
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderColor
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createRefreshButton
+import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.createActionToolbar
 import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.LicenseManager
+import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.RefreshAction
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import com.jetbrains.rd.util.lifetime.Lifetime
@@ -47,14 +49,14 @@ class ProjectTitleView(
 
         layout = MigLayout(
             "fillx,flowy,insets 0",
-            "[left,grow]0[right]0[right]",
+            "[left,grow]0[left]0[right]",
             "[]0[top]10[top][top]5[top]15"
         )
 
         add(projectNameLabel, "cell 0 0")
         add(progressIcon, "cell 1 0,shrink,align center")
-        add(createRefreshButton(project), "cell 2 0,shrink")
-        add(pathToProjectDirLabel, "cell 0 1,span")
+        add(createActionToolbar(RefreshAction(), ExportJsonLicenseDataAction()), "cell 2 0,shrink")
+        add(pathToProjectDirLabel, "cell 0 1,span,grow")
         add(createMainProjectLicenseTitle(), "cell 0 2")
         add(JSeparator(), "cell 0 3,growx,span")
     }

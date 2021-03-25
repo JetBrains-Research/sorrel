@@ -1,7 +1,7 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
 import com.intellij.openapi.project.guessModuleDir
-import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.issue.*
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
@@ -237,19 +237,11 @@ class LicenseManager(
         modulesLicenses: Map<ProjectModule, SupportedLicense>,
         packages: Collection<PackageDependency>
     ) {
-        val issuesList = mutableListOf<String>()
+        val groupIssuesList = mutableListOf<PackageDependencyIssueGroup>()
 
         for ((module, license) in modulesLicenses) {
+            val issuesList = mutableListOf<PackageDependencyIssue>()
             val inheritedLicense = getModuleLicense(modulesLicenses, module, license)
-            var hasCompatibleIssue = false
-            val stringBuilder = StringBuilder(
-                LicenseDetectorBundle.message(
-                    "licensedetector.ui.compatibilityIssues.moduleAndDependency.head",
-                    module.name,
-                    inheritedLicense.name
-                )
-            )
-            stringBuilder.append("<ul>")
 
             // Add compatibility issues if needed
             packages.forEach { dependency ->
@@ -258,54 +250,37 @@ class LicenseManager(
                     if (mainPackageLicense is SupportedLicense &&
                         !mainPackageLicense.compatibleModuleLicenses.contains(inheritedLicense)
                     ) {
-                        hasCompatibleIssue = true
-                        stringBuilder.append(
-                            "<li>" +
-                                    LicenseDetectorBundle.message(
-                                        "licensedetector.ui.compatibilityIssues.moduleAndDependency",
-                                        dependency.identifier,
-                                        mainPackageLicense.name
-                                    ) + "</li>"
-                        )
+                        issuesList.add(PackageDependencyIssue(dependency.identifier, mainPackageLicense.name))
                     }
                     dependency.getOtherLicenses().forEach {
                         if (it is SupportedLicense &&
                             !it.compatibleModuleLicenses.contains(inheritedLicense)
                         ) {
-                            hasCompatibleIssue = true
-                            stringBuilder.append(
-                                "<li>" +
-                                        LicenseDetectorBundle.message(
-                                            "licensedetector.ui.compatibilityIssues.moduleAndDependency",
-                                            dependency.identifier,
-                                            it.name
-                                        ) + "</li>"
-                            )
+                            issuesList.add(PackageDependencyIssue(dependency.identifier, it.name))
                         }
                     }
                 }
             }
-            stringBuilder.append("</ul>")
 
-            if (hasCompatibleIssue) {
-                issuesList.add(stringBuilder.toString())
+            if (issuesList.isNotEmpty()) {
+                groupIssuesList.add(PackageDependencyIssueGroup(module.name, inheritedLicense.name, issuesList))
             }
         }
 
         val previousCompatibilityIssueData = compatibilityIssues.value
 
-        return if (issuesList.isNotEmpty()) {
+        return if (groupIssuesList.isNotEmpty()) {
             compatibilityIssues.set(
                 CompatibilityIssueData(
-                    issuesList,
-                    previousCompatibilityIssueData.submoduleLicenseIssues
+                    groupIssuesList,
+                    previousCompatibilityIssueData.submoduleLicenseIssueGroups
                 )
             )
         } else {
             compatibilityIssues.set(
                 CompatibilityIssueData(
                     listOf(),
-                    previousCompatibilityIssueData.submoduleLicenseIssues
+                    previousCompatibilityIssueData.submoduleLicenseIssueGroups
                 )
             )
         }
@@ -314,7 +289,7 @@ class LicenseManager(
     private fun checkCompatibilityWithSubmodulesLicenses(
         moduleLicenses: Map<ProjectModule, SupportedLicense>
     ) {
-        val issuesList = mutableListOf<String>()
+        val groupIssuesList = mutableListOf<SubmoduleIssueGroup>()
 
         val projectModulesWithPath = moduleLicenses.mapNotNull {
             val pathString = it.key.nativeModule.guessModuleDir()?.path ?: ""
@@ -322,20 +297,12 @@ class LicenseManager(
         }
 
         for ((module, license) in moduleLicenses) {
-            var hasCompatibleIssue = false
+            val submoduleIssues = mutableListOf<SubmoduleIssue>()
 
             val modulePathString = module.nativeModule.guessModuleDir()?.path ?: continue
             val modulePath = Paths.get(modulePathString)
 
             if (license != NoLicense) {
-                val stringBuilder = StringBuilder(
-                    LicenseDetectorBundle.message(
-                        "licensedetector.ui.compatibilityIssues.moduleAndSubmodules.head",
-                        module.name,
-                        license.name
-                    )
-                )
-                stringBuilder.append("<ul>")
 
                 val listOfCompatibleLicenses = getSubmoduleOfModuleWithLicenses(
                     module,
@@ -346,38 +313,29 @@ class LicenseManager(
 
                 listOfCompatibleLicenses.forEach {
                     if (!it.second.compatibleModuleLicenses.contains(license)) {
-                        hasCompatibleIssue = true
-                        stringBuilder.append(
-                            "<li>" +
-                                    LicenseDetectorBundle.message(
-                                        "licensedetector.ui.compatibilityIssues.moduleAndSubmodules",
-                                        it.first.name,
-                                        it.second.name
-                                    ) + "</li>"
-                        )
+                        submoduleIssues.add(SubmoduleIssue(it.first.name, it.second.name))
                     }
                 }
-                stringBuilder.append("</ul>")
 
-                if (hasCompatibleIssue) {
-                    issuesList.add(stringBuilder.toString())
+                if (submoduleIssues.isNotEmpty()) {
+                    groupIssuesList.add(SubmoduleIssueGroup(module.name, license.name, submoduleIssues))
                 }
             }
         }
 
         val previousCompatibilityIssueData = compatibilityIssues.value
 
-        return if (issuesList.isNotEmpty()) {
+        return if (groupIssuesList.isNotEmpty()) {
             compatibilityIssues.set(
                 CompatibilityIssueData(
-                    previousCompatibilityIssueData.packageDependencyLicenseIssues,
-                    issuesList
+                    previousCompatibilityIssueData.packageDependencyLicenseIssueGroups,
+                    groupIssuesList
                 )
             )
         } else {
             compatibilityIssues.set(
                 CompatibilityIssueData(
-                    previousCompatibilityIssueData.packageDependencyLicenseIssues,
+                    previousCompatibilityIssueData.packageDependencyLicenseIssueGroups,
                     listOf()
                 )
             )

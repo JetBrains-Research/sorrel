@@ -3,8 +3,8 @@ package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.panels.proje
 import com.intellij.ui.components.JBLabel
 import com.intellij.util.ui.UIUtil
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.issue.CompatibilityIssueData
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.CompatibilityIssueData
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
@@ -46,24 +46,10 @@ class CompatibleIssueView {
                 panel.add(compatibleIssueTitle)
                 panel.add(separator, CC().growX())
 
-                if (it.packageDependencyLicenseIssues.isEmpty() &&
-                    it.submoduleLicenseIssues.isEmpty()
-                ) {
+                if (it.isEmpty()) {
                     panel.add(createEmptyLabel())
                 } else {
-                    val stringBuilder = StringBuilder("<html><body><ol>")
-                    if (it.packageDependencyLicenseIssues.isNotEmpty()) {
-                        it.packageDependencyLicenseIssues.forEach { issue ->
-                            stringBuilder.append("<li>$issue</li>")
-                        }
-                    }
-                    if (it.submoduleLicenseIssues.isNotEmpty()) {
-                        it.submoduleLicenseIssues.forEach { issue ->
-                            stringBuilder.append("<li>$issue</li>")
-                        }
-                    }
-                    stringBuilder.append("</ol></body></html>")
-                    panel.add(createIssueLabel(stringBuilder.toString()))
+                    panel.add(createIssueLabel(it.convertCompatibilityIssuesDataToHtml()))
                 }
 
                 panel.updateAndRepaint()
@@ -79,7 +65,7 @@ class CompatibleIssueView {
     }
 
     private fun createEmptyLabel(): JBLabel = JBLabel(
-            LicenseDetectorBundle.message("licensedetector.ui.compatibilityIssues.emptyList")
+        LicenseDetectorBundle.message("licensedetector.ui.compatibilityIssues.emptyList")
     ).apply {
         font = UIUtil.getListFont().let { Font(it.family, it.style, (it.size * 1.1).toInt()) }
     }
