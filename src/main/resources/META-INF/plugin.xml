@@ -25,7 +25,7 @@
 
         <editorNotificationProvider
                 id="LicenseFileEditorNotificationProvider"
-                implementation="com.jetbrains.licensedetector.intellij.plugin.notification.LicenseFileEditorNotificationProvider"/>
+                implementation="com.jetbrains.licensedetector.intellij.plugin.editor.LicenseFileEditorNotificationProvider"/>
 
         <registryKey id="licensedetector.plugin.debug.logging"
                      key="licensedetector.plugin.debug.logging"

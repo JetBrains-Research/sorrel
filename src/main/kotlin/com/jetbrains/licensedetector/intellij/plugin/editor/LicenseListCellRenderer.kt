@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.notification
+package com.jetbrains.licensedetector.intellij.plugin.editor
 
 import com.intellij.icons.AllIcons.Actions.Cancel
 import com.intellij.icons.AllIcons.Actions.Commit

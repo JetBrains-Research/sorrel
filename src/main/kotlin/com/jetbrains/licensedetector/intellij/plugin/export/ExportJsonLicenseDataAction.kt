@@ -1,5 +1,6 @@
 package com.jetbrains.licensedetector.intellij.plugin.export
 
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.fileChooser.FileChooserFactory
@@ -10,6 +11,7 @@ import com.intellij.openapi.progress.Task.Backgroundable
 import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
 import com.jetbrains.licensedetector.intellij.plugin.export.model.ExportLicenseData
+import com.jetbrains.licensedetector.intellij.plugin.export.notification.ExportLicenseDataNotification
 import com.jetbrains.licensedetector.intellij.plugin.ui.LicenseDetectorPluginIcons
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 
@@ -30,11 +32,28 @@ class ExportJsonLicenseDataAction : AnAction(
         )
         val target = saveDialog.save(null, project.name + "_license_data.json")
         if (target != null) {
-            val task: Backgroundable = object : Backgroundable(project, "Saving Project Zip") {
+            val task: Backgroundable = object : Backgroundable(project, "Export license data") {
                 override fun run(indicator: ProgressIndicator) {
                     target.file.writeText(
                         ExportLicenseData.createCollectedLicenseDataJson(project)
                     )
+                }
+
+                override fun onSuccess() {
+                    val successNotification = ExportLicenseDataNotification(
+                        LicenseDetectorBundle.message("licensedetector.ui.toolwindow.actions.export.notification.success.title"),
+                        NotificationType.INFORMATION
+                    )
+                    successNotification.addAction(ShowLicenseDataAction(target.file))
+                    successNotification.notify(project)
+                }
+
+                override fun onError(error: Exception) {
+                    val successNotification = ExportLicenseDataNotification(
+                        LicenseDetectorBundle.message("licensedetector.ui.toolwindow.actions.export.notification.error.title"),
+                        NotificationType.WARNING
+                    )
+                    successNotification.notify(project)
                 }
             }
             ProgressManager.getInstance()

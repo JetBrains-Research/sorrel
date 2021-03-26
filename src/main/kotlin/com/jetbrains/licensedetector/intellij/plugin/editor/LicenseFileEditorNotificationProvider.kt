@@ -1,4 +1,4 @@
-package com.jetbrains.licensedetector.intellij.plugin.notification
+package com.jetbrains.licensedetector.intellij.plugin.editor
 
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.module.ModuleUtilCore.findModuleForFile
