@@ -1,6 +1,5 @@
 package com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model
 
-import com.intellij.openapi.project.guessModuleDir
 import com.jetbrains.licensedetector.intellij.plugin.issue.*
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
@@ -11,7 +10,6 @@ import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.remove
-import kotlinx.coroutines.*
 import org.jetbrains.kotlin.utils.keysToMap
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -132,13 +130,13 @@ class LicenseManager(
         }
 
         val projectModulesWithPath = moduleLicenses.mapNotNull {
-            val pathString = it.key.nativeModule.guessModuleDir()?.path ?: ""
+            val pathString = it.key.path
             Pair(it.key, Paths.get(pathString))
         }
 
         for (module in moduleLicenses.keys) {
             var compatibleLicenses = ALL_SUPPORTED_LICENSE.remove(NoLicense).toSet()
-            val modulePathString = module.nativeModule.guessModuleDir()?.path ?: continue
+            val modulePathString = module.path
             val modulePath = Paths.get(modulePathString)
 
             //find top module with license (not NoLicense)
@@ -186,12 +184,12 @@ class LicenseManager(
             mutableMapOf()
 
         val projectModulesWithPath = modulesLicenses.mapNotNull {
-            val pathString = it.key.nativeModule.guessModuleDir()?.path ?: ""
+            val pathString = it.key.path
             Pair(it.key, Paths.get(pathString))
         }
 
         for ((module, _) in modulesLicenses) {
-            val modulePathString = module.nativeModule.guessModuleDir()?.path ?: continue
+            val modulePathString = module.path
             val modulePath = Paths.get(modulePathString)
 
             val submodulesSet = getSubmoduleOfModuleWithNoLicenses(
@@ -292,14 +290,14 @@ class LicenseManager(
         val groupIssuesList = mutableListOf<SubmoduleIssueGroup>()
 
         val projectModulesWithPath = moduleLicenses.mapNotNull {
-            val pathString = it.key.nativeModule.guessModuleDir()?.path ?: ""
+            val pathString = it.key.path
             Pair(it.key, Paths.get(pathString))
         }
 
         for ((module, license) in moduleLicenses) {
             val submoduleIssues = mutableListOf<SubmoduleIssue>()
 
-            val modulePathString = module.nativeModule.guessModuleDir()?.path ?: continue
+            val modulePathString = module.path
             val modulePath = Paths.get(modulePathString)
 
             if (license != NoLicense) {
@@ -353,7 +351,7 @@ class LicenseManager(
     ): List<Pair<ProjectModule, SupportedLicense>> {
         // find and get licenses of all submodules (without No License) of current modules
         val subModulesWithLicenses = modulesLicenses.toList().filter {
-            val curModulePathString = it.first.nativeModule.guessModuleDir()?.path ?: return@filter false
+            val curModulePathString = it.first.path
             val curModulePath = Paths.get(curModulePathString)
             it.second != NoLicense && curModulePath.startsWith(targetModulePath)
                     && curModulePath != targetModulePath
@@ -376,7 +374,7 @@ class LicenseManager(
     ): List<Pair<ProjectModule, SupportedLicense>> {
         // find and get licenses of all submodules (only with No License) of current modules
         val subModulesWithLicenses = modulesLicenses.toList().filter {
-            val curModulePathString = it.first.nativeModule.guessModuleDir()?.path ?: return@filter false
+            val curModulePathString = it.first.path
             val curModulePath = Paths.get(curModulePathString)
             it.second == NoLicense && curModulePath.startsWith(targetModulePath)
                     && curModulePath != targetModulePath
@@ -398,7 +396,7 @@ class LicenseManager(
         projectModulesWithPath: List<Pair<ProjectModule, Path>>
     ): List<Pair<ProjectModule, SupportedLicense>> {
         return subModulesWithLicenses.filter {
-            var subModuleParentPath: Path? = Paths.get(it.first.nativeModule.guessModuleDir()!!.path).parent
+            var subModuleParentPath: Path? = Paths.get(it.first.path).parent
             var subModuleParent: ProjectModule? = projectModulesWithPath.find { mod ->
                 mod.second == subModuleParentPath
             }?.first
@@ -431,12 +429,10 @@ class LicenseManager(
             return moduleLicense
         }
 
-        val projectModulePath = Paths.get(
-            projectModule.nativeModule.guessModuleDir()?.canonicalPath ?: return moduleLicense
-        )
+        val projectModulePath = Paths.get(projectModule.path)
 
         val modulesWithDirPath = modulesLicenses.map { entry ->
-            Pair(entry.key, Paths.get(entry.key.nativeModule.guessModuleDir()?.canonicalPath ?: ""))
+            Pair(entry.key, Paths.get(entry.key.path))
         }
 
         var curModuleLicense: SupportedLicense = NoLicense

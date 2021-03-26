@@ -39,9 +39,9 @@ internal class ModuleContextComboBox(val model: ToolWindowModel) : ContextComboB
 
     private fun createSelectModuleActions(): List<AnAction> =
         model.projectModules.value
-            .sortedBy { it.getFullName() }
+            .sortedBy { it.name }
             .map {
-                createSelectAction(it, it.getFullName())
+                createSelectAction(it, it.name)
             }
 
     private fun createSelectAction(projectModule: ProjectModule?, title: String) =

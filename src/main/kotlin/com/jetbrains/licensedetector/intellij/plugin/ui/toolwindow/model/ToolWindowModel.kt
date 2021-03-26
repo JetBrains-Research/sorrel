@@ -318,7 +318,7 @@ internal class ToolWindowModel(val project: Project) : Disposable {
             yield()
 
             // Fetch all packages that are installed in the project and re-populate our map
-            val projectModule = ProjectModule(module.name, module)
+            val projectModule = ProjectModule(module.name, module, moduleDir.path)
 
             val projectLibraries = mutableListOf<Library>()
             ModuleRootManager.getInstance(module).orderEntries().forEachLibrary { library: Library ->

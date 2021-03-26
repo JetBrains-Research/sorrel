@@ -10,7 +10,7 @@ object ModuleUtils {
 
     fun Project.hasOneTopLevelModule(): Boolean {
         val modules = ModuleManager.getInstance(this).modules
-        val moduleDirPath = modules.mapNotNull { it.guessModuleDir()?.canonicalPath }
+        val moduleDirPath = modules.mapNotNull { it.guessModuleDir()?.path }
         return moduleDirPath.any { path ->
             moduleDirPath.all { it.startsWith(path) }
         }
@@ -19,7 +19,7 @@ object ModuleUtils {
     fun Project.getTopLevelModule(): Module? {
         val modules = ModuleManager.getInstance(this).modules
         val moduleWithDirPath = modules.mapNotNull {
-            val modulePath = it.guessModuleDir()?.canonicalPath
+            val modulePath = it.guessModuleDir()?.path
             if (modulePath != null) {
                 Pair(it, modulePath)
             } else {
