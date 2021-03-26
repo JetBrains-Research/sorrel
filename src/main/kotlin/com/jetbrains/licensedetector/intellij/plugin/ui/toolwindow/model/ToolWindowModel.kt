@@ -19,7 +19,8 @@ import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import com.intellij.psi.PsiManager
-import com.intellij.psi.search.FilenameIndex.getAllFilesByExt
+import com.intellij.psi.search.FilenameIndex
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.Function
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager
 import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager.licenseFileNamePattern
@@ -37,6 +38,7 @@ import com.jetbrains.rd.util.reactive.Property
 import com.jetbrains.rd.util.reactive.Signal
 import kotlinx.coroutines.*
 import org.jetbrains.kotlin.idea.core.util.toPsiFile
+import java.util.*
 
 private const val DATA_DEBOUNCE_MILLIS = 100L
 private const val SEARCH_DEBOUNCE_MILLIS = 200L
@@ -402,12 +404,7 @@ internal class ToolWindowModel(val project: Project) : Disposable {
         // It will probably run very slowly on real projects.
         // One option is to capture the set of names to be found.
         // Then it will be possible to use indices and get an acceleration of 1000x.
-        val licenseFiles = ReadAction.compute<Collection<VirtualFile>, Throwable> {
-            getAllFilesByExt(project, "txt") +
-                    getAllFilesByExt(project, "md") +
-                    getAllFilesByExt(project, "html") +
-                    getAllFilesByExt(project, "")
-        }
+        val licenseFiles = getAllLicenseFilesByExts(project)
 
         yield()
 
@@ -419,18 +416,29 @@ internal class ToolWindowModel(val project: Project) : Disposable {
 
         for (licenseFile in licenseFiles) {
             yield()
-            if (licenseFileNamePattern.matches(licenseFile.name) && !licenseFile.isDirectory) {
-                val licensePsiFileText = ReadAction.compute<String?, Throwable> {
-                    PsiManager.getInstance(project).findFile(licenseFile)?.text
-                } ?: continue
-                val module = findModuleForFile(licenseFile, project) ?: continue
-                val projectModule = projectModuleList.find { it.nativeModule == module } ?: continue
-                val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFileText)
-                moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-            }
+            val licensePsiFileText = ReadAction.compute<String?, Throwable> {
+                PsiManager.getInstance(project).findFile(licenseFile)?.text
+            } ?: continue
+            val module = findModuleForFile(licenseFile, project) ?: continue
+            val projectModule = projectModuleList.find { it.nativeModule == module } ?: continue
+            val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFileText)
+            moduleLicenseByLicenseFiles[projectModule] = detectedLicense
         }
         licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
         logDebug(traceInfo) { "Finish updateModulesLicensesByLicenseFile()" }
+    }
+
+    private fun getAllLicenseFilesByExts(project: Project): Collection<VirtualFile> {
+        val files: MutableList<VirtualFile> = ArrayList()
+
+        for (name in FilenameIndex.getAllFilenames(project)) {
+            if (licenseFileNamePattern.matches(name)) {
+                val licenseFiles =
+                    FilenameIndex.getVirtualFilesByName(project, name, GlobalSearchScope.allScope(project))
+                files.addAll(licenseFiles.filter { !it.isDirectory })
+            }
+        }
+        return files
     }
 
     /**

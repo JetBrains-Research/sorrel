@@ -93,9 +93,10 @@ data class CompatibilityIssueData(
     }
 
     private fun convertPackageDependencyIssueGroupsToHtml(): String {
-        val stringBuilder = StringBuilder("<li>")
+        val stringBuilder = StringBuilder()
 
         for (group in packageDependencyLicenseIssueGroups) {
+            stringBuilder.append("<li>")
             stringBuilder.append(
                 LicenseDetectorBundle.message(
                     "licensedetector.ui.compatibilityIssues.html.moduleAndDependency.head",
@@ -116,16 +117,17 @@ data class CompatibilityIssueData(
                 stringBuilder.append("</li>")
             }
             stringBuilder.append("</ul>")
+            stringBuilder.append("</li>")
         }
 
-        stringBuilder.append("</li>")
         return stringBuilder.toString()
     }
 
     private fun convertSubmodulesIssueGroupsToHtml(): String {
-        val stringBuilder = StringBuilder("<li>")
+        val stringBuilder = StringBuilder()
 
         for (group in submoduleLicenseIssueGroups) {
+            stringBuilder.append("<li>")
             stringBuilder.append(
                 LicenseDetectorBundle.message(
                     "licensedetector.ui.compatibilityIssues.html.moduleAndSubmodules.head",
@@ -146,9 +148,9 @@ data class CompatibilityIssueData(
                 stringBuilder.append("</li>")
             }
             stringBuilder.append("</ul>")
+            stringBuilder.append("</li>")
         }
 
-        stringBuilder.append("</li>")
         return stringBuilder.toString()
     }
 }

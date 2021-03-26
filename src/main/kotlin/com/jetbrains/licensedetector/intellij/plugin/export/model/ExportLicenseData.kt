@@ -19,7 +19,7 @@ data class ExportLicenseData(
 
             val exportRootModule = if (rootModule != null && rootModuleLicense != null) {
                 val exportLicenseData = ExportLicenseInfo(rootModuleLicense.name, rootModuleLicense.spdxId)
-                ExportRootModuleInfo(rootModule.name, rootModule.nativeModule.moduleFilePath, exportLicenseData)
+                ExportRootModuleInfo(rootModule.name, rootModule.path, exportLicenseData)
             } else {
                 null
             }
