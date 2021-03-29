@@ -42,7 +42,7 @@ class MLDetector {
     )
 
     // Number of features that model accepts
-    private val numFeatures = vectorizer.vector_dim
+    private val numFeatures = vectorizer.vector_dim + 1
     private val THRESHOLD = 0.8
 
     // Shape of input data
@@ -143,7 +143,7 @@ class MLDetector {
     private fun detectLicense(text: String): SupportedLicense? {
         // Convert text into vector
         val filteredText = filterText(text)
-        val vector = vectorizer.vectorize(filteredText)
+        val vector = vectorizer.vectorizeWithLength(filteredText)
         val tensor = FloatNDArray(inputShape) { vector[it].toFloat() }.asTensor("features")
 
         // Prediction

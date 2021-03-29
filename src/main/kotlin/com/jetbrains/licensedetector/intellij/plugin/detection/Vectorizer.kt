@@ -11,6 +11,19 @@ class Vectorizer(val vocabulary: List<String>){
     val vector_dim = vocabulary.size
 
     /**
+     * Vectorize (counting vectorization) given text into vector_dim size vector +
+     * add length of text as last component of vector.
+ *      * @param text text to be vectorized.
+     * @return IntArray with vector_dim + 1 size (vector).
+     */
+    fun vectorizeWithLength(text: String): IntArray {
+        val text_vector = vectorize(text).toMutableList()
+        text_vector.add(text.length)
+        return text_vector.toIntArray()
+    }
+
+
+    /**
      * Vectorize (counting vectorization) given text into vector_dim size vector.
      * @param text text to be vectorized.
      * @return IntArray with vector_dim size (vector).
@@ -22,11 +35,12 @@ class Vectorizer(val vocabulary: List<String>){
         // Iterate over each feature
         for (index in 0 until vector_dim) {
             // Get feature text & initialize occurance
-            val feature = vocabulary.get(index)
+            val feature = vocabulary.get(index).split(" ")
             var feature_occurances = 0
 
             // Count how many times feature occurs in text
-            for (window in text.windowed(feature.length)) {
+            val textList = text.split(" ")
+            for (window in textList.windowed(feature.size)) {
                 if (window.equals(feature)) {
                     feature_occurances += 1
                 }
