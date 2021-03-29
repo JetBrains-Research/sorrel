@@ -15,7 +15,7 @@ import java.util.*
 class MLDetector {
     //Classes for decode numeric predictions
     private val classes: List<String> = DetectorManager::class.java.getResourceAsStream(
-        "/detection/license_level_classes.txt"
+        "/detection/license_level_classes_v2.txt"
     ).reader().readLines()
 
     // Detected License (string) to License class mapping
@@ -33,11 +33,11 @@ class MLDetector {
 
     // Model & vectorizer for detection licenses on project level initializiation
     private val model: Model = Model.load(
-        DetectorManager::class.java.getResource("/detection/license_level_model_v1.onnx").readBytes()
+        DetectorManager::class.java.getResource("/detection/license_level_model_v2.onnx").readBytes()
     )
     private val vectorizer: Vectorizer = Vectorizer(
         DetectorManager::class.java.getResourceAsStream(
-            "/detection/license_level_model_words.txt"
+            "/detection/license_level_model_words_v2.txt"
         ).reader().readLines()
     )
 
