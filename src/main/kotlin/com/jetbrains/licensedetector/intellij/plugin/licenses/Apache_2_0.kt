@@ -92,14 +92,30 @@ object Apache_2_0 : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.4"),
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.5")
     )
+    override val permissionToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.3.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.4.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.permissions.5.tooltip")
+    )
     override val limitations: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.1"),
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.2"),
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.3")
     )
+    override val limitationsToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.limitations.3.tooltip")
+    )
     override val conditions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.1"),
         LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.2")
+    )
+    override val conditionsToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.apache_2_0.conditions.2.tooltip")
     )
 
     override fun descriptionPanel(): JComponent = JPanel().apply {
@@ -127,18 +143,18 @@ object Apache_2_0 : SupportedLicense {
             "cell 2 2, growx"
         )
 
-        add(createLicensePermissionLabel(permissions[0]), "cell 0 3,growx")
-        add(createLicensePermissionLabel(permissions[1]), "cell 0 4,growx")
-        add(createLicensePermissionLabel(permissions[2]), "cell 0 5,growx")
-        add(createLicensePermissionLabel(permissions[3]), "cell 0 6,growx")
-        add(createLicensePermissionLabel(permissions[4]), "cell 0 7,growx")
+        add(createLicensePermissionLabel(permissions[0], permissionToolTips[0]), "cell 0 3,growx")
+        add(createLicensePermissionLabel(permissions[1], permissionToolTips[1]), "cell 0 4,growx")
+        add(createLicensePermissionLabel(permissions[2], permissionToolTips[2]), "cell 0 5,growx")
+        add(createLicensePermissionLabel(permissions[3], permissionToolTips[3]), "cell 0 6,growx")
+        add(createLicensePermissionLabel(permissions[4], permissionToolTips[4]), "cell 0 7,growx")
 
-        add(createLicenseLimitationsLabel(limitations[0]), "cell 1 3,growx")
-        add(createLicenseLimitationsLabel(limitations[1]), "cell 1 4,growx")
-        add(createLicenseLimitationsLabel(limitations[2]), "cell 1 5,growx")
+        add(createLicenseLimitationsLabel(limitations[0], limitationsToolTips[0]), "cell 1 3,growx")
+        add(createLicenseLimitationsLabel(limitations[1], limitationsToolTips[1]), "cell 1 4,growx")
+        add(createLicenseLimitationsLabel(limitations[2], limitationsToolTips[2]), "cell 1 5,growx")
 
-        add(createLicenseConditionsLabel(conditions[0]), "cell 2 3,growx")
-        add(createLicenseConditionsLabel(conditions[1]), "cell 2 4,growx")
+        add(createLicenseConditionsLabel(conditions[0], conditionsToolTips[0]), "cell 2 3,growx")
+        add(createLicenseConditionsLabel(conditions[1], conditionsToolTips[1]), "cell 2 4,growx")
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(

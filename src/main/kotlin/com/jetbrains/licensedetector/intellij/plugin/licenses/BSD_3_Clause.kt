@@ -36,12 +36,25 @@ object BSD_3_Clause : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.3"),
         LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.4")
     )
+    override val permissionToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.3.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.permissions.4.tooltip")
+    )
     override val limitations: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.limitations.1"),
         LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.limitations.2")
     )
+    override val limitationsToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.limitations.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.limitations.2.tooltip")
+    )
     override val conditions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.conditions.1")
+    )
+    override val conditionsToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.bsd_3_clause.conditions.1.tooltip")
     )
 
     override fun descriptionPanel(): JComponent = JPanel().apply {
@@ -69,15 +82,15 @@ object BSD_3_Clause : SupportedLicense {
             "cell 2 2, growx"
         )
 
-        add(RiderUI.createLicensePermissionLabel(permissions[0]), "cell 0 3,growx")
-        add(RiderUI.createLicensePermissionLabel(permissions[1]), "cell 0 4,growx")
-        add(RiderUI.createLicensePermissionLabel(permissions[2]), "cell 0 5,growx")
-        add(RiderUI.createLicensePermissionLabel(permissions[3]), "cell 0 6,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[0], permissionToolTips[0]), "cell 0 3,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[1], permissionToolTips[1]), "cell 0 4,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[2], permissionToolTips[2]), "cell 0 5,growx")
+        add(RiderUI.createLicensePermissionLabel(permissions[3], permissionToolTips[3]), "cell 0 6,growx")
 
-        add(RiderUI.createLicenseLimitationsLabel(limitations[0]), "cell 1 3,growx")
-        add(RiderUI.createLicenseLimitationsLabel(limitations[1]), "cell 1 4,growx")
+        add(RiderUI.createLicenseLimitationsLabel(limitations[0], limitationsToolTips[0]), "cell 1 3,growx")
+        add(RiderUI.createLicenseLimitationsLabel(limitations[1], limitationsToolTips[1]), "cell 1 4,growx")
 
-        add(RiderUI.createLicenseConditionsLabel(conditions[0]), "cell 2 3,growx")
+        add(RiderUI.createLicenseConditionsLabel(conditions[0], conditionsToolTips[0]), "cell 2 3,growx")
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(

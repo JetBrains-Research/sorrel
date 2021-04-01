@@ -400,10 +400,6 @@ internal class ToolWindowModel(val project: Project) : Disposable {
         projectModuleList: List<ProjectModule>
     ) {
         logDebug(traceInfo) { "Start updateModulesLicensesByLicenseFile()" }
-        //TODO: cannot find proper way to get all project files by regex
-        // It will probably run very slowly on real projects.
-        // One option is to capture the set of names to be found.
-        // Then it will be possible to use indices and get an acceleration of 1000x.
         val licenseFiles = getAllLicenseFilesByExts(project)
 
         yield()

@@ -1,13 +1,14 @@
 package com.jetbrains.licensedetector.intellij.plugin.export.model
 
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.intellij.openapi.project.Project
+import com.jetbrains.licensedetector.intellij.plugin.issue.CompatibilityIssueData
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 
 data class ExportLicenseData(
     val rootModule: ExportRootModuleInfo?,
     val modulesInfo: List<ExportModuleInfo>,
-    val compatibilityIssues: String
+    val compatibilityIssues: CompatibilityIssueData
 ) {
     companion object {
         private fun createCollectedLicenseData(project: Project): ExportLicenseData {
@@ -60,13 +61,14 @@ data class ExportLicenseData(
             return ExportLicenseData(
                 exportRootModule,
                 mutableModulesInfos,
-                compatibilityIssueData.convertCompatibilityIssuesDataToPlainText()
+                compatibilityIssueData
             )
         }
 
         fun createCollectedLicenseDataJson(project: Project): String {
             val exportLicenseData = createCollectedLicenseData(project)
-            return Gson().toJson(exportLicenseData)
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            return gson.toJson(exportLicenseData)
         }
     }
 }

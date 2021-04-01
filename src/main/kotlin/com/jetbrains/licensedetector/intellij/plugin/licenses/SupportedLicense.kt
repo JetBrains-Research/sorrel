@@ -22,8 +22,11 @@ interface SupportedLicense : License {
     //For description panel
     val description: String
     val permissions: List<String>
+    val permissionToolTips: List<String>
     val limitations: List<String>
+    val limitationsToolTips: List<String>
     val conditions: List<String>
+    val conditionsToolTips: List<String>
 
     fun descriptionPanel(): JComponent
 }

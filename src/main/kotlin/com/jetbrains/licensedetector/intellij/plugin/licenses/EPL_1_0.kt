@@ -93,15 +93,32 @@ object EPL_1_0 : SupportedLicense {
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.4"),
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.5")
     )
+    override val permissionToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.3.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.4.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.permissions.5.tooltip")
+    )
     override val limitations: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.limitations.1"),
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.limitations.2")
+    )
+    override val limitationsToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.limitations.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.limitations.2.tooltip")
     )
     override val conditions: List<String> = listOf(
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.1"),
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.2"),
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.3"),
         LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.4")
+    )
+    override val conditionsToolTips: List<String> = listOf(
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.3.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.epl_1_0.conditions.4.tooltip")
     )
 
     override fun descriptionPanel(): JComponent = JPanel().apply {
@@ -129,19 +146,19 @@ object EPL_1_0 : SupportedLicense {
             "cell 2 2, growx"
         )
 
-        add(createLicensePermissionLabel(permissions[0]), "cell 0 3,growx")
-        add(createLicensePermissionLabel(permissions[1]), "cell 0 4,growx")
-        add(createLicensePermissionLabel(permissions[2]), "cell 0 5,growx")
-        add(createLicensePermissionLabel(permissions[3]), "cell 0 6,growx")
-        add(createLicensePermissionLabel(permissions[4]), "cell 0 7,growx")
+        add(createLicensePermissionLabel(permissions[0], permissionToolTips[0]), "cell 0 3,growx")
+        add(createLicensePermissionLabel(permissions[1], permissionToolTips[1]), "cell 0 4,growx")
+        add(createLicensePermissionLabel(permissions[2], permissionToolTips[2]), "cell 0 5,growx")
+        add(createLicensePermissionLabel(permissions[3], permissionToolTips[3]), "cell 0 6,growx")
+        add(createLicensePermissionLabel(permissions[4], permissionToolTips[4]), "cell 0 7,growx")
 
-        add(createLicenseLimitationsLabel(limitations[0]), "cell 1 3,growx")
-        add(createLicenseLimitationsLabel(limitations[1]), "cell 1 4,growx")
+        add(createLicenseLimitationsLabel(limitations[0], limitationsToolTips[0]), "cell 1 3,growx")
+        add(createLicenseLimitationsLabel(limitations[1], limitationsToolTips[1]), "cell 1 4,growx")
 
-        add(createLicenseConditionsLabel(conditions[0]), "cell 2 3,growx")
-        add(createLicenseConditionsLabel(conditions[1]), "cell 2 4,growx")
-        add(createLicenseConditionsLabel(conditions[2]), "cell 2 5,growx")
-        add(createLicenseConditionsLabel(conditions[3]), "cell 2 6,growx")
+        add(createLicenseConditionsLabel(conditions[0], conditionsToolTips[0]), "cell 2 3,growx")
+        add(createLicenseConditionsLabel(conditions[1], conditionsToolTips[1]), "cell 2 4,growx")
+        add(createLicenseConditionsLabel(conditions[2], conditionsToolTips[2]), "cell 2 5,growx")
+        add(createLicenseConditionsLabel(conditions[3], conditionsToolTips[3]), "cell 2 6,growx")
     }
 
     override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(

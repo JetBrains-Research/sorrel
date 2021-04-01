@@ -32,7 +32,7 @@ class ExportJsonLicenseDataAction : AnAction(
         )
         val target = saveDialog.save(null, project.name + "_license_data.json")
         if (target != null) {
-            val task: Backgroundable = object : Backgroundable(project, "Export license data") {
+            val task: Backgroundable = object : Backgroundable(project, "Export license data", false) {
                 override fun run(indicator: ProgressIndicator) {
                     target.file.writeText(
                         ExportLicenseData.createCollectedLicenseDataJson(project)

@@ -17,6 +17,6 @@ class RefreshAction : AnAction(
 
     override fun update(e: AnActionEvent) {
         val project = e.project
-        e.presentation.isEnabled = project != null
+        e.presentation.isEnabled = project != null && !project.licenseDetectorModel().status.value.isBusy
     }
 }

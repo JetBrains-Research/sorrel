@@ -116,19 +116,22 @@ class RiderUI {
             font = UIUtil.getListFont().let { Font(it.family, Font.BOLD, (it.size * 1.3).toInt()) }
         }
 
-        fun createLicensePermissionLabel(permissionText: String) = JLabel().apply {
+        fun createLicensePermissionLabel(permissionText: String, tooltip: String) = JLabel().apply {
             text = permissionText
             icon = Commit
+            toolTipText = tooltip
         }
 
-        fun createLicenseLimitationsLabel(limitationText: String) = JLabel().apply {
+        fun createLicenseLimitationsLabel(limitationText: String, tooltip: String) = JLabel().apply {
             text = limitationText
             icon = ToolbarSkipped
+            toolTipText = tooltip
         }
 
-        fun createLicenseConditionsLabel(conditionsLabel: String) = JLabel().apply {
+        fun createLicenseConditionsLabel(conditionsLabel: String, tooltip: String) = JLabel().apply {
             text = conditionsLabel
             icon = BalloonInformation
+            toolTipText = tooltip
         }
 
         fun createActionToolbar(vararg action: AnAction): JComponent {

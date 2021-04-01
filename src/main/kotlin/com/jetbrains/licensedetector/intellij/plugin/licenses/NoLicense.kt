@@ -17,8 +17,11 @@ object NoLicense : SupportedLicense {
 
     override val description: String = ""
     override val permissions: List<String> = listOf()
+    override val permissionToolTips: List<String> = listOf()
     override val limitations: List<String> = listOf()
+    override val limitationsToolTips: List<String> = listOf()
     override val conditions: List<String> = listOf()
+    override val conditionsToolTips: List<String> = listOf()
 
     override fun descriptionPanel(): JComponent = JPanel().apply {
         background = RiderUI.UsualBackgroundColor
