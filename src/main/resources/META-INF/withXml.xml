@@ -2,7 +2,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.inlayProvider
                 language="XML"
-                implementationClass="com.jetbrains.licensedetector.intellij.plugin.ui.inlays.maven.LicenseXmlInlayHintsProvider"
+                implementationClass="com.jetbrains.licensedetector.intellij.plugin.inlays.maven.LicenseXmlInlayHintsProvider"
         />
     </extensions>
 </idea-plugin>

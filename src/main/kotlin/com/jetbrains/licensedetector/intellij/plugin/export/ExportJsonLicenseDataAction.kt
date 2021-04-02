@@ -10,9 +10,9 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task.Backgroundable
 import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorPluginIcons
 import com.jetbrains.licensedetector.intellij.plugin.export.model.ExportLicenseData
 import com.jetbrains.licensedetector.intellij.plugin.export.notification.ExportLicenseDataNotification
-import com.jetbrains.licensedetector.intellij.plugin.ui.LicenseDetectorPluginIcons
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 
 class ExportJsonLicenseDataAction : AnAction(

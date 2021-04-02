@@ -2,7 +2,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.inlayProvider
                 language="kotlin"
-                implementationClass="com.jetbrains.licensedetector.intellij.plugin.ui.inlays.gradle.kotlin.LicenseKotlinInlayHintsProvider"
+                implementationClass="com.jetbrains.licensedetector.intellij.plugin.inlays.gradle.kotlin.LicenseKotlinInlayHintsProvider"
         />
     </extensions>
 </idea-plugin>

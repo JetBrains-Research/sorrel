@@ -17,11 +17,11 @@
     <extensions defaultExtensionNs="com.intellij">
 
         <projectService
-                serviceImplementation="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel"/>
+                serviceImplementation="com.jetbrains.licensedetector.intellij.plugin.model.ToolWindowModel"/>
 
         <toolWindow id="Project Licenses" anchor="right" secondary="false"
                     canCloseContents="true"
-                    factoryClass="com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.LicenseDetectorToolWindowFactory"/>
+                    factoryClass="com.jetbrains.licensedetector.intellij.plugin.toolwindow.LicenseDetectorToolWindowFactory"/>
 
         <editorNotificationProvider
                 id="LicenseFileEditorNotificationProvider"

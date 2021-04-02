@@ -20,15 +20,22 @@ class MLDetector {
 
     // Detected License (string) to License class mapping
     private val licenseToClass = mapOf<String, SupportedLicense>(
+        "AGPL-3.0-only" to AGPL_3_0_only,
         "Apache-2.0" to Apache_2_0,
-        "BSD-3-Clause" to BSD_2_Clause,
+        "BSD-2-Clause" to BSD_2_Clause,
         "BSD-3-Clause" to BSD_3_Clause,
+        "EPL-1.0" to EPL_1_0,
         "GPL-2.0-only" to GPL_2_0_only,
+        "GPL-2.0-or-later" to GPL_2_0_only,
         "GPL-3.0-only" to GPL_3_0_only,
+        "GPL-3.0-or-later" to GPL_3_0_only,
         "ISC" to ISC,
         "LGPL-2.1-only" to LGPL_2_1_only,
+        "LGPL-2.1-or-later" to LGPL_2_1_only,
         "LGPL-3.0-only" to LGPL_3_0_only,
-        "MIT" to MIT
+        "MIT" to MIT,
+        "MPL-2.0" to MPL_2_0,
+        "WTFPL" to WTFPL
     )
 
     // Model & vectorizer for detection licenses on project level initializiation

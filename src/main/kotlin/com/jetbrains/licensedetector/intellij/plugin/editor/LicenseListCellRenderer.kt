@@ -4,8 +4,8 @@ import com.intellij.icons.AllIcons.Actions.Cancel
 import com.intellij.icons.AllIcons.Actions.Commit
 import com.intellij.ui.components.JBLabel
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
-import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
-import com.jetbrains.licensedetector.intellij.plugin.ui.toolwindow.model.ToolWindowModel
+import com.jetbrains.licensedetector.intellij.plugin.model.ProjectModule
+import com.jetbrains.licensedetector.intellij.plugin.model.ToolWindowModel
 import java.awt.Component
 import javax.swing.JList
 import javax.swing.ListCellRenderer

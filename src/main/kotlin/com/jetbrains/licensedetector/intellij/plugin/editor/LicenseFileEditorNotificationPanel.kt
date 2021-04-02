@@ -27,7 +27,7 @@ import com.jetbrains.licensedetector.intellij.plugin.detection.DetectorManager
 import com.jetbrains.licensedetector.intellij.plugin.diff.WordsFirstDiffComputer
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
-import com.jetbrains.licensedetector.intellij.plugin.module.ProjectModule
+import com.jetbrains.licensedetector.intellij.plugin.model.ProjectModule
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI
 import com.jetbrains.licensedetector.intellij.plugin.ui.RiderUI.Companion.comboBox
 import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
@@ -56,7 +56,9 @@ class LicenseFileEditorNotificationPanel(
             FileDocumentManager.getInstance().getDocument(licenseFile)!!
         }
 
-        createUpdateLicenseFileTextActionLabel(comboBoxCompatibleLicenses, licenseDocument)
+        if (licenseDocument.isWritable) {
+            createUpdateLicenseFileTextActionLabel(comboBoxCompatibleLicenses, licenseDocument)
+        }
         addUpdateOnLicenseFileText(comboBoxCompatibleLicenses, licenseDocument)
 
         createShowDiffLicenseFileActionLabel(comboBoxCompatibleLicenses, licenseFile)
@@ -64,6 +66,10 @@ class LicenseFileEditorNotificationPanel(
         model.licenseManager.modulesCompatibleLicenses.advise(model.lifetime) {
             updateAndRepaint()
             comboBoxCompatibleLicenses.updateAndRepaint()
+        }
+        model.licenseManager.modulesLicenses.advise(model.lifetime) {
+            val moduleLicense: SupportedLicense = it[projectModule] ?: return@advise
+            comboBoxCompatibleLicenses.selectedItem = moduleLicense
         }
     }
 
@@ -87,11 +93,13 @@ class LicenseFileEditorNotificationPanel(
         createActionLabel(LicenseDetectorBundle.message("licensedetector.ui.editor.notification.license.file.action.updateLicenseFileText")) {
             val selectedLicense = (comboBox.selectedItem as SupportedLicense)
 
-            commandProcessor.executeCommand(project, {
-                application.runWriteAction {
-                    licenseDocument.setText(selectedLicense.fullText)
-                }
-            }, actionName, null)
+            if (licenseDocument.isWritable) {
+                commandProcessor.executeCommand(project, {
+                    application.runWriteAction {
+                        licenseDocument.setText(selectedLicense.fullText)
+                    }
+                }, actionName, null)
+            }
         }
     }
 
