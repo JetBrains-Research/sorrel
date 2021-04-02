@@ -1,6 +1,7 @@
 package com.jetbrains.licensedetector.intellij.plugin.detection
 
 import java.io.File
+import kotlin.math.max
 
 /**
  * Supportive class for Detector.
@@ -31,23 +32,30 @@ class Vectorizer(val vocabulary: List<String>){
     fun vectorize(text: String): IntArray {
         // Initialize empty vector for text
         val text_vector = IntArray(vector_dim)
+        val feature_count = HashMap<List<String>, Int>()
+        val textList = text.split(" ")
+        var max_feature_length = 0
 
-        // Iterate over each feature
+        // Preprocessing: initialize empty mapping
         for (index in 0 until vector_dim) {
-            // Get feature text & initialize occurance
             val feature = vocabulary.get(index).split(" ")
-            var feature_occurances = 0
+            feature_count[feature] = 0
+            max(max_feature_length, feature.size).also { max_feature_length = it }
+        }
 
-            // Count how many times feature occurs in text
-            val textList = text.split(" ")
-            for (window in textList.windowed(feature.size)) {
-                if (window.equals(feature)) {
-                    feature_occurances += 1
+        // Going through all possible lengths and count features
+        for (length in 1..max_feature_length - 1) {
+            for (window in textList.windowed(length)) {
+                if (window in feature_count.keys) {
+                    feature_count[window] = feature_count.get(window)!! + 1
                 }
             }
+        }
 
-            // Update vector component with counted value
-            text_vector[index] = feature_occurances
+        // Convert mapping count into vector
+        for (index in 0 until vector_dim) {
+            val feature = vocabulary.get(index).split(" ")
+            text_vector[index] = feature_count.get(feature)!!
         }
 
         return text_vector
