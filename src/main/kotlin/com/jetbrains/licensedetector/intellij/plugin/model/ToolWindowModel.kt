@@ -113,7 +113,6 @@ internal class ToolWindowModel(val project: Project) : Disposable {
 
         subscribeOnProjectNotifications()
         subscribeOnModulesNotifications()
-        subscribeOnVFSChanges()
 
         logDebug(initTraceInfo) {
             "Rrefresh context in ToolWindowModel initialization"
@@ -165,71 +164,6 @@ internal class ToolWindowModel(val project: Project) : Disposable {
                 refreshContext(traceInfo)
             }
         })
-    }
-
-
-    private fun subscribeOnVFSChanges() {
-        project.messageBus.connect().subscribe(VirtualFileManager.VFS_CHANGES, object : BulkFileListener {
-            override fun after(events: MutableList<out VFileEvent>) {
-                val traceInfo = TraceInfo(TraceInfo.TraceSource.VFS_CHANGES)
-                logDebug(traceInfo) {
-                    "VFS changed"
-                }
-                /*application.executeOnPooledThread {
-                    logDebug(traceInfo) {
-                        "Context refresh started"
-                    }
-
-                    updateModuleLicenseByVFSEvents(traceInfo, events)
-
-                    logDebug(traceInfo) {
-                        "Context refresh completed"
-                    }
-                }*/
-            }
-        })
-    }
-
-    // Update module license in accordance with VFS changes in the license file
-    private fun updateModuleLicenseByVFSEvents(traceInfo: TraceInfo, events: MutableList<out VFileEvent>) {
-        val moduleLicenseByLicenseFiles: MutableMap<ProjectModule, SupportedLicense> =
-            mutableMapOf()
-        val currentModuleLicenses = licenseManager.modulesLicenses.value
-
-        logDebug(traceInfo) {
-            "Modules licenses before update $currentModuleLicenses"
-        }
-
-        val currentProjectModules = projectModules.value
-        for ((module, license) in currentModuleLicenses) {
-            moduleLicenseByLicenseFiles[module] = license
-        }
-
-        for (event in events) {
-            val updatedFile = event.file
-            if (updatedFile != null && licenseFileNamePattern.matches(updatedFile.name) &&
-                !updatedFile.isDirectory && updatedFile.isValid
-            ) {
-                val licensePsiText = ReadAction.compute<String, Throwable> {
-                    if (updatedFile.isValid) {
-                        updatedFile.toPsiFile(project)?.text
-                    } else {
-                        null
-                    }
-                } ?: continue
-                val module = findModuleForFile(updatedFile, project) ?: continue
-                val projectModule =
-                    currentProjectModules.find { it.nativeModule == module } ?: continue
-                val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiText)
-                moduleLicenseByLicenseFiles[projectModule] = detectedLicense
-            }
-        }
-
-        logDebug(traceInfo) {
-            "Modules licenses after update $currentModuleLicenses"
-        }
-
-        licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
     }
 
     private fun refreshFoundPackages(query: String, traceInfo: TraceInfo) {
@@ -417,7 +351,9 @@ internal class ToolWindowModel(val project: Project) : Disposable {
             val module = findModuleForFile(licenseFile, project) ?: continue
             val projectModule = projectModuleList.find { it.nativeModule == module } ?: continue
             val detectedLicense = DetectorManager.getLicenseByFullText(licensePsiFileText)
-            moduleLicenseByLicenseFiles[projectModule] = detectedLicense
+            if (detectedLicense != NoLicense) {
+                moduleLicenseByLicenseFiles[projectModule] = detectedLicense
+            }
         }
         licenseManager.modulesLicenses.set(moduleLicenseByLicenseFiles)
         logDebug(traceInfo) { "Finish updateModulesLicensesByLicenseFile()" }
@@ -426,10 +362,16 @@ internal class ToolWindowModel(val project: Project) : Disposable {
     private fun getAllLicenseFilesByExts(project: Project): Collection<VirtualFile> {
         val files: MutableList<VirtualFile> = ArrayList()
 
-        for (name in FilenameIndex.getAllFilenames(project)) {
+        val allFilenames = ReadAction.compute<Array<String>, Throwable> {
+            FilenameIndex.getAllFilenames(project)
+        }
+
+        for (name in allFilenames) {
             if (licenseFileNamePattern.matches(name)) {
-                val licenseFiles =
+                val licenseFiles = ReadAction.compute<Collection<VirtualFile>, Throwable> {
                     FilenameIndex.getVirtualFilesByName(project, name, GlobalSearchScope.allScope(project))
+                }
+
                 files.addAll(licenseFiles.filter { !it.isDirectory })
             }
         }

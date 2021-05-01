@@ -26,53 +26,43 @@ data class CompatibilityIssueData(
         return stringBuilder.toString()
     }
 
-    private fun convertPackageDependencyIssueGroupsToPlainText(): String {
+    fun convertPackageDependencyIssueGroupsToPlainText(): String {
         val stringBuilder = StringBuilder()
         for (group in packageDependencyLicenseIssueGroups) {
-            stringBuilder.append(
-                LicenseDetectorBundle.message(
-                    "licensedetector.ui.compatibilityIssues.plainText.moduleAndDependency.head",
-                    group.moduleName,
-                    group.moduleLicenseName
-                )
-            )
             group.issues.forEach { packageDependencyIssue ->
                 stringBuilder.append(
                     LicenseDetectorBundle.message(
                         "licensedetector.ui.compatibilityIssues.plainText.moduleAndDependency",
+                        group.moduleName,
+                        group.moduleLicenseName,
                         packageDependencyIssue.packageIdentifier,
                         packageDependencyIssue.licenseName
                     )
                 )
-                stringBuilder.append(", ")
+                stringBuilder.appendLine()
             }
-            stringBuilder.delete(stringBuilder.length - 2, stringBuilder.length - 1)
         }
+        stringBuilder.removeSuffix("\n")
         return stringBuilder.toString()
     }
 
-    private fun convertSubmodulesIssueGroupsToPlainText(): String {
+    fun convertSubmodulesIssueGroupsToPlainText(): String {
         val stringBuilder = StringBuilder()
         for (group in submoduleLicenseIssueGroups) {
-            stringBuilder.append(
-                LicenseDetectorBundle.message(
-                    "licensedetector.ui.compatibilityIssues.plainText.moduleAndSubmodules.head",
-                    group.moduleName,
-                    group.moduleLicenseName
-                )
-            )
             group.issues.forEach {
                 stringBuilder.append(
                     LicenseDetectorBundle.message(
                         "licensedetector.ui.compatibilityIssues.plainText.moduleAndSubmodules",
+                        group.moduleName,
+                        group.moduleLicenseName,
                         it.moduleName,
                         it.licenseName
                     )
                 )
-                stringBuilder.append(", ")
+                stringBuilder.appendLine()
             }
-            stringBuilder.delete(stringBuilder.length - 2, stringBuilder.length - 1)
         }
+        stringBuilder.removeSuffix("\n")
         return stringBuilder.toString()
     }
 

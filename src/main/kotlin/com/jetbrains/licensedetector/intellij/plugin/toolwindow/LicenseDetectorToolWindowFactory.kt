@@ -10,10 +10,12 @@ import com.intellij.ui.components.JBPanelWithEmptyText
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
+import com.jetbrains.licensedetector.intellij.plugin.detection.SorensenDiesDetector
 import com.jetbrains.licensedetector.intellij.plugin.model.ModuleUtils.hasOneTopLevelModule
 import com.jetbrains.licensedetector.intellij.plugin.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.toolwindow.panels.packages.PackageLicensesPanel
 import com.jetbrains.licensedetector.intellij.plugin.toolwindow.panels.project.ProjectLicensePanel
+import com.jetbrains.licensedetector.intellij.plugin.ui.updateAndRepaint
 import com.jetbrains.licensedetector.intellij.plugin.utils.licenseDetectorModel
 import java.awt.BorderLayout
 import javax.swing.JComponent
@@ -76,6 +78,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
                 ).apply {
                     isCloseable = false
                 }
+                toolWindow.component.updateAndRepaint()
             }
 
             override fun exitDumbMode() {
@@ -106,6 +109,7 @@ class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
                 ).apply {
                     isCloseable = false
                 })
+            toolWindow.component.updateAndRepaint()
         }
     }
 

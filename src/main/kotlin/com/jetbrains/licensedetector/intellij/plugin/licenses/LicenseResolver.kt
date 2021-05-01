@@ -23,7 +23,7 @@ val ALL_SUPPORTED_LICENSE = listOf(
     NoLicense
 ).sortedByDescending { it.priority }.toTypedArray()
 
-internal fun getCompatiblePackageLicenses(projectLicenses: Set<SupportedLicense>): Set<SupportedLicense> {
+internal fun getCompatibleLicenseWithPackageLicenses(projectLicenses: Set<SupportedLicense>): Set<SupportedLicense> {
     if (projectLicenses.isEmpty()) {
         return ALL_SUPPORTED_LICENSE.remove(NoLicense).toSet()
     }

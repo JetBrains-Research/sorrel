@@ -14,7 +14,7 @@ import java.util.*
 
 class MLDetector {
     //Classes for decode numeric predictions
-    private val classes: List<String> = DetectorManager::class.java.getResourceAsStream(
+    private val classes: List<String> = MLDetector::class.java.getResourceAsStream(
         "/detection/license_level_classes_v2.txt"
     ).reader().readLines()
 
@@ -39,11 +39,11 @@ class MLDetector {
     )
 
     // Model & vectorizer for detection licenses on project level initializiation
-    private val model: Model = Model.load(
-        DetectorManager::class.java.getResource("/detection/license_level_model_v2.onnx").readBytes()
+    private val mlModel: Model = Model.load(
+        MLDetector::class.java.getResource("/detection/license_level_model_v2.onnx").readBytes()
     )
     private val vectorizer: Vectorizer = Vectorizer(
-        DetectorManager::class.java.getResourceAsStream(
+        MLDetector::class.java.getResourceAsStream(
             "/detection/license_level_model_words_v2.txt"
         ).reader().readLines()
     )
@@ -154,7 +154,7 @@ class MLDetector {
         val tensor = FloatNDArray(inputShape) { vector[it].toFloat() }.asTensor("features")
 
         // Prediction
-        val prediction = model.predict(listOf(tensor))
+        val prediction = mlModel.predict(listOf(tensor))
 
         // Data transformation
         val predTensor = prediction[0] as Tensor
