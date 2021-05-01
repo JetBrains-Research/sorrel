@@ -194,7 +194,7 @@ class LicenseManager(
                 acc
             }
 
-            val compatibleProjectLicenses = getCompatiblePackageLicenses(licensesAllPackages)
+            val compatibleProjectLicenses = getCompatibleLicenseWithPackageLicenses(licensesAllPackages)
             newModuleLicensesCompatibleWithPackageLicenses[module] = compatibleProjectLicenses
         }
 
