@@ -10,7 +10,6 @@ import com.intellij.ui.components.JBPanelWithEmptyText
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.content.ContentManager
 import com.jetbrains.licensedetector.intellij.plugin.LicenseDetectorBundle
-import com.jetbrains.licensedetector.intellij.plugin.detection.SorensenDiesDetector
 import com.jetbrains.licensedetector.intellij.plugin.model.ModuleUtils.hasOneTopLevelModule
 import com.jetbrains.licensedetector.intellij.plugin.toolwindow.panels.PanelBase
 import com.jetbrains.licensedetector.intellij.plugin.toolwindow.panels.packages.PackageLicensesPanel
@@ -24,32 +23,8 @@ import javax.swing.JLabel
 class LicenseDetectorToolWindowFactory : ToolWindowFactory, DumbAware {
 
     companion object {
-
         //Must be equal to "id" in ToolWindow EP in plugin.xml
         private val ToolWindowId = LicenseDetectorBundle.message("licensedetector.ui.toolwindow.title")
-
-        //May be needed for tab cross-interaction
-        /*
-        private fun getToolWindow(project: Project) = ToolWindowManager.getInstance(project).getToolWindow(ToolWindowId)
-
-        fun activateToolWindow(project: Project) {
-            getToolWindow(project)?.activate {}
-        }
-
-        fun activateToolWindow(project: Project, action: () -> Unit) {
-            getToolWindow(project)?.activate(action, true, true)
-        }
-
-        fun toggleToolWindow(project: Project) {
-            getToolWindow(project)?.let {
-                if (it.isVisible) {
-                    it.hide { }
-                } else {
-                    it.activate(null, true, true)
-                }
-            }
-        }
-         */
     }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {

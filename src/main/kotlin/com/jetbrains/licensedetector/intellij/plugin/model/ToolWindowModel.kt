@@ -44,9 +44,11 @@ private const val SEARCH_DEBOUNCE_MILLIS = 200L
 
 internal class ToolWindowModel(val project: Project) : Disposable {
 
-    private val mainScope = MainScope() + CoroutineName("ToolWindowModel")
+    private val mainScope =
+        GlobalScope + CoroutineName("ToolWindowModel")//MainScope() + CoroutineName("ToolWindowModel")
 
-    private var dataChangeJob: Job? = null
+    // public for approbation
+    var dataChangeJob: Job? = null
     private var queryChangeJob: Job? = null
 
     val lifetime: Lifetime = createLifetime()

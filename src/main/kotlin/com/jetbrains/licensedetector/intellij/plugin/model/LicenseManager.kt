@@ -28,9 +28,6 @@ class LicenseManager(
     private val moduleLicensesCompatibleWithPackageLicenses = Property(mapOf<ProjectModule, Set<SupportedLicense>>())
     private val moduleLicensesCompatibleWithSubmoduleLicenses = Property(mapOf<ProjectModule, Set<SupportedLicense>>())
 
-    //TODO: Update when ml model is ready
-    private val moduleLicenseCompatibleWithSourceLicenses = Property(mapOf<ProjectModule, Set<SupportedLicense>>())
-
     val compatibilityIssues = Property(CompatibilityIssueData(listOf(), listOf()))
 
     init {
@@ -44,31 +41,11 @@ class LicenseManager(
             val curModuleLicenseCompatibleWithSubmoduleLicenses =
                 moduleLicensesCompatibleWithSubmoduleLicenses.value
             for ((module, setLicense) in mapLicenses) {
-                //TODO: Replace ALL_SUPPORTED_LICENSE when ml model is ready
                 if (curModuleLicenseCompatibleWithSubmoduleLicenses.containsKey(module)) {
                     newModulesCompatibleLicenses[module] = setLicense
-                        .intersect(ALL_SUPPORTED_LICENSE.toSet())
                         .intersect(curModuleLicenseCompatibleWithSubmoduleLicenses[module]!!)
                         .toList().sortedByDescending { it.priority }
                 }
-            }
-
-            modulesCompatibleLicenses.set(newModulesCompatibleLicenses)
-        }
-
-        moduleLicenseCompatibleWithSourceLicenses.advise(lifetime) { mapLicenses ->
-            logDebug("LicenseManager: Updating sources licenses")
-            val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
-            val curModuleLicensesCompatibleWithPackageLicenses = moduleLicensesCompatibleWithPackageLicenses.value
-            val curModuleLicenseCompatibleWithSubmoduleLicenses =
-                moduleLicensesCompatibleWithSubmoduleLicenses.value
-            for ((module, setLicense) in mapLicenses) {
-                curModuleLicensesCompatibleWithPackageLicenses[module] ?: continue
-                curModuleLicenseCompatibleWithSubmoduleLicenses[module] ?: continue
-                newModulesCompatibleLicenses[module] = setLicense
-                    .intersect(curModuleLicensesCompatibleWithPackageLicenses[module]!!)
-                    .intersect(curModuleLicenseCompatibleWithSubmoduleLicenses[module]!!)
-                    .toList().sortedByDescending { it.priority }
             }
 
             modulesCompatibleLicenses.set(newModulesCompatibleLicenses)
@@ -79,10 +56,8 @@ class LicenseManager(
             val newModulesCompatibleLicenses: MutableMap<ProjectModule, List<SupportedLicense>> = mutableMapOf()
             val curModuleLicensesCompatibleWithPackageLicenses = moduleLicensesCompatibleWithPackageLicenses.value
             for ((module, setLicense) in mapLicenses) {
-                //TODO: Replace ALL_SUPPORTED_LICENSE when ml model is ready
                 curModuleLicensesCompatibleWithPackageLicenses[module] ?: continue
                 newModulesCompatibleLicenses[module] = setLicense
-                    .intersect(ALL_SUPPORTED_LICENSE.toSet())
                     .intersect(curModuleLicensesCompatibleWithPackageLicenses[module]!!)
                     .toList().sortedByDescending { it.priority }
             }
