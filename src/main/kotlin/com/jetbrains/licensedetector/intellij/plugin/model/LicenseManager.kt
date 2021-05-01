@@ -4,7 +4,7 @@ import com.jetbrains.licensedetector.intellij.plugin.issue.*
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
-import com.jetbrains.licensedetector.intellij.plugin.licenses.getCompatiblePackageLicenses
+import com.jetbrains.licensedetector.intellij.plugin.licenses.getCompatibleLicenseWithPackageLicenses
 import com.jetbrains.licensedetector.intellij.plugin.utils.logDebug
 import com.jetbrains.rd.util.lifetime.Lifetime
 import com.jetbrains.rd.util.reactive.Property
