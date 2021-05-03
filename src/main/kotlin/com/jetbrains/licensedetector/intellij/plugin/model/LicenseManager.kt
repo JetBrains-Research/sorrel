@@ -229,7 +229,7 @@ class LicenseManager(
                     }
                     dependency.getOtherLicenses().forEach {
                         if (it is SupportedLicense &&
-                            !it.compatibleModuleLicenses.contains(inheritedLicense)
+                            !it.compatibleModuleLicensesByLibraryLicense.contains(inheritedLicense)
                         ) {
                             issuesList.add(PackageDependencyIssue(dependency.identifier, it.name))
                         }
