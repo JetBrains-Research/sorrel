@@ -6,19 +6,11 @@ import net.miginfocom.swing.MigLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
-/**
- * The "only" version of this license is supported due to the fact that the texts of
- * the "only" and "or later" license versions are the same.
- * Therefore, it is impossible to determine the license version from the full texts.
- * Their differences are indicated in file headers, which often do not exist or are not standardized.
- * Therefore, the stricter version "only" is supported.
- * All inaccuracies associated with incorrect recognition of the license version are left to the users.
- */
-object GPL_2_0_only : SupportedLicense {
-    override val name: String = "GNU General Public License v2.0 only"
+object GPL_2_0_with_classpath_exception : SupportedLicense {
+    override val name: String = "GNU General Public License v2.0 with classpath exception"
     override val url: String = "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"
     override val htmlUrl: String = "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"
-    override val spdxId: String = "GPL-2.0-only"
+    override val spdxId: String = "GPL-2.0-with-classpath-exception"
     override val priority: LicensePriority = LicensePriority.LOW
     override val fullText: String =
         """
@@ -125,47 +117,54 @@ object GPL_2_0_only : SupportedLicense {
                 <signature of Ty Coon>, 1 April 1989 Ty Coon, President of Vice
                 
                 This General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License.
+                
+                Class Path Exception
+
+                Linking this library statically or dynamically with other modules is making a combined work based on this library. Thus, the terms and conditions of the GNU General Public License cover the whole combination.
+
+                As a special exception, the copyright holders of this library give you permission to link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this library, you may extend this exception to your version of the library, but you are not obligated to do so. If you do not wish to do so, delete this exception statement from your version.
         """.trimIndent()
 
     override val nameSpdxRegex: Regex = Regex(
-        "(GNU General Public License.*2[-.\\d\\s]*(only)?)|(GPL.2[-.\\d\\s]*(only)?)",
+        "(GNU General Public License.*2[-.\\d\\s]*(with.classpath.exception)?)|(GPL.2[-.\\d\\s]*(with.classpath.exception)?)",
         RegexOption.IGNORE_CASE
     )
 
-    override val description: String = LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.description")
+    override val description: String =
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.description")
     override val permissions: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.2"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.3"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.4"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.5")
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.4"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.5")
     )
     override val permissionToolTips: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.1.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.2.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.3.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.4.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.permissions.5.tooltip")
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.3.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.4.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.permissions.5.tooltip")
     )
     override val limitations: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.limitations.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.limitations.2")
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.limitations.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.limitations.2")
     )
     override val limitationsToolTips: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.limitations.1.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.limitations.2.tooltip")
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.limitations.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.limitations.2.tooltip")
     )
     override val conditions: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.1"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.2"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.3"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.4")
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.1"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.2"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.3"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.4")
     )
     override val conditionsToolTips: List<String> = listOf(
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.1.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.2.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.3.tooltip"),
-        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_only.conditions.4.tooltip")
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.1.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.2.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.3.tooltip"),
+        LicenseDetectorBundle.message("licensedetector.ui.gpl_2_0_with_classpath_exception.conditions.4.tooltip")
     )
 
     override fun descriptionPanel(): JComponent = JPanel().apply {
@@ -177,7 +176,7 @@ object GPL_2_0_only : SupportedLicense {
             "0[top][top][top][top][top][top][top][top]0"
         )
 
-        add(RiderUI.createLicenseNameViewPanelLabel(this@GPL_2_0_only.name), "span")
+        add(RiderUI.createLicenseNameViewPanelLabel(this@GPL_2_0_with_classpath_exception.name), "span")
         add(RiderUI.createLabel("<html>${description}</html>"), "span")
 
         add(
@@ -209,12 +208,26 @@ object GPL_2_0_only : SupportedLicense {
     }
 
     override val compatibleModuleLicensesByLibraryLicense: Set<SupportedLicense> = setOf(
+        AGPL_3_0_only,
+        Apache_2_0,
+        BSD_2_Clause,
+        BSD_3_Clause,
+        CDDL_1_0,
+        EPL_1_0,
+        GPL_2_0_only,
         this,
-        GPL_2_0_with_classpath_exception
+        GPL_3_0_only,
+        ISC,
+        LGPL_2_1_only,
+        LGPL_3_0_only,
+        MIT,
+        MPL_1_1,
+        MPL_2_0,
+        WTFPL
     )
 
     override val compatibleModuleLicensesBySubmoduleLicense: Set<SupportedLicense> = setOf(
-        this,
-        GPL_2_0_with_classpath_exception
+        GPL_2_0_only,
+        this
     )
 }

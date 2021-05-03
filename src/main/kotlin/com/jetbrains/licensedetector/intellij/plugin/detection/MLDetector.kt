@@ -19,7 +19,7 @@ class MLDetector {
     ).reader().readLines()
 
     // Detected License (string) to License class mapping
-    private val licenseToClass = mapOf<String, SupportedLicense>(
+    private val licenseToClass = mapOf(
         "AGPL-3.0-only" to AGPL_3_0_only,
         "Apache-2.0" to Apache_2_0,
         "BSD-2-Clause" to BSD_2_Clause,

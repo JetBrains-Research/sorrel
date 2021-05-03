@@ -13,11 +13,11 @@ interface SupportedLicense : License {
     // For detection of license by name or by spdx
     val nameSpdxRegex: Regex
 
-    //Compatible module licenses if the dependency has a current license
-    val compatibleModuleLicenses: Set<SupportedLicense>
+    //Compatible module licenses if the library has a current license
+    val compatibleModuleLicensesByLibraryLicense: Set<SupportedLicense>
 
-    //Compatible dependencies licenses if the module has a current license
-    val compatibleDependencyLicenses: Set<SupportedLicense>
+    //Compatible module licenses if the submodule has a current license
+    val compatibleModuleLicensesBySubmoduleLicense: Set<SupportedLicense>
 
     //For description panel
     val description: String

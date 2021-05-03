@@ -192,23 +192,18 @@ object MPL_1_1 : SupportedLicense {
         add(createLicenseConditionsLabel(conditions[2], conditionsToolTips[2]), "cell 2 5,growx")
     }
 
-    override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleModuleLicensesByLibraryLicense: Set<SupportedLicense> = setOf(
         Apache_2_0,
         BSD_2_Clause,
         BSD_3_Clause,
         CDDL_1_0,
-        EPL_1_0,
-        GPL_3_0_only,
         ISC,
-        LGPL_2_1_only,
-        LGPL_3_0_only,
         MIT,
         this,
-        MPL_2_0,
-        WTFPL
+        MPL_2_0
     )
 
-    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleModuleLicensesBySubmoduleLicense: Set<SupportedLicense> = setOf(
         Apache_2_0,
         BSD_2_Clause,
         BSD_3_Clause,
@@ -217,7 +212,6 @@ object MPL_1_1 : SupportedLicense {
         ISC,
         MIT,
         this,
-        MPL_2_0,
-        WTFPL
+        MPL_2_0
     )
 }

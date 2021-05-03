@@ -1,5 +1,6 @@
 package com.jetbrains.licensedetector.intellij.plugin.detection
 
+import com.intellij.openapi.util.text.Strings
 import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
 import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
 
@@ -16,17 +17,18 @@ class SorensenDiesDetector {
     }
 
     private fun tokenizeText(text: String): Set<String> {
-        return text.split(manySpacesRegex).toSet()
+        return text.split(manySpacesRegex).map { Strings.toLowerCase(it) }.toSet()
     }
 
     fun detectLicenseByFullText(licenseText: String): SupportedLicense? {
         val tokenizedLicenseText = tokenizeText(licenseText)
-
-        return referenceLicensesTokens.find {
-            val sorensenDiesCoefficient = (2.0 * it.second.intersect(tokenizedLicenseText).size) /
-                    (it.second.size + tokenizedLicenseText.size)
-            sorensenDiesCoefficient > THRESHOLD
-        }?.first
+        val coefficientForLicenses = referenceLicensesTokens.map {
+            Pair(
+                it.first, (2.0 * it.second.intersect(tokenizedLicenseText).size) /
+                        (it.second.size + tokenizedLicenseText.size)
+            )
+        }.filter { it.second > THRESHOLD }
+        return coefficientForLicenses.maxByOrNull { it.second }?.first
     }
 
 }

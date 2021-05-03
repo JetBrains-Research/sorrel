@@ -113,13 +113,16 @@ class LicenseManager(
             val modulePathString = module.path
             val modulePath = Paths.get(modulePathString)
 
+            //Check license of parent module may be better then checking license of all submodules.
+            //But now it's work with submodules, not with parent module
+
             //find top module with license (not NoLicense)
+            /*
             var moduleParentPath: Path? = modulePath.parent
             var moduleParent: ProjectModule? = projectModulesWithPath.find { it.second == moduleParentPath }?.first
             while (moduleParentPath != null && (moduleParent == null ||
-                        (moduleLicenses[moduleParent] == null || moduleLicenses[moduleParent] == NoLicense))
+                        moduleLicenses[moduleParent] == null || moduleLicenses[moduleParent] == NoLicense)
             ) {
-
                 moduleParentPath = moduleParentPath.parent
                 moduleParent = projectModulesWithPath.find { it.second == moduleParentPath }?.first
             }
@@ -127,9 +130,9 @@ class LicenseManager(
             // if top module was found then intersect with his compatible licenses
             if (moduleParent != null) {
                 val licensesCompatibleWithParentModuleLicense =
-                    moduleLicenses[moduleParent]!!.compatibleDependencyLicenses
+                    moduleLicenses[moduleParent]!!.compatibleSubmoduleLicenses
                 compatibleLicenses = compatibleLicenses.intersect(licensesCompatibleWithParentModuleLicense)
-            }
+            }*/
 
             // find and get licenses of all submodules of current modules
             val listOfCompatibleLicenses = getSubmoduleOfModuleWithLicenses(
@@ -138,7 +141,7 @@ class LicenseManager(
                 moduleLicenses,
                 projectModulesWithPath
             ).map { pair ->
-                pair.second.compatibleModuleLicenses
+                pair.second.compatibleModuleLicensesBySubmoduleLicense
             }
             listOfCompatibleLicenses.forEach {
                 compatibleLicenses = compatibleLicenses.intersect(it)
@@ -220,7 +223,7 @@ class LicenseManager(
                 if (dependency.installationInformation.any { it.projectModule == module }) {
                     val mainPackageLicense = dependency.getMainLicense()
                     if (mainPackageLicense is SupportedLicense &&
-                        !mainPackageLicense.compatibleModuleLicenses.contains(inheritedLicense)
+                        !mainPackageLicense.compatibleModuleLicensesByLibraryLicense.contains(inheritedLicense)
                     ) {
                         issuesList.add(PackageDependencyIssue(dependency.identifier, mainPackageLicense.name))
                     }
@@ -284,7 +287,7 @@ class LicenseManager(
                 )
 
                 listOfCompatibleLicenses.forEach {
-                    if (!it.second.compatibleModuleLicenses.contains(license)) {
+                    if (!it.second.compatibleModuleLicensesBySubmoduleLicense.contains(license)) {
                         submoduleIssues.add(SubmoduleIssue(it.first.name, it.second.name))
                     }
                 }
@@ -376,8 +379,8 @@ class LicenseManager(
             }?.first
             while (subModuleParentPath != null && subModuleParent != targetModule &&
                 (subModuleParent == null ||
-                        (modulesLicenses[subModuleParent] == null ||
-                                modulesLicenses[subModuleParent] == NoLicense))
+                        modulesLicenses[subModuleParent] == null ||
+                        modulesLicenses[subModuleParent] == NoLicense)
             ) {
 
                 subModuleParentPath = subModuleParentPath.parent

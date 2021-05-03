@@ -8,10 +8,7 @@ import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
-import com.jetbrains.licensedetector.intellij.plugin.licenses.ALL_SUPPORTED_LICENSE
-import com.jetbrains.licensedetector.intellij.plugin.licenses.License
-import com.jetbrains.licensedetector.intellij.plugin.licenses.NoLicense
-import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
+import com.jetbrains.licensedetector.intellij.plugin.licenses.*
 import kotlinx.coroutines.yield
 import org.jetbrains.kotlin.backend.common.pop
 
@@ -100,11 +97,19 @@ object DetectorManager {
 
     fun getLicenseByFullText(text: String): SupportedLicense {
         val detectedLicenseByModel = mlDetector.detectLicenseByFullText(text)
+        val detectedLicenseBySorensenDiesCoefficient = sorensenDiesDetector.detectLicenseByFullText(text)
+
+        // Handling the case when the original license is GPL-2.0-with-classpath-exception
+        // and the ml model recognizes it as GPL-2.0-only.
+        // In such a situation, priority should be given to the Sorensen Dies detector.
+        if (detectedLicenseByModel == GPL_2_0_only && detectedLicenseBySorensenDiesCoefficient != null) {
+            return detectedLicenseBySorensenDiesCoefficient
+        }
+
         if (detectedLicenseByModel != NoLicense) {
             return detectedLicenseByModel
         }
 
-        val detectedLicenseBySorensenDiesCoefficient = sorensenDiesDetector.detectLicenseByFullText(text)
         if (detectedLicenseBySorensenDiesCoefficient != null) {
             return detectedLicenseBySorensenDiesCoefficient
         }

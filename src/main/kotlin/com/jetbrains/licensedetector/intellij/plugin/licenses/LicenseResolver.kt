@@ -12,6 +12,7 @@ val ALL_SUPPORTED_LICENSE = listOf(
     CDDL_1_0,
     EPL_1_0,
     GPL_2_0_only,
+    GPL_2_0_with_classpath_exception,
     GPL_3_0_only,
     ISC,
     LGPL_2_1_only,
@@ -28,7 +29,7 @@ internal fun getCompatibleLicenseWithPackageLicenses(projectLicenses: Set<Suppor
         return ALL_SUPPORTED_LICENSE.remove(NoLicense).toSet()
     }
 
-    return projectLicenses.map { it.compatibleModuleLicenses }.reduce { acc, set ->
+    return projectLicenses.map { it.compatibleModuleLicensesByLibraryLicense }.reduce { acc, set ->
         acc.intersect(set)
     }
 }

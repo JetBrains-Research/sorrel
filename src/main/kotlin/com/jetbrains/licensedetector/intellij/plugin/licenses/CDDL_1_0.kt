@@ -168,13 +168,15 @@ object CDDL_1_0 : SupportedLicense {
         add(createLicenseConditionsLabel(conditions[1], conditionsToolTips[1]), "cell 2 4,growx")
     }
 
-    //Добавить CDDL в совместимость других лицензий
-    override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleModuleLicensesByLibraryLicense: Set<SupportedLicense> = setOf(
+        AGPL_3_0_only,
         Apache_2_0,
         BSD_2_Clause,
         BSD_3_Clause,
         this,
         EPL_1_0,
+        GPL_2_0_only,
+        GPL_2_0_with_classpath_exception,
         GPL_3_0_only,
         ISC,
         LGPL_2_1_only,
@@ -185,16 +187,7 @@ object CDDL_1_0 : SupportedLicense {
         WTFPL
     )
 
-    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
-        Apache_2_0,
-        BSD_2_Clause,
-        BSD_3_Clause,
-        this,
-        EPL_1_0,
-        ISC,
-        MIT,
-        MPL_1_1,
-        MPL_2_0,
-        WTFPL
+    override val compatibleModuleLicensesBySubmoduleLicense: Set<SupportedLicense> = setOf(
+        this
     )
 }

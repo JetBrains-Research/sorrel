@@ -251,22 +251,29 @@ object LGPL_2_1_only : SupportedLicense {
         add(RiderUI.createLicenseConditionsLabel(conditions[3], conditionsToolTips[3]), "cell 2 6,growx")
     }
 
-    override val compatibleModuleLicenses: Set<SupportedLicense> = setOf(
+    override val compatibleModuleLicensesByLibraryLicense: Set<SupportedLicense> = setOf(
         AGPL_3_0_only,
-        this
-    )
-
-    override val compatibleDependencyLicenses: Set<SupportedLicense> = setOf(
         Apache_2_0,
         BSD_2_Clause,
         BSD_3_Clause,
         CDDL_1_0,
         EPL_1_0,
+        GPL_2_0_only,
+        GPL_2_0_with_classpath_exception,
+        GPL_3_0_only,
         ISC,
         this,
+        LGPL_3_0_only,
         MIT,
         MPL_1_1,
         MPL_2_0,
         WTFPL
+    )
+
+    override val compatibleModuleLicensesBySubmoduleLicense: Set<SupportedLicense> = setOf(
+        AGPL_3_0_only,
+        GPL_3_0_only,
+        this,
+        LGPL_3_0_only
     )
 }
