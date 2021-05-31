@@ -4,13 +4,12 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.License
 import com.jetbrains.licensedetector.intellij.plugin.packagesearch.api.model.StandardV2Package
 import com.jetbrains.licensedetector.intellij.plugin.utils.extractScmUrl
 
-//TODO: Maybe add installed version (what if many versions installed?)
 data class PackageDependency(
     val groupId: String,
     val artifactId: String,
     val installationInformation: MutableList<InstallationInformation> = mutableListOf(),
     var remoteInfo: StandardV2Package? = null,
-    var licensesFromJarMetaInfo: Set<License> = setOf()
+    val licensesFromJarMetaInfo: Set<License> = setOf()
 ) {
 
     val identifier = "$groupId:$artifactId".toLowerCase()
@@ -45,7 +44,7 @@ data class PackageDependency(
 
     fun getMainLicense(): License? {
         return when {
-            licensesFromJarMetaInfo.size == 1 -> {
+            licensesFromJarMetaInfo.isNotEmpty() -> {
                 licensesFromJarMetaInfo.first()
             }
             remoteInfo?.licenses?.mainLicense != null -> {
@@ -73,5 +72,4 @@ data class PackageDependency(
         result.remove(mainLicense)
         return result
     }
-
 }

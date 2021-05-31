@@ -22,7 +22,7 @@ internal class LicenseListCellRenderer(
         cellHasFocus: Boolean
     ): Component {
         return if (value != null) {
-            if (model.licenseManager.modulesCompatibleLicenses.value[projectModule]!!.contains(value)) {
+            if (model.licenseManager.modulesCompatibleLicenses.value[projectModule]?.contains(value) == true) {
                 JBLabel(value.name, Commit, JBLabel.LEFT)
             } else {
                 JBLabel(value.name, Cancel, JBLabel.LEFT)
