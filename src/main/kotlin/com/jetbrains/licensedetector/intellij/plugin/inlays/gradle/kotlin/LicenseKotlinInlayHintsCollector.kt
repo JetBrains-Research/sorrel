@@ -85,10 +85,13 @@ class LicensesKotlinInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                 //For implementation("io.ktor:ktor:1.4.0")
                 if (elementArguments.size == 1) {
                     val argumentWithoutQuotes: String = GrStringUtil.removeQuotes(elementArguments[0].text)
-
-                    val groupIdAndArtifactId = argumentWithoutQuotes.substringBeforeLast(":")
-                    val groupId = groupIdAndArtifactId.substringBefore(":")
-                    val artifactId = groupIdAndArtifactId.substringAfter(":")
+                    val groupId = argumentWithoutQuotes.substringBefore(":")
+                    val withoutGroupId = argumentWithoutQuotes.substringAfter(":")
+                    val artifactId = if (withoutGroupId.contains(':')) {
+                        withoutGroupId.substringBefore(":")
+                    } else {
+                        withoutGroupId
+                    }
 
                     sink.addLicenseNameInlineIfExists(
                         groupId,

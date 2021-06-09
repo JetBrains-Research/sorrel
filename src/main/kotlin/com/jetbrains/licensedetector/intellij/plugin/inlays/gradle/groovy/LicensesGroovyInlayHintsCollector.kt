@@ -50,11 +50,14 @@ class LicensesGroovyInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
 
                     if (argument is GrLiteral) {
                         val argumentWithoutQuotes: String = GrStringUtil.removeQuotes(argument.text)
-
-                        val groupIdAndArtifactId = argumentWithoutQuotes.substringBeforeLast(":")
-                        val groupId = groupIdAndArtifactId.substringBefore(":")
-                        val artifactId = groupIdAndArtifactId.substringAfter(":")
-
+                        val groupId = argumentWithoutQuotes.substringBefore(":")
+                        val withoutGroupId = argumentWithoutQuotes.substringAfter(":")
+                        val artifactId = if (withoutGroupId.contains(':')) {
+                            withoutGroupId.substringBefore(":")
+                        } else {
+                            withoutGroupId
+                        }
+                        println(groupId + "   " + artifactId)
                         sink.addLicenseNameInlineIfExists(
                             groupId,
                             artifactId,
