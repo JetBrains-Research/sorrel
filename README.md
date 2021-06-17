@@ -6,8 +6,7 @@
 
 <!-- Plugin description -->
 A plugin for IntelliJ IDEA for license management and incompatibility detection. Sorrel is a tool for working with the
-licenses of Java projects inside IntelliJ IDEA. Sorrel is written in Kotlin and currently supports 16 of the most
-popular Java licenses.
+licenses of Java projects inside IntelliJ IDEA.
 
 ## Features
 
@@ -35,7 +34,7 @@ to test the plugin. A plugin tool window will appear on the right called `Projec
 
 ## Supported Licenses
 
-The plugin supports 16 licenses. A specially trained machine learning model (ML) and the Sørensen-Dies coefficient (DSC)
+Sorrel supports 16 licenses. A specially trained machine learning model (ML) and the Sørensen-Dies coefficient (DSC)
 are using to detect 12 licenses. The other four licenses are detecting only using the Sørensen-Dies coefficient.
 Supported licenses and detection methods are showing in the table below.
 
@@ -62,7 +61,7 @@ Supported licenses and detection methods are showing in the table below.
 
 ### Tool Window
 
-The plugin provides the user with a graphical interface for the convenience of managing licenses. The main graphical
+Sorrel provides the user with a graphical interface for the convenience of managing licenses. The main graphical
 interface of the plugin is the *Tool Window*. The window contains two tabs and provides the information about all the
 licenses in the project. The first tab is called *Project License* and is presented below. It contains the information
 about the detected main license of the project (root module), its description (permissions, limitations, and conditions)
