@@ -62,12 +62,12 @@ about the detected main license of the project (root module), its description (p
 , as well as a list of detected potential license violations. From this tab, the user also can export a JSON report with
 all the data.
 
-![Project License Window](https://github.com/JetBrains-Research/license-detector-plugin/raw/master/docs/pictures/ProjectLicenseWindow.png)
+![Project License Window](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/ProjectLicenseWindow.png)
 
 The second tab is called *Package Licenses* and is presented below. This tab contains the information about all the
 licenses of libraries used inside project, it supports a search among all the libraries and filtering by modules.
 
-![Package Licenses Window](https://github.com/JetBrains-Research/license-detector-plugin/raw/master/docs/pictures/PackageLicensesWindow.png)
+![Package Licenses Window](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/PackageLicensesWindow.png)
 
 In addition to the Tool Window, the plugin provides the *License Editor Notification* panel, presented below. This panel
 appears at the top of the editor when the module license is opened in it. The panel allows the user to change the
@@ -75,7 +75,7 @@ license in several simple clicks using the drop-down menu, while indicating whic
 licenses of the module's libraries. The panel also provides an opportunity to compare the current text of the license
 file with the original text of the license to check for possible differences.
 
-![License Editor Notification](https://github.com/JetBrains-Research/license-detector-plugin/raw/master/docs/pictures/LicenseEditorNotification.png)
+![License Editor Notification](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/LicenseEditorNotification.png)
 
 Also, the plugin adds a new item into the IDE's *Create new file...* menu, called *Project License File*. If the project
 has no license, the user can use this functionality, and the plugin will detect the licenses compatible with all the
@@ -83,14 +83,14 @@ project's libraries, and suggest the most permissive one to the user. This way, 
 manage their licenses and not make mistakes. In the future, the user can always change their license using the *License
 Editor Notification* panel described above.
 
-![Create Module License File](https://github.com/JetBrains-Research/license-detector-plugin/raw/master/docs/pictures/CreateModuleLicenseFile.png)
+![Create Module License File](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/CreateModuleLicenseFile.png)
 
 Finally, the developed plugin provides another convenient way of viewing the licenses of libraries by providing hints
 right in the build system script. A hint with the name of the license of a given library appears next to each command
 that connects the library, as shown below. These hints allow the user to keep the licenses in mind when adding new
 libraries directly in the editor. The hints are implemented for Maven, Groovy Gradle, and Kotlin Gradle scripts.
 
-![License Inlays Hints](https://github.com/JetBrains-Research/license-detector-plugin/raw/master/docs/gif/LicenseInlaysHints.gif)
+![License Inlays Hints](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/gif/LicenseInlaysHints.gif)
 
 ## Contacts
 
