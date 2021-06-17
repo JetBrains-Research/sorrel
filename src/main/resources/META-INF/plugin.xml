@@ -45,9 +45,9 @@
         <action
                 id="LicenseDetector.CreateProjectLicenseFileAction"
                 class="com.jetbrains.licensedetector.intellij.plugin.actions.CreateProjectLicenseFile"
-                description="Create project license file"
+                description="Create module license file"
                 popup="true"
-                text="Project License File"
+                text="Module License File"
                 icon="AllIcons.FileTypes.Text">
             <add-to-group group-id="NewGroup" relative-to-action="NewScratchFile" anchor="after"/>
         </action>

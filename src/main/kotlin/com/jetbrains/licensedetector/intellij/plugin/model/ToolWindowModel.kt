@@ -263,18 +263,17 @@ internal class ToolWindowModel(val project: Project) : Disposable {
                 val identifier = library.getSimpleIdentifier()
                 if (identifier != null) {
                     val item = installedPackagesMap.getOrPut(
-                        identifier,
-                        {
-                            PackageDependency(
-                                identifier.substringBefore(':'),
-                                identifier.substringAfterLast(':'),
-                                licensesFromJarMetaInfo = DetectorManager.getPackageLicensesFromJar(
-                                    library,
-                                    project
-                                )
+                        identifier
+                    ) {
+                        PackageDependency(
+                            identifier.substringBefore(':'),
+                            identifier.substringAfterLast(':'),
+                            licensesFromJarMetaInfo = DetectorManager.getPackageLicensesFromJar(
+                                library,
+                                project
                             )
-                        }
-                    )
+                        )
+                    }
 
                     item.installationInformation.add(
                         InstallationInformation(

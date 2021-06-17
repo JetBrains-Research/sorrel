@@ -21,8 +21,8 @@ object DetectorManager {
     private val sorensenDiesDetector = SorensenDiesDetector()
 
     val licenseFileNamePattern: Regex = Regex(
-        "(.*LICENSE.*|.*LEGAL.*|.*COPYING.*|.*COPYLEFT.*|.*COPYRIGHT.*|.*UNLICENSE.*|" +
-                ".*MIT.*|.*BSD.*|.*GPL.*|.*LGPL.*|.*APACHE.*)(\\.txt|\\.md|\\.html)?", RegexOption.IGNORE_CASE
+        "(LICENSE.*|LEGAL.*|COPYING.*|COPYLEFT.*|COPYRIGHT.*|UNLICENSE.*|" +
+                "MIT.*|BSD.*|GPL.*|LGPL.*|APACHE.*)(\\.txt|\\.md|\\.html)?", RegexOption.IGNORE_CASE
     )
 
     private const val metaInfoFolderName = "META-INF"

@@ -9,7 +9,7 @@ import com.jetbrains.licensedetector.intellij.plugin.licenses.SupportedLicense
  */
 class SorensenDiesDetector {
 
-    private val THRESHOLD = 0.95
+    private val THRESHOLD = 0.98
     private val manySpacesRegex = Regex("\\s+")
 
     private val referenceLicensesTokens = ALL_SUPPORTED_LICENSE.map {
