@@ -57,7 +57,6 @@ class LicensesGroovyInlayHintsCollector(editor: Editor) : FactoryInlayHintsColle
                         } else {
                             withoutGroupId
                         }
-                        println(groupId + "   " + artifactId)
                         sink.addLicenseNameInlineIfExists(
                             groupId,
                             artifactId,
