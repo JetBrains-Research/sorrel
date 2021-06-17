@@ -1,7 +1,7 @@
 package approbation
 
-import com.jetbrains.licensedetector.intellij.plugin.utils.ApprobationUtils.cleanProjectName
-import com.jetbrains.licensedetector.intellij.plugin.utils.ApprobationUtils.processPathForInsertion
+import com.jetbrains.sorrel.plugin.utils.ApprobationUtils.cleanProjectName
+import com.jetbrains.sorrel.plugin.utils.ApprobationUtils.processPathForInsertion
 import java.io.File
 
 /**

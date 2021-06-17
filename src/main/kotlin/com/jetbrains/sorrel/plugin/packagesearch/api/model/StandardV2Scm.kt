@@ -1,0 +1,9 @@
+package com.jetbrains.sorrel.plugin.packagesearch.api.model
+
+import com.google.gson.annotations.SerializedName
+
+data class StandardV2Scm(
+
+        @SerializedName("url")
+        val url: String?
+)

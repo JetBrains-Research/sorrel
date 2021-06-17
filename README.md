@@ -1,18 +1,23 @@
-# License Management Plugin
+# Sorrel
 
 [![JB Research](https://jb.gg/badges/research-flat-square.svg)](https://research.jetbrains.org/)
-![Build](https://github.com/DmitryPogrebnoy/license-compatibility-plugin/workflows/Build/badge.svg)
+![Build](https://github.com/JetBrains-Research/sorrel/workflows/Build/badge.svg)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JetBrains-Research/sorrel/blob/main/LICENSE)
 
 <!-- Plugin description -->
-A plugin for IntelliJ IDEA for license management and incompatibility detection.
+A plugin for IntelliJ IDEA for license management and incompatibility detection. Sorrel is a tool for working with the
+licenses of Java projects inside IntelliJ IDEA. Sorrel is written in Kotlin and currently supports 16 of the most
+popular Java licenses.
 
 ## Features
 
-- [x] Detect the licenses of the project's dependencies and visualize them by a module.
-- [x] Show inlay hints with license names for dependency add expressions in project build scripts.
-- [x] Suggest possible license for the project/module based on its dependencies.
-- [x] Detect possible incompatibilities between the licenses in the project and warn the developer about them.
-- [x] Provide short and understandable descriptions for existing licenses.
+The plugin can:
+
+- [x] Detect and recognize the licenses of project modules.
+- [x] Detect and recognize the licenses of project libraries.
+- [x] Detect incompatibilities between licenses in the project.
+- [x] Suggest a project license that will be compatible with all the project's libraries.
+- [x] Visualize all the licensing information inside the IDE and provide convenient features for managing licenses.
 
 <!-- Plugin description end -->
 
@@ -64,12 +69,12 @@ about the detected main license of the project (root module), its description (p
 , as well as a list of detected potential license violations. From this tab, the user also can export a JSON report with
 all the data.
 
-![Project License Window](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/ProjectLicenseWindow.png)
+![Project License Window](https://github.com/JetBrains-Research/sorrel/raw/main/docs/pictures/ProjectLicenseWindow.png)
 
 The second tab is called *Package Licenses* and is presented below. This tab contains the information about all the
 licenses of libraries used inside project, it supports a search among all the libraries and filtering by modules.
 
-![Package Licenses Window](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/PackageLicensesWindow.png)
+![Package Licenses Window](https://github.com/JetBrains-Research/sorrel/raw/main/docs/pictures/PackageLicensesWindow.png)
 
 ### License Editor Notification
 
@@ -79,7 +84,7 @@ license in several simple clicks using the drop-down menu, while indicating whic
 licenses of the module's libraries. The panel also provides an opportunity to compare the current text of the license
 file with the original text of the license to check for possible differences.
 
-![License Editor Notification](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/LicenseEditorNotification.png)
+![License Editor Notification](https://github.com/JetBrains-Research/sorrel/raw/main/docs/pictures/LicenseEditorNotification.png)
 
 ### New Module License File Action
 
@@ -89,7 +94,7 @@ project's libraries, and suggest the most permissive one to the user. This way, 
 manage their licenses and not make mistakes. In the future, the user can always change their license using the *License
 Editor Notification* panel described above.
 
-![New Module License File Action](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/pictures/NewModuleLicenseFileAction.png)
+![New Module License File Action](https://github.com/JetBrains-Research/sorrel/raw/main/docs/pictures/NewModuleLicenseFileAction.png)
 
 ### Inlay License Hints
 
@@ -98,7 +103,17 @@ right in the build system script. A hint with the name of the license of a given
 that connects the library, as shown below. These hints allow the user to keep the licenses in mind when adding new
 libraries directly in the editor. The hints are implemented for Maven, Groovy Gradle, and Kotlin Gradle scripts.
 
-![Inlay License Hints](https://github.com/JetBrains-Research/license-detector-plugin/raw/main/docs/gif/InlayLicenseHints.gif)
+![Inlay License Hints](https://github.com/JetBrains-Research/sorrel/raw/main/docs/gif/InlayLicenseHints.gif)
+
+## License
+
+This project is licensed under Apache-2.0 License. License text can be found in
+the [license file](https://github.com/JetBrains-Research/sorrel/blob/main/LICENSE).
+
+## Acknowledgments
+
+This is a research project of the Machine Learning Methods in Software Engineering Laboratory at JetBrains-Research.
+Laboratory website [link](https://research.jetbrains.org/groups/ml_methods/).
 
 ## Contacts
 

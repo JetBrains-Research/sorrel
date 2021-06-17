@@ -1,7 +1,7 @@
 package approbation
 
 import com.intellij.testFramework.HeavyPlatformTestCase
-import com.jetbrains.licensedetector.intellij.plugin.utils.ApprobationUtils
+import com.jetbrains.sorrel.plugin.utils.ApprobationUtils
 import org.junit.Ignore
 import org.junit.Test
 

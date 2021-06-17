@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>license-detector-plugin</id>
-    <name>License-Compatibility</name>
-    <vendor>dmitrypogrebnoy</vendor>
+    <id>sorrel</id>
+    <name>Sorrel</name>
+    <vendor url="https://jetbrains.com">JetBrains</vendor>
 
     <description><![CDATA[
     A plugin for IntelliJ IDEA for license management and incompatibility detection.
@@ -17,18 +17,18 @@
     <extensions defaultExtensionNs="com.intellij">
 
         <projectService
-                serviceImplementation="com.jetbrains.licensedetector.intellij.plugin.model.ToolWindowModel"/>
+                serviceImplementation="com.jetbrains.sorrel.plugin.model.ToolWindowModel"/>
 
         <toolWindow id="Project Licenses" anchor="right" secondary="false"
                     canCloseContents="true"
-                    factoryClass="com.jetbrains.licensedetector.intellij.plugin.toolwindow.LicenseDetectorToolWindowFactory"/>
+                    factoryClass="com.jetbrains.sorrel.plugin.toolwindow.ToolWindowFactory"/>
 
         <editorNotificationProvider
                 id="LicenseFileEditorNotificationProvider"
-                implementation="com.jetbrains.licensedetector.intellij.plugin.editor.LicenseFileEditorNotificationProvider"/>
+                implementation="com.jetbrains.sorrel.plugin.editor.LicenseFileEditorNotificationProvider"/>
 
-        <registryKey id="licensedetector.plugin.debug.logging"
-                     key="licensedetector.plugin.debug.logging"
+        <registryKey id="sorrel.plugin.debug.logging"
+                     key="sorrel.plugin.debug.logging"
                      defaultValue="false"
                      description="Emit in-depth debug logging (warning: very spammy, only useful for debugging data flow issues). Make sure you have this line in Help | Diagnostic Tools | Debug Log Settings: '#com.jetbrains.licensedetector.intellij-plugin:trace'."
                      restartRequired="true"/>
@@ -43,8 +43,8 @@
     </projectListeners>
     <actions>
         <action
-                id="LicenseDetector.CreateProjectLicenseFileAction"
-                class="com.jetbrains.licensedetector.intellij.plugin.actions.CreateProjectLicenseFile"
+                id="Sorrel.CreateProjectLicenseFileAction"
+                class="com.jetbrains.sorrel.plugin.actions.CreateProjectLicenseFile"
                 description="Create module license file"
                 popup="true"
                 text="Module License File"
