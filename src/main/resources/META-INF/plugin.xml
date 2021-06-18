@@ -2,6 +2,7 @@
     <id>sorrel</id>
     <name>Sorrel</name>
     <vendor url="https://jetbrains.com">JetBrains</vendor>
+    <idea-version since-build="202" until-build="211.*"/>
 
     <description><![CDATA[
     A plugin for IntelliJ IDEA for license management and incompatibility detection.

@@ -1,1 +1,1 @@
-rootProject.name = "license-detector-plugin"
+rootProject.name = "sorrel"

@@ -149,8 +149,8 @@ internal class ToolWindowModel(val project: Project) : Disposable {
 
             override fun modulesRenamed(
                 project: Project,
-                modules: MutableList<Module>,
-                oldNameProvider: Function<Module, String>
+                modules: MutableList<out Module>,
+                oldNameProvider: Function<in Module, String>
             ) {
                 val traceInfo = TraceInfo(TraceInfo.TraceSource.EXISTING_MODULE_RENAMED)
                 logDebug(traceInfo) {

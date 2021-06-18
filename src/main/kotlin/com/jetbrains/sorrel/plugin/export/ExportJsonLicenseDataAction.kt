@@ -28,7 +28,7 @@ class ExportJsonLicenseDataAction : AnAction(
             ),
             project
         )
-        val target = saveDialog.save(null, project.name + "_license_data.json")
+        val target = saveDialog.save(project.name + "_license_data.json")
         if (target != null) {
             val task: Backgroundable = object : Backgroundable(project, "Export license data", false) {
                 override fun run(indicator: ProgressIndicator) {
@@ -46,7 +46,7 @@ class ExportJsonLicenseDataAction : AnAction(
                     successNotification.notify(project)
                 }
 
-                override fun onError(error: Exception) {
+                override fun onThrowable(error: Throwable) {
                     val successNotification = ExportLicenseDataNotification(
                         com.jetbrains.sorrel.plugin.SorrelBundle.message("sorrel.ui.toolwindow.actions.export.notification.error.title"),
                         NotificationType.WARNING

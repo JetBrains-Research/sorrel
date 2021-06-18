@@ -12,13 +12,17 @@ licenses of Java projects right inside IntelliJ IDEA.
 
 The plugin can:
 
-- [x] Detect and recognize the licenses of project modules.
-- [x] Detect and recognize the licenses of project libraries.
-- [x] Detect incompatibilities between licenses in the project.
-- [x] Suggest a project license that will be compatible with all the project's libraries.
-- [x] Visualize all the licensing information inside the IDE and provide convenient features for managing licenses.
+- Detect and recognize the licenses of project modules.
+- Detect and recognize the licenses of project libraries.
+- Detect incompatibilities between licenses in the project.
+- Suggest a project license that will be compatible with all the project's libraries.
+- Visualize all the licensing information inside the IDE and provide convenient features for managing licenses.
 
 <!-- Plugin description end -->
+
+The demo of **Sorrel** is presented in the video below.
+
+[![Demo](http://img.youtube.com/vi/doUeAwPjcPE/0.jpg)](http://www.youtube.com/watch?v=doUeAwPjcPE)
 
 ## Installation
 
@@ -26,13 +30,17 @@ The plugin is currently in development, so the first version will be coming soon
 
 You can install the plugin in IntelliJ IDEA as follows:
 
-1. Run the gradle command `build`. A jar-archive of the plugin will appear in the `build/libs` directory.
-2. To install the plugin you need to go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk` and select the plugin jar.
+1. Download the [latest build]() of the Sorrel plugin.
+2. To install the plugin you need to go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk` and select the
+   plugin zip.
+
+**Sorrel** requires Intellij IDEA version from 2020.2 to 2021.1.2. The plugin tested on Intellij IDEA version 2020.2.4,
+2020.3.4 and 2021.1.2.
 
 ## Supported Licenses
 
-**Sorrel** currently supports 16 most popular open-source licenses. 
-A trained machine learning model (ML) and the Sørensen-Dice coefficient (DSC)
+**Sorrel** currently supports 16 most popular open-source licenses. A trained machine learning model (ML) and the
+Sørensen-Dice coefficient (DSC)
 are used to detect 12 licenses. The remaining four licenses are detected using only the Sørensen-Dice coefficient.
 Supported licenses and detection methods are showed in the table below.
 
