@@ -32,7 +32,7 @@ You can install the plugin in IntelliJ IDEA as follows:
 
 1. Download
    the [latest build](https://github.com/JetBrains-Research/sorrel/releases/download/v1.0-eap/Sorrel-1.0-eap.zip) of the
-   Sorrel plugin.
+   **Sorrel** plugin.
 2. To install the plugin you need to go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk` and select the
    plugin zip.
 
