@@ -70,13 +70,13 @@ tasks {
     }
 
     compileJava {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
     }
 
     setOf(compileKotlin, compileTestKotlin).forEach {
         it.get().kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             // For creation of default methods in interfaces
             freeCompilerArgs = listOf("-Xjvm-default=compatibility")
         }
