@@ -5,8 +5,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/JetBrains-Research/sorrel/blob/main/LICENSE)
 
 <!-- Plugin description -->
-A plugin for IntelliJ IDEA for license management and incompatibility detection. Sorrel is a tool for working with the
-licenses of Java projects inside IntelliJ IDEA.
+A plugin for IntelliJ IDEA for managing licenses and detecting license incompatibilities. **Sorrel** allows to work with the
+licenses of Java projects right inside IntelliJ IDEA.
 
 ## Features
 
@@ -22,21 +22,19 @@ The plugin can:
 
 ## Installation
 
-The plugin is currently in development, so the first version is coming on the Marketplace.
+The plugin is currently in development, so the first version will be coming soon to the Marketplace.
 
-You can install the plugin in IDEA as follows:
+You can install the plugin in IntelliJ IDEA as follows:
 
-1. Run the gradle command `build`. jar-archive of the plugin will be in the `build/libs` directory.
-2. To install the plugin you need to go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk` - Pick plugin jar.
-
-If you don't want to install the plugin in IDEA, you can open this project in IDEA and run the gradle command `runIde`
-to test the plugin. A plugin tool window will appear on the right called `Project licenses`.
+1. Run the gradle command `build`. A jar-archive of the plugin will appear in the `build/libs` directory.
+2. To install the plugin you need to go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk` and select the plugin jar.
 
 ## Supported Licenses
 
-Sorrel supports 16 licenses. A specially trained machine learning model (ML) and the Sørensen-Dies coefficient (DSC)
-are using to detect 12 licenses. The other four licenses are detecting only using the Sørensen-Dies coefficient.
-Supported licenses and detection methods are showing in the table below.
+**Sorrel** currently supports 16 most popular open-source licenses. 
+A trained machine learning model (ML) and the Sørensen-Dice coefficient (DSC)
+are used to detect 12 licenses. The remaining four licenses are detected using only the Sørensen-Dice coefficient.
+Supported licenses and detection methods are showed in the table below.
 
 | License                                                  | Detecting method |
 | :------------------------------------------------------- | :--------------: |
@@ -57,15 +55,15 @@ Supported licenses and detection methods are showing in the table below.
 | Mozilla Public License 2.0                               | ML + DSC         |
 | Do What The F*** You Want To Public License              | ML + DSC         |
 
-## User Interface
+## How to Use
 
 ### Tool Window
 
-Sorrel provides the user with a graphical interface for the convenience of managing licenses. The main graphical
+**Sorrel** provides the user with a graphical interface for the convenience of managing licenses. The main graphical
 interface of the plugin is the *Tool Window*. The window contains two tabs and provides the information about all the
 licenses in the project. The first tab is called *Project License* and is presented below. It contains the information
-about the detected main license of the project (root module), its description (permissions, limitations, and conditions)
-, as well as a list of detected potential license violations. From this tab, the user also can export a JSON report with
+about the detected main license of the project (root module), its description (permissions, limitations, and conditions), 
+as well as a list of detected potential license violations. From this tab, the user also can export a JSON report with
 all the data.
 
 ![Project License Window](https://github.com/JetBrains-Research/sorrel/raw/main/docs/pictures/ProjectLicenseWindow.png)
@@ -87,7 +85,7 @@ file with the original text of the license to check for possible differences.
 
 ### New Module License File Action
 
-Also, the plugin adds a new item into the IDE's *Create new file...* menu, called *Project License File*. If the project
+Also, the plugin adds a new item into the IDE's *Create new file...* menu, called *Module License File*. If the project
 has no license, the user can use this functionality, and the plugin will detect the licenses compatible with all the
 project's libraries, and suggest the most permissive one to the user. This way, even the most inexperienced user can
 manage their licenses and not make mistakes. In the future, the user can always change their license using the *License
@@ -106,13 +104,12 @@ libraries directly in the editor. The hints are implemented for Maven, Groovy Gr
 
 ## License
 
-This project is licensed under Apache-2.0 License. License text can be found in
+This project is licensed under the Apache-2.0 License. The full text of the license can be found in
 the [license file](https://github.com/JetBrains-Research/sorrel/blob/main/LICENSE).
 
 ## Acknowledgments
 
-This is a research project of the Machine Learning Methods in Software Engineering Laboratory at JetBrains-Research.
-Laboratory website [link](https://research.jetbrains.org/groups/ml_methods/).
+**Sorrel** was developed as a part of a research project in the Laboratory of [Machine Learning Methods in Software Engineering](https://research.jetbrains.org/groups/ml_methods/) at JetBrains Research.
 
 ## Contacts
 
