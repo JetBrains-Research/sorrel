@@ -18,7 +18,7 @@ object LGPL_3_0_only : SupportedLicense {
     override val url: String = "https://www.gnu.org/licenses/lgpl-3.0-standalone.html"
     override val htmlUrl: String = "https://www.gnu.org/licenses/lgpl-3.0-standalone.html"
     override val spdxId: String = "LGPL-3.0-only"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.WEAK_COPYLEFT
     override val fullText: String =
         """
                 GNU LESSER GENERAL PUBLIC LICENSE

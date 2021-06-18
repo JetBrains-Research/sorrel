@@ -20,7 +20,7 @@ object AGPL_3_0_only : SupportedLicense {
     override val url: String = "https://www.gnu.org/licenses/agpl.txt"
     override val htmlUrl: String = "https://opensource.org/licenses/AGPL-3.0"
     override val spdxId: String = "AGPL-3.0-only"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.VERY_STRONG_COPYLEFT
     override val fullText: String =
         """
             GNU AFFERO GENERAL PUBLIC LICENSE

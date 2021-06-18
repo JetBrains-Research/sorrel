@@ -10,7 +10,7 @@ object ISC : SupportedLicense {
     override val url: String = "https://opensource.org/licenses/ISC"
     override val htmlUrl: String = "https://opensource.org/licenses/ISC"
     override val spdxId: String = "ISC"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.PERMISSIVE
     override val fullText: String =
         """
                 ISC License

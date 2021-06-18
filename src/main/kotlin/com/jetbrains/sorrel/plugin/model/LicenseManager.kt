@@ -113,27 +113,6 @@ class LicenseManager(
             val modulePathString = module.path
             val modulePath = Paths.get(modulePathString)
 
-            //Check license of parent module may be better then checking license of all submodules.
-            //But now it's work with submodules, not with parent module
-
-            //find top module with license (not NoLicense)
-            /*
-            var moduleParentPath: Path? = modulePath.parent
-            var moduleParent: ProjectModule? = projectModulesWithPath.find { it.second == moduleParentPath }?.first
-            while (moduleParentPath != null && (moduleParent == null ||
-                        moduleLicenses[moduleParent] == null || moduleLicenses[moduleParent] == NoLicense)
-            ) {
-                moduleParentPath = moduleParentPath.parent
-                moduleParent = projectModulesWithPath.find { it.second == moduleParentPath }?.first
-            }
-
-            // if top module was found then intersect with his compatible licenses
-            if (moduleParent != null) {
-                val licensesCompatibleWithParentModuleLicense =
-                    moduleLicenses[moduleParent]!!.compatibleSubmoduleLicenses
-                compatibleLicenses = compatibleLicenses.intersect(licensesCompatibleWithParentModuleLicense)
-            }*/
-
             // find and get licenses of all submodules of current modules
             val listOfCompatibleLicenses = getSubmoduleOfModuleWithLicenses(
                 module,
@@ -143,8 +122,20 @@ class LicenseManager(
             ).map { pair ->
                 pair.second.compatibleModuleLicensesBySubmoduleLicense
             }
+            //Add dependencies modules
             listOfCompatibleLicenses.forEach {
                 compatibleLicenses = compatibleLicenses.intersect(it)
+            }
+
+            //Getting parent license for filter license list.
+            //Licenses in license list must satisfy parent license.
+            //!!!Dirty hack for getting parent module license (using NoLicense for avoid early callback)!!!
+            val parentModuleLicense: SupportedLicense = getModuleLicense(moduleLicenses, module, NoLicense)
+            //If parent license is NoLicense then just ignore it
+            if (parentModuleLicense != NoLicense) {
+                compatibleLicenses = compatibleLicenses.filter {
+                    it.compatibleModuleLicensesBySubmoduleLicense.contains(parentModuleLicense)
+                }.toSet()
             }
 
             newModuleLicensesCompatibleWithSubmoduleLicenses[module] = compatibleLicenses
@@ -291,7 +282,7 @@ class LicenseManager(
                         submoduleIssues.add(SubmoduleIssue(it.first.name, it.second.name))
                     }
                 }
-
+                //Add dependencies modules
                 if (submoduleIssues.isNotEmpty()) {
                     groupIssuesList.add(SubmoduleIssueGroup(module.name, license.name, submoduleIssues))
                 }

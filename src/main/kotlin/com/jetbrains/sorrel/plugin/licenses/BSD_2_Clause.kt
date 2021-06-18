@@ -11,7 +11,7 @@ object BSD_2_Clause : SupportedLicense {
     override val url: String = "https://opensource.org/licenses/BSD-2-Clause"
     override val htmlUrl: String = "https://opensource.org/licenses/BSD-2-Clause"
     override val spdxId: String = "BSD-2-Clause"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.PERMISSIVE
     override val fullText: String =
         """
                 Copyright (c) <year> <owner>. All rights reserved.

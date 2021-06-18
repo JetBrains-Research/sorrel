@@ -17,7 +17,7 @@ object CDDL_1_0 : SupportedLicense {
     override val url: String = "https://opensource.org/licenses/cddl1"
     override val htmlUrl: String = "https://opensource.org/licenses/cddl1"
     override val spdxId: String = "CDDL-1.0"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.WEAK_COPYLEFT
     override val fullText: String =
         """
             COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)

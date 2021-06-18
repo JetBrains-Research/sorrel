@@ -10,7 +10,7 @@ object MIT : SupportedLicense {
     override val url: String = "https://opensource.org/licenses/MIT"
     override val htmlUrl: String = "https://opensource.org/licenses/MIT"
     override val spdxId: String = "MIT"
-    override val priority: LicensePriority = LicensePriority.HIGH
+    override val priority: LicensePriority = LicensePriority.RECOMMENDED
     override val fullText: String =
         """
                 MIT License

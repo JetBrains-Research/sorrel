@@ -11,7 +11,7 @@ object WTFPL : SupportedLicense {
     override val url: String = "http://www.wtfpl.net/about/"
     override val htmlUrl: String = "http://sam.zoy.org/wtfpl/COPYING"
     override val spdxId: String = "WTFPL"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.PERMISSIVE
     override val fullText: String =
         """
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE

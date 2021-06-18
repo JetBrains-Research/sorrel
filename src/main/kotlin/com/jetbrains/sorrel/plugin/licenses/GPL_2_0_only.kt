@@ -18,7 +18,7 @@ object GPL_2_0_only : SupportedLicense {
     override val url: String = "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"
     override val htmlUrl: String = "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"
     override val spdxId: String = "GPL-2.0-only"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.STRONG_COPYLEFT
     override val fullText: String =
         """
                 GNU GENERAL PUBLIC LICENSE

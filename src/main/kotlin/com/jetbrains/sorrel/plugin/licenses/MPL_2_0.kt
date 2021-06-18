@@ -13,10 +13,10 @@ import javax.swing.JPanel
 
 object MPL_2_0 : SupportedLicense {
     override val name: String = "Mozilla Public License 2.0"
-    override val url: String = "http://www.mozilla.org/MPL/2.0"
-    override val htmlUrl: String = "http://www.mozilla.org/MPL/2.0"
+    override val url: String = "https://www.mozilla.org/MPL/2.0"
+    override val htmlUrl: String = "https://www.mozilla.org/MPL/2.0"
     override val spdxId: String = "MPL-2.0"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.WEAK_COPYLEFT
     override val fullText: String =
         """
             Mozilla Public License Version 2.0

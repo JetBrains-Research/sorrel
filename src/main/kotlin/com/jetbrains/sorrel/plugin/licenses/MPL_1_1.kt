@@ -16,7 +16,7 @@ object MPL_1_1 : SupportedLicense {
     override val url: String = "https://opensource.org/licenses/MPL-1.1"
     override val htmlUrl: String = "http://www.mozilla.org/MPL/MPL-1.1.html"
     override val spdxId: String = "MPL-1.1"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.WEAK_COPYLEFT
     override val fullText: String =
         """
             Mozilla Public License Version 1.1

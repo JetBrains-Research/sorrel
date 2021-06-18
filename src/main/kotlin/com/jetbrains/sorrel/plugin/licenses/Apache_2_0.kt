@@ -17,7 +17,7 @@ object Apache_2_0 : SupportedLicense {
     override val url: String = "http://www.apache.org/licenses/LICENSE-2.0"
     override val htmlUrl: String = "http://www.apache.org/licenses/LICENSE-2.0"
     override val spdxId: String = "Apache-2.0"
-    override val priority: LicensePriority = LicensePriority.HIGH
+    override val priority: LicensePriority = LicensePriority.RECOMMENDED
     override val fullText: String =
         """
                 Apache License

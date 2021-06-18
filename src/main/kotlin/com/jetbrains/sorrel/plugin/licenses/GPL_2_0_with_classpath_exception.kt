@@ -10,7 +10,7 @@ object GPL_2_0_with_classpath_exception : SupportedLicense {
     override val url: String = "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"
     override val htmlUrl: String = "https://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html"
     override val spdxId: String = "GPL-2.0-with-classpath-exception"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.STRONG_COPYLEFT
     override val fullText: String =
         """
                 GNU GENERAL PUBLIC LICENSE

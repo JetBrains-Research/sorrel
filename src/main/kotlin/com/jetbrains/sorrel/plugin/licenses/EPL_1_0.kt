@@ -16,7 +16,7 @@ object EPL_1_0 : SupportedLicense {
     override val url: String = "https://opensource.org/licenses/EPL-1.0"
     override val htmlUrl: String = "http://www.eclipse.org/legal/epl-v10.html"
     override val spdxId: String = "EPL-1.0"
-    override val priority: LicensePriority = LicensePriority.LOW
+    override val priority: LicensePriority = LicensePriority.WEAK_COPYLEFT
     override val fullText: String =
         """
             Eclipse Public License - v 1.0

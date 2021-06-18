@@ -33,6 +33,9 @@ interface SupportedLicense : License {
 
 enum class LicensePriority(val value: Int) {
     NO_LICENSE(0),
-    LOW(1),
-    HIGH(100)
+    VERY_STRONG_COPYLEFT(1),
+    STRONG_COPYLEFT(2),
+    WEAK_COPYLEFT(3),
+    PERMISSIVE(50),
+    RECOMMENDED(100)
 }
