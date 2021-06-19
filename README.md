@@ -20,9 +20,7 @@ The plugin can:
 
 <!-- Plugin description end -->
 
-The demo of **Sorrel** is presented in the video below.
-
-[![Demo](http://img.youtube.com/vi/doUeAwPjcPE/0.jpg)](http://www.youtube.com/watch?v=doUeAwPjcPE)
+You can learn more in the [demonstration video](http://www.youtube.com/watch?v=doUeAwPjcPE).
 
 ## Installation
 
@@ -33,11 +31,10 @@ You can install the plugin in IntelliJ IDEA as follows:
 1. Download
    the [latest build](https://github.com/JetBrains-Research/sorrel/releases/download/v1.0-eap/Sorrel-1.0-eap.zip) of the
    **Sorrel** plugin.
-2. To install the plugin you need to go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk` and select the
+2. In the IDE, go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk`, and select the
    plugin zip.
 
-**Sorrel** requires Intellij IDEA version from 2020.2 to 2021.1.2. The plugin tested on Intellij IDEA version 2020.2.4,
-2020.3.4 and 2021.1.2.
+**Sorrel** requires IntelliJ IDEA in the version range from 2020.2 to 2021.1.2.
 
 ## Supported Licenses
 
