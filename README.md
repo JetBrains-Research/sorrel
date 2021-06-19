@@ -33,6 +33,7 @@ You can install the plugin in IntelliJ IDEA as follows:
    **Sorrel** plugin.
 2. In the IDE, go to `File` - `Settings` - `Plugins` - ⚙️ - `Install from disk`, and select the
    plugin zip.
+3. Restart the IDE.
 
 **Sorrel** requires IntelliJ IDEA in the version range from 2020.2 to 2021.1.2.
 
