@@ -7,7 +7,7 @@ class ExportLicenseDataNotification(
     titleText: String,
     type: NotificationType
 ) : Notification(
-    com.jetbrains.sorrel.plugin.SorrelNotificationGroup.group.displayId,
+    "Sorrel Notifications",
     titleText, "",
-    type, null
+    type
 )

@@ -149,7 +149,7 @@ class SorrelUtilUI {
             return refreshButtonAction.component
         }
 
-        fun createPlatformTag(text: String = "") = object : TagComponent(text.toLowerCase()) {
+        fun createPlatformTag(text: String = "") = object : TagComponent(text.lowercase()) {
             override fun isInClickableArea(pt: Point?) = false
         }.apply {
             RelativeFont.TINY.install(this)

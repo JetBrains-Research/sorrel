@@ -52,5 +52,5 @@ data class StandardV2Package(
         val stackOverflowTags: StandardV2StackOverflowTags?
 ) {
 
-        fun toSimpleIdentifier(): String = "$groupId:$artifactId".toLowerCase()
+        fun toSimpleIdentifier(): String = "$groupId:$artifactId".lowercase()
 }

@@ -33,6 +33,8 @@
                      defaultValue="false"
                      description="Emit in-depth debug logging (warning: very spammy, only useful for debugging data flow issues). Make sure you have this line in Help | Diagnostic Tools | Debug Log Settings: '#com.jetbrains.licensedetector.intellij-plugin:trace'."
                      restartRequired="true"/>
+
+        <notificationGroup displayType="BALLOON" id="Sorrel Notifications"/>
     </extensions>
 
     <applicationListeners>

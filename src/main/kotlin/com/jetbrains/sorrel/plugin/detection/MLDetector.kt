@@ -81,7 +81,7 @@ class MLDetector {
         val re = Regex("[^A-Za-z0-9 ]")
         val cleanText = text.replace("\\s+".toRegex(), " ")
 
-        return re.replace(cleanText.toLowerCase(), "")
+        return re.replace(cleanText.lowercase(), "")
     }
 
     /**

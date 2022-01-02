@@ -27,7 +27,7 @@ fun InlayHintsSink.addLicenseNameInlineIfExists(
         this.addInlineElement(
             offset,
             true,
-            createLicenseNameInlayElement(mainLicenseName, editor, factory)
+            createLicenseNameInlayElement(mainLicenseName, editor, factory), false
         )
     }
 }

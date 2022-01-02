@@ -12,7 +12,7 @@ data class PackageDependency(
     val licensesFromJarMetaInfo: Set<License> = setOf()
 ) {
 
-    val identifier = "$groupId:$artifactId".toLowerCase()
+    val identifier = "$groupId:$artifactId".lowercase()
 
     val isInstalled: Boolean
         get() = installationInformation.isNotEmpty()
