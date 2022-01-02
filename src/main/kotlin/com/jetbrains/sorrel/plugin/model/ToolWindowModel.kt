@@ -363,7 +363,7 @@ internal class ToolWindowModel(val project: Project) : Disposable {
         for (name in allFilenames) {
             if (licenseFileNamePattern.matches(name)) {
                 val licenseFiles = ReadAction.compute<Collection<VirtualFile>, Throwable> {
-                    FilenameIndex.getVirtualFilesByName(name, GlobalSearchScope.allScope(project))
+                    FilenameIndex.getVirtualFilesByName(project, name, GlobalSearchScope.allScope(project))
                 }
 
                 files.addAll(licenseFiles.filter { !it.isDirectory })

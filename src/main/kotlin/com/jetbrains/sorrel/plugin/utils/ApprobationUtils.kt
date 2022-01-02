@@ -30,7 +30,8 @@ object ApprobationUtils {
     fun setUpProject(projectPath: String): Project {
         val project: Project = ProjectUtil.openOrImport(Paths.get(projectPath))
 
-        if (MavenProjectsManager.getInstance(project).isMavenizedProject) {
+        // Uncomment for import maven or gradle project
+        /*if (MavenProjectsManager.getInstance(project).isMavenizedProject) {
             MavenProjectsManager.getInstance(project).scheduleImportAndResolve()
             MavenProjectsManager.getInstance(project).importProjects()
         } else {
@@ -38,7 +39,7 @@ object ApprobationUtils {
                 projectPath,
                 ImportSpecBuilder(project, GradleConstants.SYSTEM_ID)
             )
-        }
+        }*/
 
         return project
     }
