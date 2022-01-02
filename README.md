@@ -35,7 +35,7 @@ You can install the plugin in IntelliJ IDEA as follows:
    plugin zip.
 3. Restart the IDE.
 
-**Sorrel** requires IntelliJ IDEA in the version range from 2020.2 to 2021.3.1.
+**Sorrel** requires IntelliJ IDEA in the version range from 2021.1 to 2021.3.1.
 
 ## Supported Licenses
 
