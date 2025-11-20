@@ -119,6 +119,21 @@ the [license file](https://github.com/JetBrains-Research/sorrel/blob/main/LICENS
 
 **Sorrel** was developed as a part of a research project in the Laboratory of [Machine Learning Methods in Software Engineering](https://research.jetbrains.org/groups/ml_methods/) at JetBrains Research.
 
+## Citing
+
+If you use the project in your research, please cite our ICSME'21 paper:
+
+```
+@inproceedings{pogrebnoy2021sorrel,
+  title={Sorrel: an IDE plugin for managing licenses and detecting license incompatibilities},
+  author={Pogrebnoy, Dmitry and Kuznetsov, Ivan and Golubev, Yaroslav and Tankov, Vladislav and Bryksin, Timofey},
+  booktitle={2021 IEEE International Conference on Software Maintenance and Evolution (ICSME)},
+  pages={574--578},
+  year={2021},
+  organization={IEEE}
+}
+```
+
 ## Contacts
 
 If you have any questions or suggestions about the plugin, feel free to contact Yaroslav Golubev in Telegram (@areyde).
