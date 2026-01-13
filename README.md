@@ -1,3 +1,5 @@
+Repository archived by abarilo as no longer maintained
+
 # Sorrel
 
 [![JB Research](https://jb.gg/badges/research-flat-square.svg)](https://research.jetbrains.org/)
